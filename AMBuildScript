@@ -1,0 +1,232 @@
+import os
+import ambuild as command
+
+compiler = Cpp.Compiler()
+if AMBuild.mode == "config":
+    compiler.DetectAll(AMBuild)
+    
+    envvars = {
+        "MMSOURCE19":  "mmsource-1.9",
+        "SOURCEMOD15": "sourcemod-1.5",
+        "HL2SDKL4D2":  "hl2sdk-l4d2"
+    }
+    
+    for name in envvars:
+        if name in os.environ:
+            envvars[name] = os.environ[name]
+        if not os.path.isdir(envvars[name]):
+            raise Exception("Unable to find path for {0}".format(name))
+    
+    cxx = compiler.cxx
+    if AMBuild.options.playerslots == '1':
+        compiler.AddToListVar("CDEFINES", "USE_PLAYERSLOTS_PATCHES")
+
+    if isinstance(cxx, Cpp.MSVC):
+        if AMBuild.options.debug:
+            compiler.AddToListVar("CFLAGS", "/MTd")
+            compiler.AddToListVar("CFLAGS", "/Od")
+            compiler.AddToListVar("CFLAGS", "/RTC1")
+            compiler.AddToListVar("POSTLINKFLAGS", "/NODEFAULTLIB:LIBCMT")
+        else:
+            compiler.AddToListVar("CFLAGS", "/MT")
+            compiler.AddToListVar("CFLAGS", "/O2")
+            compiler.AddToListVar("CFLAGS", "/Ot")
+            compiler.AddToListVar("POSTLINKFLAGS", "/OPT:REF")
+            compiler.AddToListVar("POSTLINKFLAGS", "/OPT:ICF")
+            compiler.AddToListVar("POSTLINKFLAGS", "/NODEFAULTLIB:LIBCMTD")
+        compiler.AddToListVar("CDEFINES", "WIN32")
+        compiler.AddToListVar("CDEFINES", "_WINDOWS")
+        compiler.AddToListVar("CDEFINES", "_USRDLL")
+        compiler.AddToListVar("CDEFINES", "SDK_EXPORTS")
+        compiler.AddToListVar("CDEFINES", "_CRT_SECURE_NO_DEPRECATE")
+        compiler.AddToListVar("CDEFINES", "SOURCEMOD_BUILD")
+        compiler.AddToListVar("CDEFINES", "SOURCE_ENGINE=4")
+        compiler.AddToListVar("CXXFLAGS", "/EHsc")
+        compiler.AddToListVar("CXXFLAGS", "/GR-")
+        compiler.AddToListVar("CFLAGS", "/W3")
+        compiler.AddToListVar("CFLAGS", "/WX")
+        compiler.AddToListVar("CFLAGS", "/nologo")
+        compiler.AddToListVar("CFLAGS", "/Zi")
+        compiler.AddToListVar("POSTLINKFLAGS", "/DEBUG")
+        compiler.AddToListVar("POSTLINKFLAGS", "/SUBSYSTEM:WINDOWS")
+        compiler.AddToListVar("POSTLINKFLAGS", "/MACHINE:X86")
+        compiler.AddToListVar("POSTLINKFLAGS", "/DYNAMICBASE:NO")
+        compiler.AddToListVar("POSTLINKFLAGS", "/NODEFAULTLIB:LIBC")
+        compiler.AddToListVar("POSTLINKFLAGS", "/NODEFAULTLIB:LIBCD")
+        compiler.AddToListVar("POSTLINKFLAGS", os.path.join(envvars["HL2SDKL4D2"], "lib", "public", "tier0.lib"))
+        compiler.AddToListVar("POSTLINKFLAGS", os.path.join(envvars["HL2SDKL4D2"], "lib", "public", "tier1.lib"))
+        compiler.AddToListVar("POSTLINKFLAGS", os.path.join(envvars["HL2SDKL4D2"], "lib", "public", "vstdlib.lib"))
+        compiler.AddToListVar("POSTLINKFLAGS", "kernel32.lib")
+        compiler.AddToListVar("POSTLINKFLAGS", "user32.lib")
+        compiler.AddToListVar("POSTLINKFLAGS", "gdi32.lib")
+        compiler.AddToListVar("POSTLINKFLAGS", "winspool.lib")
+        compiler.AddToListVar("POSTLINKFLAGS", "comdlg32.lib")
+        compiler.AddToListVar("POSTLINKFLAGS", "advapi32.lib")
+        compiler.AddToListVar("POSTLINKFLAGS", "shell32.lib")
+        compiler.AddToListVar("POSTLINKFLAGS", "ole32.lib")
+        compiler.AddToListVar("POSTLINKFLAGS", "oleaut32.lib")
+        compiler.AddToListVar("POSTLINKFLAGS", "uuid.lib")
+        compiler.AddToListVar("POSTLINKFLAGS", "odbc32.lib")
+    elif isinstance(cxx, Cpp.CompatGCC):
+        if AMBuild.options.debug:
+            compiler.AddToListVar("CDEFINES", "DEBUG")
+            compiler.AddToListVar("CFLAGS", "-g")
+            compiler.AddToListVar("CFLAGS", "-ggdb3")
+        else:
+            compiler.AddToListVar("CFLAGS", "-O3")
+            compiler.AddToListVar("CFLAGS", "-funroll-loops")
+            compiler.AddToListVar("CFLAGS", "-pipe")
+            compiler.AddToListVar("CFLAGS", "-fno-strict-aliasing")
+        if compiler.cc.version[0] == "4":
+            compiler.AddToListVar("CFLAGS", "-fvisibility=hidden")
+            compiler.AddToListVar("CXXFLAGS", "-fvisibility-inlines-hidden")
+        compiler.AddToListVar("CDEFINES", "SE_EPISODEONE=1")
+        compiler.AddToListVar("CDEFINES", "SE_DARKMESSIAH=2")
+        compiler.AddToListVar("CDEFINES", "SE_ORANGEBOX=3")
+        compiler.AddToListVar("CDEFINES", "SE_ORANGEBOXVALVE=4")
+        compiler.AddToListVar("CDEFINES", "SE_LEFT4DEAD=5")
+        compiler.AddToListVar("CDEFINES", "SE_LEFT4DEAD2=6")
+        compiler.AddToListVar("CDEFINES", "SOURCE_ENGINE=6")
+        compiler.AddToListVar("CDEFINES", "_LINUX")
+        compiler.AddToListVar("CDEFINES", "SOURCEMOD_BUILD")
+        compiler.AddToListVar("CDEFINES", "HAVE_STDINT_H")
+        compiler.AddToListVar("CDEFINES", "GNUC")
+        compiler.AddToListVar("CDEFINES", "stricmp=strcasecmp")
+        compiler.AddToListVar("CDEFINES", "_stricmp=strcasecmp")
+        compiler.AddToListVar("CDEFINES", "_strnicmp=strncasecmp")
+        compiler.AddToListVar("CDEFINES", "strnicmp=strncasecmp")
+        compiler.AddToListVar("CDEFINES", "_snprintf=snprintf")
+        compiler.AddToListVar("CDEFINES", "_vsnprintf=vsnprintf")
+        compiler.AddToListVar("CDEFINES", "_alloca=alloca")
+        compiler.AddToListVar("CDEFINES", "strcmpi=strcasecmp")
+        compiler.AddToListVar("CFLAGS", "-Wall")
+        compiler.AddToListVar("CXXFLAGS", "-Werror")
+        compiler.AddToListVar("CFLAGS", "-Wno-switch")
+        compiler.AddToListVar("CFLAGS", "-Wno-unused")
+        compiler.AddToListVar("CFLAGS", "-mfpmath=sse")
+        compiler.AddToListVar("CFLAGS", "-msse")
+        compiler.AddToListVar("CFLAGS", "-m32")
+        compiler.AddToListVar("CXXFLAGS", "-Wno-non-virtual-dtor")
+        compiler.AddToListVar("CXXFLAGS", "-fno-exceptions")
+        compiler.AddToListVar("CXXFLAGS", "-fno-rtti")
+        compiler.AddToListVar("CXXFLAGS", "-fno-threadsafe-statics")
+        compiler.AddToListVar("CXXFLAGS", "-Wno-overloaded-virtual")
+        compiler.AddToListVar("POSTLINKFLAGS", "-m32")
+        compiler.AddToListVar("POSTLINKFLAGS", "-ldl")
+        compiler.AddToListVar("POSTLINKFLAGS", "-lm")
+        compiler.AddToListVar("POSTLINKFLAGS", os.path.join(envvars["HL2SDKL4D2"], "lib", "linux", "tier1_i486.a"))
+        compiler.AddToListVar("POSTLINKFLAGS", os.path.join(envvars["HL2SDKL4D2"], "lib", "linux", "mathlib_i486.a"))
+        compiler.AddToListVar("POSTLINKFLAGS", os.path.join(envvars["HL2SDKL4D2"], "lib", "linux", "libvstdlib.so"))
+        compiler.AddToListVar("POSTLINKFLAGS", os.path.join(envvars["HL2SDKL4D2"], "lib", "linux", "libtier0.so"))
+
+    if AMBuild.options.debug:
+        compiler.AddToListVar("CDEFINES", "_DEBUG")
+    else:
+        compiler.AddToListVar("CDEFINES", "NDEBUG")
+
+    compiler["CXXINCLUDES"].append("..")
+    compiler["CXXINCLUDES"].append(os.path.join("..", "sdk"))
+    compiler["CXXINCLUDES"].append(os.path.join(envvars["SOURCEMOD15"], "public"))
+    compiler["CXXINCLUDES"].append(os.path.join(envvars["SOURCEMOD15"], "public", "extensions"))
+    compiler["CXXINCLUDES"].append(os.path.join(envvars["SOURCEMOD15"], "public", "sourcepawn"))
+    compiler["CXXINCLUDES"].append(os.path.join(envvars["HL2SDKL4D2"], "public"))
+    compiler["CXXINCLUDES"].append(os.path.join(envvars["HL2SDKL4D2"], "public", "engine"))
+    compiler["CXXINCLUDES"].append(os.path.join(envvars["HL2SDKL4D2"], "public", "game", "server"))
+    compiler["CXXINCLUDES"].append(os.path.join(envvars["HL2SDKL4D2"], "public", "mathlib"))
+    compiler["CXXINCLUDES"].append(os.path.join(envvars["HL2SDKL4D2"], "public", "tier0"))
+    compiler["CXXINCLUDES"].append(os.path.join(envvars["HL2SDKL4D2"], "public", "tier1"))
+    compiler["CXXINCLUDES"].append(os.path.join(envvars["HL2SDKL4D2"], "game", "shared"))
+    compiler["CXXINCLUDES"].append(os.path.join(envvars["HL2SDKL4D2"], "common"))
+    compiler["CXXINCLUDES"].append(os.path.join(envvars["MMSOURCE19"], "core"))
+    compiler["CXXINCLUDES"].append(os.path.join(envvars["MMSOURCE19"], "core", "sourcehook"))
+
+    playerslots = AMBuild.options.playerslots == '1'
+    AMBuild.cache.CacheVariable("playerslots", playerslots)
+    compiler.ToConfig(AMBuild, "compiler")
+else:
+    compiler.FromConfig(AMBuild, "compiler")
+    playerslots = AMBuild.cache["playerslots"]
+
+ext = ".ext.2.l4d2"
+name = "left4downtown"
+jobname = name
+
+if AMBuild.cache["playerslots"]:
+    jobname += ".playerslots"
+
+l4dt2 = AMBuild.AddJob(jobname)
+binary = Cpp.LibraryBuilder(name + ext, AMBuild, l4dt2, compiler)
+
+asmFiles = [
+    "asm.c"
+]
+
+codepatchFiles = [
+    "patchmanager.cpp"
+]
+
+detourFiles = [
+    "change_finale_stage.cpp",
+    "clear_team_scores.cpp",
+    "cthrow_activate_ability.cpp",
+    "detour.cpp",
+    "end_versus_mode_round.cpp",
+    "fast_get_survivor_set.cpp",
+    "first_survivor_left_safe_area.cpp",
+    "get_crouch_top_speed.cpp",
+    "get_mission_versus_boss_spawning.cpp",
+    "get_run_top_speed.cpp",
+    "get_script_value_float.cpp",
+    "get_script_value_int.cpp",
+    "get_script_value_string.cpp",
+    "get_survivor_set.cpp",
+    "get_walk_top_speed.cpp",
+    "has_configurable_difficulty.cpp",
+    "mob_rush_start.cpp",
+    "on_revived.cpp",
+    "select_weighted_sequence.cpp",
+    "send_in_rescue_vehicle.cpp",
+    "set_campaign_scores.cpp",
+    "shoved_by_survivor.cpp",
+    "spawn_it_mob.cpp",
+    "spawn_mob.cpp",
+    "spawn_special.cpp",
+    "spawn_tank.cpp",
+    "spawn_witch.cpp",
+    "spawn_witchbride.cpp",
+    "start_melee_swing.cpp",
+    "try_offering_tank_bot.cpp"
+]
+
+l4d2sdkFiles = [
+    "l4d2calls.cpp",
+    "l4d2timers.cpp"
+]
+
+mainFiles = [
+    "directornatives.cpp",
+    "extension.cpp",
+    "meleeweaponnatives.cpp",
+    "natives.cpp",
+    "timernatives.cpp",
+    "util.cpp",
+    "vglobals.cpp",
+    "weaponnatives.cpp"
+]
+
+sdkFiles = [
+    "smsdk_ext.cpp"
+]
+
+if playerslots:
+    mainFiles.append("player_slots.cpp")
+    detourFiles.append("server_player_counts.cpp")
+
+binary.AddSourceFiles("asm", asmFiles)
+binary.AddSourceFiles("codepatch", codepatchFiles)
+binary.AddSourceFiles("detours", detourFiles)
+binary.AddSourceFiles("l4d2sdk", l4d2sdkFiles)
+binary.AddSourceFiles("", mainFiles)
+binary.AddSourceFiles("sdk", sdkFiles)
+
+binary.SendToJob()

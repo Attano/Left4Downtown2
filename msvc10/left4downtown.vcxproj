@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug - Left 4 Dead 2|Win32">
+      <Configuration>Debug - Left 4 Dead 2</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug.playerslots - Left 4 Dead 2|Win32">
+      <Configuration>Debug.playerslots - Left 4 Dead 2</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release - Left 4 Dead 2|Win32">
+      <Configuration>Release - Left 4 Dead 2</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release.playerslots - Left 4 Dead 2|Win32">
+      <Configuration>Release.playerslots - Left 4 Dead 2</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B3E797CF-4E77-4C9D-B8A8-7589B6902206}</ProjectGuid>
+    <RootNamespace>left4downtown</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release - Left 4 Dead 2|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release.playerslots - Left 4 Dead 2|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug - Left 4 Dead 2|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug.playerslots - Left 4 Dead 2|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release - Left 4 Dead 2|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release.playerslots - Left 4 Dead 2|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug - Left 4 Dead 2|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug.playerslots - Left 4 Dead 2|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug - Left 4 Dead 2|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug.playerslots - Left 4 Dead 2|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug - Left 4 Dead 2|Win32'">$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug.playerslots - Left 4 Dead 2|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug - Left 4 Dead 2|Win32'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug.playerslots - Left 4 Dead 2|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release - Left 4 Dead 2|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release.playerslots - Left 4 Dead 2|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release - Left 4 Dead 2|Win32'">$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release.playerslots - Left 4 Dead 2|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release - Left 4 Dead 2|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release.playerslots - Left 4 Dead 2|Win32'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release - Left 4 Dead 2|Win32'">left4downtown.ext.2.l4d2</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release.playerslots - Left 4 Dead 2|Win32'">left4downtown.ext.2.l4d2</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug - Left 4 Dead 2|Win32'">left4downtown.ext.2.l4d2</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug.playerslots - Left 4 Dead 2|Win32'">left4downtown.ext.2.l4d2</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug - Left 4 Dead 2|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/D SE_EPISODEONE=1 /D SE_DARKMESSIAH=2 /D SE_ORANGEBOX=3 /D SE_LEFT4DEAD=4 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..;..\sdk;$(SOURCEMOD14)\public;$(SOURCEMOD14)\public\extensions;$(SOURCEMOD14)\public\sourcepawn;$(HL2SDKL4D2)\public;$(HL2SDKL4D2)\public\engine;$(HL2SDKL4D2)\public\game\server;$(HL2SDKL4D2)\game\shared;$(HL2SDKL4D2)\public\tier0;$(HL2SDKL4D2)\public\tier1;$(MMSOURCE19)\core;$(MMSOURCE19)\core\sourcehook</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;SDK_EXPORTS;_CRT_SECURE_NO_DEPRECATE;SOURCEMOD_BUILD;SOURCE_ENGINE=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(HL2SDKL4D2)\lib\public\tier0.lib;$(HL2SDKL4D2)\lib\public\tier1.lib;$(HL2SDKL4D2)\lib\public\vstdlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)left4downtown.ext.2.l4d2.dll</OutputFile>
+      <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug.playerslots - Left 4 Dead 2|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/D SE_EPISODEONE=1 /D SE_DARKMESSIAH=2 /D SE_ORANGEBOX=3 /D SE_LEFT4DEAD=4 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..;..\sdk;$(SOURCEMOD14)\public;$(SOURCEMOD14)\public\extensions;$(SOURCEMOD14)\public\sourcepawn;$(HL2SDKL4D2)\public;$(HL2SDKL4D2)\public\engine;$(HL2SDKL4D2)\public\game\server;$(HL2SDKL4D2)\game\shared;$(HL2SDKL4D2)\public\tier0;$(HL2SDKL4D2)\public\tier1;$(MMSOURCE19)\core;$(MMSOURCE19)\core\sourcehook</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;USE_PLAYERSLOTS_PATCHES;_WINDOWS;_USRDLL;SDK_EXPORTS;_CRT_SECURE_NO_DEPRECATE;SOURCEMOD_BUILD;SOURCE_ENGINE=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(HL2SDKL4D2)\lib\public\tier0.lib;$(HL2SDKL4D2)\lib\public\tier1.lib;$(HL2SDKL4D2)\lib\public\vstdlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)left4downtown.ext.2.l4d2.dll</OutputFile>
+      <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release - Left 4 Dead 2|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/MP /D SE_EPISODEONE=1 /D SE_DARKMESSIAH=2 /D SE_ORANGEBOX=3 /D SE_LEFT4DEAD=4 %(AdditionalOptions)</AdditionalOptions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>..;..\sdk;$(SOURCEMOD14)\public;$(SOURCEMOD14)\public\extensions;$(SOURCEMOD14)\public\sourcepawn;$(HL2SDKL4D2)\public;$(HL2SDKL4D2)\public\engine;$(HL2SDKL4D2)\public\game\server;$(HL2SDKL4D2)\game\shared;$(HL2SDKL4D2)\public\tier0;$(HL2SDKL4D2)\public\tier1;$(MMSOURCE19)\core;$(MMSOURCE19)\core\sourcehook</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SDK_EXPORTS;_CRT_SECURE_NO_DEPRECATE;SOURCEMOD_BUILD;SOURCE_ENGINE=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(HL2SDKL4D2)\lib\public\tier0.lib;$(HL2SDKL4D2)\lib\public\tier1.lib;$(HL2SDKL4D2)\lib\public\vstdlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)left4downtown.ext.2.l4d2.dll</OutputFile>
+      <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release.playerslots - Left 4 Dead 2|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/MP /D SE_EPISODEONE=1 /D SE_DARKMESSIAH=2 /D SE_ORANGEBOX=3 /D SE_LEFT4DEAD=4 %(AdditionalOptions)</AdditionalOptions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>..;..\sdk;$(SOURCEMOD14)\public;$(SOURCEMOD14)\public\extensions;$(SOURCEMOD14)\public\sourcepawn;$(HL2SDKL4D2)\public;$(HL2SDKL4D2)\public\engine;$(HL2SDKL4D2)\public\game\server;$(HL2SDKL4D2)\game\shared;$(HL2SDKL4D2)\public\tier0;$(HL2SDKL4D2)\public\tier1;$(MMSOURCE19)\core;$(MMSOURCE19)\core\sourcehook</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;USE_PLAYERSLOTS_PATCHES;_WINDOWS;_USRDLL;SDK_EXPORTS;_CRT_SECURE_NO_DEPRECATE;SOURCEMOD_BUILD;SOURCE_ENGINE=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(HL2SDKL4D2)\lib\public\tier0.lib;$(HL2SDKL4D2)\lib\public\tier1.lib;$(HL2SDKL4D2)\lib\public\vstdlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)left4downtown.ext.2.l4d2.dll</OutputFile>
+      <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\detours\change_finale_stage.cpp" />
+    <ClCompile Include="..\detours\end_versus_mode_round.cpp" />
+    <ClCompile Include="..\detours\get_script_value_float.cpp" />
+    <ClCompile Include="..\detours\get_script_value_string.cpp" />
+    <ClCompile Include="..\detours\select_weighted_sequence.cpp" />
+    <ClCompile Include="..\detours\send_in_rescue_vehicle.cpp" />
+    <ClCompile Include="..\detours\start_melee_swing.cpp" />
+    <ClCompile Include="..\l4d2sdk\l4d2calls.cpp" />
+    <ClCompile Include="..\detours\cthrow_activate_ability.cpp" />
+    <ClCompile Include="..\detours\get_mission_versus_boss_spawning.cpp" />
+    <ClCompile Include="..\detours\fast_get_survivor_set.cpp" />
+    <ClCompile Include="..\detours\get_crouch_top_speed.cpp" />
+    <ClCompile Include="..\detours\has_configurable_difficulty.cpp" />
+    <ClCompile Include="..\detours\get_run_top_speed.cpp" />
+    <ClCompile Include="..\detours\get_survivor_set.cpp" />
+    <ClCompile Include="..\detours\get_walk_top_speed.cpp" />
+    <ClCompile Include="..\detours\shoved_by_survivor.cpp" />
+    <ClCompile Include="..\detours\spawn_mob.cpp" />
+    <ClCompile Include="..\detours\spawn_it_mob.cpp" />
+    <ClCompile Include="..\extension.cpp" />
+    <ClCompile Include="..\meleeweaponnatives.cpp" />
+    <ClCompile Include="..\natives.cpp" />
+    <ClCompile Include="..\timernatives.cpp" />
+    <ClCompile Include="..\util.cpp" />
+    <ClCompile Include="..\l4d2sdk\l4d2timers.cpp" />
+    <ClCompile Include="..\vglobals.cpp" />
+    <ClCompile Include="..\sdk\smsdk_ext.cpp" />
+    <ClCompile Include="..\asm\asm.c" />
+    <ClCompile Include="..\detours\clear_team_scores.cpp" />
+    <ClCompile Include="..\detours\detour.cpp" />
+    <ClCompile Include="..\detours\first_survivor_left_safe_area.cpp" />
+    <ClCompile Include="..\detours\get_script_value_int.cpp" />
+    <ClCompile Include="..\detours\mob_rush_start.cpp" />
+    <ClCompile Include="..\detours\set_campaign_scores.cpp" />
+    <ClCompile Include="..\detours\spawn_tank.cpp" />
+    <ClCompile Include="..\detours\spawn_witch.cpp" />
+    <ClCompile Include="..\detours\spawn_special.cpp" />
+    <ClCompile Include="..\detours\spawn_witchbride.cpp" />
+    <ClCompile Include="..\detours\try_offering_tank_bot.cpp" />
+    <ClCompile Include="..\detours\on_revived.cpp" />
+    <ClCompile Include="..\codepatch\patchmanager.cpp" />
+    <ClCompile Include="..\weaponnatives.cpp" />
+    <ClCompile Include="..\directornatives.cpp" />
+  </ItemGroup>
+  <ItemGroup Condition="('$(Configuration)'=='Release.playerslots - Left 4 Dead 2') Or ('$(Configuration)'=='Debug.playerslots - Left 4 Dead 2')">
+    <ClCompile Include="..\player_slots.cpp" />
+    <ClCompile Include="..\detours\server_player_counts.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\detours\change_finale_stage.h" />
+    <ClInclude Include="..\detours\end_versus_mode_round.h" />
+    <ClInclude Include="..\detours\get_script_value_float.h" />
+    <ClInclude Include="..\detours\get_script_value_string.h" />
+    <ClInclude Include="..\detours\select_weighted_sequence.h" />
+    <ClInclude Include="..\detours\send_in_rescue_vehicle.h" />
+    <ClInclude Include="..\detours\start_melee_swing.h" />
+    <ClInclude Include="..\l4d2sdk\CMeleeWeaponInfo.h" />
+    <ClInclude Include="..\l4d2sdk\l4d2calls.h" />
+    <ClInclude Include="..\convar_public.h" />
+    <ClInclude Include="..\detours\cthrow_activate_ability.h" />
+    <ClInclude Include="..\detours\get_mission_versus_boss_spawning.h" />
+    <ClInclude Include="..\detours\fast_get_survivor_set.h" />
+    <ClInclude Include="..\detours\get_crouch_top_speed.h" />
+    <ClInclude Include="..\detours\has_configurable_difficulty.h" />
+    <ClInclude Include="..\detours\get_run_top_speed.h" />
+    <ClInclude Include="..\detours\get_survivor_set.h" />
+    <ClInclude Include="..\detours\get_walk_top_speed.h" />
+    <ClInclude Include="..\detours\shoved_by_survivor.h" />
+    <ClInclude Include="..\detours\spawn_mob.h" />
+    <ClInclude Include="..\detours\spawn_it_mob.h" />
+    <ClInclude Include="..\detours\on_revived.h" />
+    <ClInclude Include="..\l4d2sdk\director.h" />
+    <ClInclude Include="..\l4d2sdk\l4d2timers.h" />
+    <ClInclude Include="..\l4d2sdk\CTerrorWeaponInfo.h" />
+    <ClInclude Include="..\extension.h" />
+    <ClInclude Include="..\util.h" />
+    <ClInclude Include="..\vglobals.h" />
+    <ClInclude Include="..\sdk\smsdk_config.h" />
+    <ClInclude Include="..\sdk\smsdk_ext.h" />
+    <ClInclude Include="..\asm\asm.h" />
+    <ClInclude Include="..\CDetour\detourhelpers.h" />
+    <ClInclude Include="..\detours\auto_forward.h" />
+    <ClInclude Include="..\detours\clear_team_scores.h" />
+    <ClInclude Include="..\detours\detour.h" />
+    <ClInclude Include="..\detours\detour_template.h" />
+    <ClInclude Include="..\detours\first_survivor_left_safe_area.h" />
+    <ClInclude Include="..\detours\get_script_value_int.h" />
+    <ClInclude Include="..\detours\is_finale.h" />
+    <ClInclude Include="..\detours\mob_rush_start.h" />
+    <ClInclude Include="..\detours\on_enter_ghost_state.h" />
+    <ClInclude Include="..\detours\set_campaign_scores.h" />
+    <ClInclude Include="..\detours\spawn_tank.h" />
+    <ClInclude Include="..\detours\spawn_witch.h" />
+    <ClInclude Include="..\detours\spawn_special.h" />
+    <ClInclude Include="..\detours\spawn_witchbride.h" />
+    <ClInclude Include="..\detours\try_offering_tank_bot.h" />
+    <ClInclude Include="..\codepatch\autopatch.h" />
+    <ClInclude Include="..\codepatch\icodepatch.h" />
+    <ClInclude Include="..\codepatch\patchmanager.h" />
+  </ItemGroup>
+  <ItemGroup Condition="('$(Configuration)'=='Release.playerslots - Left 4 Dead 2') Or ('$(Configuration)'=='Debug.playerslots - Left 4 Dead 2')">
+    <ClInclude Include="..\player_slots.h" />
+    <ClInclude Include="..\detours\server_player_counts.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
