@@ -120,10 +120,13 @@ IForward *g_pFwdOnStartMeleeSwing = NULL;
 IForward *g_pFwdOnSendInRescueVehicle = NULL;
 IForward *g_pFwdOnChangeFinaleStage = NULL;
 IForward *g_pFwdOnEndVersusModeRound = NULL;
+IForward *g_pFwdOnEndVersusModeRound_Post = NULL;
 IForward *g_pFwdOnSelectTankAttack = NULL;
 IForward *g_pFwdOnRevived = NULL;
 IForward *g_pFwdOnAddonsEclipseUpdate = NULL;
 IForward *g_pFwdOnNavAreaChanged = NULL;
+
+bool g_bRoundEnd = false;
 
 ICvar *icvar = NULL;
 SMEXT_LINK(&g_Left4DowntownTools);
@@ -207,6 +210,7 @@ bool Left4Downtown::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	g_pFwdOnSendInRescueVehicle = forwards->CreateForward("L4D2_OnSendInRescueVehicle", ET_Event, 0, /*types*/NULL);
 	g_pFwdOnChangeFinaleStage = forwards->CreateForward("L4D2_OnChangeFinaleStage", ET_Event, 2, /*types*/NULL, Param_CellByRef, Param_String);
 	g_pFwdOnEndVersusModeRound = forwards->CreateForward("L4D2_OnEndVersusModeRound", ET_Event, 1, /*types*/NULL, Param_Cell);
+	g_pFwdOnEndVersusModeRound_Post = forwards->CreateForward("L4D2_OnEndVersusModeRound_Post", ET_Ignore, 0, /*types*/NULL);
 	g_pFwdOnSelectTankAttack = forwards->CreateForward("L4D2_OnSelectTankAttack", ET_Event, 2, /*types*/NULL, Param_Cell, Param_CellByRef);
 	g_pFwdOnRevived = forwards->CreateForward("L4D_OnRevived", ET_Event, 1, /*types*/NULL, Param_Cell);
 	g_pFwdOnAddonsEclipseUpdate = forwards->CreateForward("L4D2_OnAddonsEclipseUpdate", ET_Event, 1, /*types*/NULL, Param_Cell);
@@ -362,6 +366,7 @@ void Left4Downtown::SDK_OnUnload()
 	forwards->ReleaseForward(g_pFwdOnSendInRescueVehicle);
 	forwards->ReleaseForward(g_pFwdOnChangeFinaleStage);
 	forwards->ReleaseForward(g_pFwdOnEndVersusModeRound);
+	forwards->ReleaseForward(g_pFwdOnEndVersusModeRound_Post);
 	forwards->ReleaseForward(g_pFwdOnSelectTankAttack);
 	forwards->ReleaseForward(g_pFwdOnRevived);
 	forwards->ReleaseForward(g_pFwdOnAddonsEclipseUpdate);
@@ -457,7 +462,6 @@ void Left4Downtown::OnClientAuthorized(int client, const char *authstring)
 	// When done with event, must destroy it manually
 	gameeventmanager->FreeEvent(pEvent);  
 }
-
 #ifdef USE_PLAYERSLOTS_PATCHES
 	/**
 	 * @brief Called when the server is activated.

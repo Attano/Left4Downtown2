@@ -69,6 +69,7 @@ namespace Detours
 		}
 		else
 		{
+			g_bRoundEnd = false;
 			return (this->*(GetTrampoline()))(p);
 		}
 	}
