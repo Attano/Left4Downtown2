@@ -333,6 +333,14 @@ forward Action:L4D2_OnChangeFinaleStage(&finaleType, const String:arg[]);
 forward Action:L4D2_OnEndVersusModeRound(bool:countSurvivors);
 
 /**
+ * @brief Called after CDirectorVersusMode::EndVersusModeRound(bool)
+ * @remarks Called after all score calculations inside CDirectorVersusMode::EndVersusModeRound(bool). This good forward to replace standard "round_end" hook.
+ * 
+ * @return 		noreturn
+ */
+forward L4D2_OnEndVersusModeRound_Post();
+
+/**
  * @brief Called when CBaseAnimating::SelectWeightedSequence(int Activity) is invoked with tank attack activity
  * @remarks Called whenever a tank uses his primary (punch) or secondary (throw) attack
  *

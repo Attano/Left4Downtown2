@@ -176,9 +176,12 @@ extern IForward *g_pFwdOnStartMeleeSwing;
 extern IForward *g_pFwdOnSendInRescueVehicle;
 extern IForward *g_pFwdOnChangeFinaleStage;
 extern IForward *g_pFwdOnEndVersusModeRound;
+extern IForward *g_pFwdOnEndVersusModeRound_Post;
 extern IForward *g_pFwdOnSelectTankAttack;
 extern IForward *g_pFwdOnRevived;
 extern IForward *g_pFwdOnNavAreaChanged;
+
+extern bool g_bRoundEnd;
 
 extern IBinTools *g_pBinTools;
 extern IServer *g_pServer; //pointer to CBaseServer

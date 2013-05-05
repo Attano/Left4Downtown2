@@ -38,6 +38,9 @@ namespace Detours
 	{
 		L4D_DEBUG_LOG("CDirectorVersusMode::EndVersusModeRound(%s) has been called", countSurvivors ? "true" : "false");
 		
+		if(g_bRoundEnd) return;
+		g_bRoundEnd = true;
+		
 		cell_t result = Pl_Continue;
 		if(g_pFwdOnEndVersusModeRound)
 		{
@@ -50,6 +53,11 @@ namespace Detours
 		
 		(this->*(GetTrampoline()))(countSurvivors);
 
+		if(g_pFwdOnEndVersusModeRound_Post)
+		{
+			L4D_DEBUG_LOG("L4D2_OnEndVersusModeRound_Post forward has been sent out");
+			g_pFwdOnEndVersusModeRound_Post->Execute(NULL);
+		}
 	   
 		return;
 	}
