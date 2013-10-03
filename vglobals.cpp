@@ -68,32 +68,6 @@ void InitializeValveGlobals()
 		return;
 	}
 	g_pDirector = *reinterpret_cast<CDirector ***>(addr + offset);
-	
-	const char *weaponDatabaseConfKey = "ReadWeaponDataFromFileForSlot";
-	if (!g_pGameConf->GetMemSig(weaponDatabaseConfKey, (void **)&addr) || !addr)
-	{
-		L4D_DEBUG_LOG("Unable to find ReadWeaponDataFromFileForSlot signature");
-		return;
-	}
-	if (!g_pGameConf->GetOffset("WeaponInfoDatabase", &offset) || !offset)
-	{
-		return;
-	}
-	g_pWeaponInfoDatabase = *reinterpret_cast<WeaponDatabase **>(addr + offset);
-
-	if (!g_pGameConf->GetMemSig("MeleeWeaponInfoStore_Construction", (void **)&addr) || !addr)
-	{
-		L4D_DEBUG_LOG("Unable to find MeleeWeaponInfoStore signature");
-		return;
-	}
-	if (!g_pGameConf->GetOffset("CMeleeWeaponInfoStore", &offset) || !offset)
-	{
-		return;
-	}
-	g_pMeleeWeaponInfoStore = *reinterpret_cast<CMeleeWeaponInfoStore **>(addr + offset);
-	
-	L4D_DEBUG_LOG("MeleeWeaponInfo Store: %p ", g_pMeleeWeaponInfoStore);
-	L4D_DEBUG_LOG("MeleeWeaponInfo Store: %s ", g_pMeleeWeaponInfoStore->Name());
 #elif defined PLATFORM_LINUX
 
 	/* g_pGameRules */
@@ -111,29 +85,6 @@ void InitializeValveGlobals()
 		return;
 	}
 	g_pDirector = reinterpret_cast<CDirector **>(addr);
-
-	/* g_pZombieManager */
-	if (!g_pGameConf->GetMemSig("TheZombieManager", (void **)&addr) || !addr)
-	{
-	    L4D_DEBUG_LOG("Couldn't find ZombieManager instance!");
-		return;
-	}
-	g_pZombieManager = reinterpret_cast<void **>(addr);
-
-	/* g_pWeaponInfoDatabase */
-	if (!g_pGameConf->GetMemSig("WeaponInfoDatabase", (void **)&addr) || !addr)
-	{
-	    L4D_DEBUG_LOG("WeaponInfoDatabase signature not found (%p)", addr);
-		return;
-	}
-	g_pWeaponInfoDatabase = reinterpret_cast<WeaponDatabase *>(addr);
-
-	if (!g_pGameConf->GetMemSig("CMeleeWeaponInfoStore", (void **)&addr) || !addr)
-	{
-	    L4D_DEBUG_LOG("CMeleeWeaponInfoStore signature not found (%p)", addr);
-		return;
-	}
-	g_pMeleeWeaponInfoStore = reinterpret_cast<CMeleeWeaponInfoStore *>(addr);
 #endif
 	
 	if(!g_pGameConf->GetAddress("ZombieManager", (void **)&addr))
@@ -143,4 +94,23 @@ void InitializeValveGlobals()
 	}
 	g_pZombieManager = addr;
 	L4D_DEBUG_LOG("TheZombieManager found at: %p", g_pZombieManager);
+	
+	/* g_pWeaponInfoDatabase */
+	if(!g_pGameConf->GetAddress("WeaponInfoDatabase", (void **)&addr))
+	{
+		L4D_DEBUG_LOG("WeaponInfoDatabase address not found.");
+		return;
+	}
+	g_pWeaponInfoDatabase = reinterpret_cast<WeaponDatabase *>(addr);
+	L4D_DEBUG_LOG("WeaponInfoDatabase found at: %p", g_pWeaponInfoDatabase);
+	
+	/* g_pMeleeWeaponInfoStore */
+	if(!g_pGameConf->GetAddress("MeleeWeaponInfoStore", (void **)&addr))
+	{
+		L4D_DEBUG_LOG("MeleeWeaponInfoStore address not found.");
+		return;
+	}
+	g_pMeleeWeaponInfoStore = reinterpret_cast<CMeleeWeaponInfoStore *>(addr);
+	L4D_DEBUG_LOG("MeleeWeaponInfo Store: %p ", g_pMeleeWeaponInfoStore);
+	L4D_DEBUG_LOG("MeleeWeaponInfo Store: %s ", g_pMeleeWeaponInfoStore->Name());
 }

@@ -39,9 +39,6 @@
     <ClCompile Include="..\timernatives.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\player_slots.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -70,9 +67,6 @@
       <Filter>detours</Filter>
     </ClCompile>
     <ClCompile Include="..\detours\mob_rush_start.cpp">
-      <Filter>detours</Filter>
-    </ClCompile>
-    <ClCompile Include="..\detours\server_player_counts.cpp">
       <Filter>detours</Filter>
     </ClCompile>
     <ClCompile Include="..\detours\set_campaign_scores.cpp">
@@ -165,15 +159,18 @@
     <ClCompile Include="..\detours\spawn_witchbride.cpp">
       <Filter>detours</Filter>
     </ClCompile>
+    <ClCompile Include="..\detours\use_healing_items.cpp">
+      <Filter>detours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\detours\find_scavenge_item.cpp">
+      <Filter>detours</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\convar_public.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\extension.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\player_slots.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\util.h">
@@ -219,9 +216,6 @@
       <Filter>detours</Filter>
     </ClInclude>
     <ClInclude Include="..\detours\on_enter_ghost_state.h">
-      <Filter>detours</Filter>
-    </ClInclude>
-    <ClInclude Include="..\detours\server_player_counts.h">
       <Filter>detours</Filter>
     </ClInclude>
     <ClInclude Include="..\detours\set_campaign_scores.h">
@@ -321,6 +315,15 @@
       <Filter>detours</Filter>
     </ClInclude>
     <ClInclude Include="..\detours\spawn_witchbride.h">
+      <Filter>detours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\l4d2sdk\constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\detours\use_healing_items.h">
+      <Filter>detours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\detours\find_scavenge_item.h">
       <Filter>detours</Filter>
     </ClInclude>
   </ItemGroup>

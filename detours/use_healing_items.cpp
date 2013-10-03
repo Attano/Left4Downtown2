@@ -2,7 +2,7 @@
  * vim: set ts=4 :
  * =============================================================================
  * Left 4 Downtown SourceMod Extension
- * Copyright (C) 2009 Igor "Downtown1" Smirnov.
+ * Copyright (C) 2010 Igor "Downtown1" Smirnov.
  * =============================================================================
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -29,24 +29,35 @@
  * Version: $Id$
  */
 
-#include "on_nav_area_changed.h"
+#include "use_healing_items.h"
 #include "extension.h"
 
 namespace Detours
 {
-	void NavAreaChanged::OnNavAreaChanged(int CNavArea1, int CNavArea2)
+	ActionStruct_t UseHealingItems::OnUseHealingItems(ActionSurvivorBot* pAction)
 	{
-		cell_t result = Pl_Continue;
+		L4D_DEBUG_LOG("SurvivorBot::UseHealingItems has been called");
 
-		if(g_pFwdOnNavAreaChanged)
+		cell_t result = Pl_Continue;
+		if(g_pFwdOnUseHealingItems)
 		{
 			edict_t *pEntity = gameents->BaseEntityToEdict(reinterpret_cast<CBaseEntity*>(this));
 			int client = IndexOfEdict(pEntity);
-		
-			g_pFwdOnNavAreaChanged->PushCell(client);
-			g_pFwdOnNavAreaChanged->Execute(&result);
+			L4D_DEBUG_LOG("L4D2_OnUseHealingItems(client %d) forward has been sent out", client);
+			g_pFwdOnUseHealingItems->PushCell(client);
+			g_pFwdOnUseHealingItems->Execute(&result);
 		}
 
-		(this->*(GetTrampoline()))(CNavArea1, CNavArea2);
+		if(result == Pl_Handled)
+		{
+			L4D_DEBUG_LOG("SurvivorBot::OnUseHealingItems will be skipped");
+			// When UseHealingItems "does nothing", it zeroes out all three members of the returned struct
+			ActionStruct_t blank = { 0, 0, 0 };
+			return blank;
+		}
+		else
+		{
+			return (this->*(GetTrampoline()))(pAction);
+		}
 	}
 };

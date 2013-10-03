@@ -23,7 +23,7 @@ OBJECTS = sdk/smsdk_ext.cpp extension.cpp natives.cpp vglobals.cpp l4d2sdk/l4d2c
 			timernatives.cpp detours/start_melee_swing.cpp weaponnatives.cpp meleeweaponnatives.cpp directornatives.cpp \
 			detours/send_in_rescue_vehicle.cpp detours/change_finale_stage.cpp detours/get_script_value_string.cpp \
 			detours/end_versus_mode_round.cpp detours/select_weighted_sequence.cpp detours/spawn_special.cpp \
-			detours/spawn_witchbride.cpp
+			detours/spawn_witchbride.cpp detours/on_revived.cpp detours/use_healing_items.cpp detours/find_scavenge_item.cpp
 			
 ##############################################
 ### CONFIGURE ANY OTHER FLAGS/OPTIONS HERE ###

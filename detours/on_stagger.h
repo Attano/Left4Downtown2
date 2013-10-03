@@ -2,7 +2,7 @@
  * vim: set ts=4 :
  * =============================================================================
  * Left 4 Downtown SourceMod Extension
- * Copyright (C) 2010 Michael "ProdigySim" Busby
+ * Copyright (C) 2009 Igor "Downtown1" Smirnov.
  * =============================================================================
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -29,33 +29,33 @@
  * Version: $Id$
  */
 
-#ifndef _INCLUDE_SOURCEMOD_DETOUR_HAS_CONFIGURABLE_DIFFICULTY_H_
-#define _INCLUDE_SOURCEMOD_DETOUR_HAS_CONFIGURABLE_DIFFICULTY_H_
+#ifndef _INCLUDE_SOURCEMOD_DETOUR_ON_STAGGER_H_
+#define _INCLUDE_SOURCEMOD_DETOUR_ON_STAGGER_H_
 
 #include "detour_template.h"
 
 namespace Detours {
 	
-class HasConfigurableDifficulty;
+class PlayerStagger;
 
-typedef int (HasConfigurableDifficulty::*HasConfigurableDifficultyFunc)();
+typedef int (PlayerStagger::*PlayerStaggerFunc)(CBaseEntity *, void *);
 
-class HasConfigurableDifficulty : public DetourTemplate<HasConfigurableDifficultyFunc, HasConfigurableDifficulty>
+class PlayerStagger: public DetourTemplate<PlayerStaggerFunc, PlayerStagger>
 {
 private: //note: implementation of DetourTemplate abstracts
 
-	int OnHasConfigurableDifficulty();
+	int OnPlayerStagger(CBaseEntity *sourceEnt, void *sourceDir);
 
-	// get the signature name (i.e. "HasConfigurableDifficulty") from the game conf
-	virtual const char * GetSignatureName()
+	// get the signature name (i.e. "GetCrouchTopSpeed") from the game conf
+	virtual const char *GetSignatureName()
 	{
-		return "HasConfigurableDifficulty";
+		return "CTerrorPlayer_OnStaggered";
 	}
 
 	//notify our patch system which function should be used as the detour
-	virtual HasConfigurableDifficultyFunc GetDetour()
+	virtual PlayerStaggerFunc GetDetour()
 	{
-		return &HasConfigurableDifficulty::OnHasConfigurableDifficulty;
+		return &PlayerStagger::OnPlayerStagger;
 	}
 };
 

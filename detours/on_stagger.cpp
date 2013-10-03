@@ -2,7 +2,7 @@
  * vim: set ts=4 :
  * =============================================================================
  * Left 4 Downtown SourceMod Extension
- * Copyright (C) 2010 Michael "ProdigySim" Busby
+ * Copyright (C) 2009 Igor "Downtown1" Smirnov.
  * =============================================================================
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -29,35 +29,25 @@
  * Version: $Id$
  */
 
-#ifndef _INCLUDE_SOURCEMOD_DETOUR_HAS_CONFIGURABLE_DIFFICULTY_H_
-#define _INCLUDE_SOURCEMOD_DETOUR_HAS_CONFIGURABLE_DIFFICULTY_H_
+#include "on_stagger.h"
+#include "extension.h"
 
-#include "detour_template.h"
-
-namespace Detours {
-	
-class HasConfigurableDifficulty;
-
-typedef int (HasConfigurableDifficulty::*HasConfigurableDifficultyFunc)();
-
-class HasConfigurableDifficulty : public DetourTemplate<HasConfigurableDifficultyFunc, HasConfigurableDifficulty>
+namespace Detours
 {
-private: //note: implementation of DetourTemplate abstracts
-
-	int OnHasConfigurableDifficulty();
-
-	// get the signature name (i.e. "HasConfigurableDifficulty") from the game conf
-	virtual const char * GetSignatureName()
+	int PlayerStagger::OnPlayerStagger(CBaseEntity *sourceEnt, void *sourceDir)
 	{
-		return "HasConfigurableDifficulty";
-	}
+		cell_t result = Pl_Continue;
 
-	//notify our patch system which function should be used as the detour
-	virtual HasConfigurableDifficultyFunc GetDetour()
-	{
-		return &HasConfigurableDifficulty::OnHasConfigurableDifficulty;
+		if(g_pFwdOnPlayerStagger)
+		{
+			cell_t target = IndexOfEdict(gameents->BaseEntityToEdict(reinterpret_cast<CBaseEntity*>(this)));
+			edict_t *pSource = gameents->BaseEntityToEdict(sourceEnt);
+
+			g_pFwdOnPlayerStagger->PushCell(target);
+			g_pFwdOnPlayerStagger->PushCell(pSource ? IndexOfEdict(pSource) : 0);
+			g_pFwdOnPlayerStagger->Execute(&result);
+		}
+
+		return result == Pl_Handled ? 0 : (this->*(GetTrampoline()))(sourceEnt, sourceDir);
 	}
 };
-
-};
-#endif

@@ -192,11 +192,13 @@
   <ItemGroup>
     <ClCompile Include="..\detours\change_finale_stage.cpp" />
     <ClCompile Include="..\detours\end_versus_mode_round.cpp" />
+    <ClCompile Include="..\detours\find_scavenge_item.cpp" />
     <ClCompile Include="..\detours\get_script_value_float.cpp" />
     <ClCompile Include="..\detours\get_script_value_string.cpp" />
     <ClCompile Include="..\detours\select_weighted_sequence.cpp" />
     <ClCompile Include="..\detours\send_in_rescue_vehicle.cpp" />
     <ClCompile Include="..\detours\start_melee_swing.cpp" />
+    <ClCompile Include="..\detours\use_healing_items.cpp" />
     <ClCompile Include="..\l4d2sdk\l4d2calls.cpp" />
     <ClCompile Include="..\detours\cthrow_activate_ability.cpp" />
     <ClCompile Include="..\detours\get_mission_versus_boss_spawning.cpp" />
@@ -241,12 +243,15 @@
   <ItemGroup>
     <ClInclude Include="..\detours\change_finale_stage.h" />
     <ClInclude Include="..\detours\end_versus_mode_round.h" />
+    <ClInclude Include="..\detours\find_scavenge_item.h" />
     <ClInclude Include="..\detours\get_script_value_float.h" />
     <ClInclude Include="..\detours\get_script_value_string.h" />
     <ClInclude Include="..\detours\select_weighted_sequence.h" />
     <ClInclude Include="..\detours\send_in_rescue_vehicle.h" />
     <ClInclude Include="..\detours\start_melee_swing.h" />
+    <ClInclude Include="..\detours\use_healing_items.h" />
     <ClInclude Include="..\l4d2sdk\CMeleeWeaponInfo.h" />
+    <ClInclude Include="..\l4d2sdk\constants.h" />
     <ClInclude Include="..\l4d2sdk\l4d2calls.h" />
     <ClInclude Include="..\convar_public.h" />
     <ClInclude Include="..\detours\cthrow_activate_ability.h" />

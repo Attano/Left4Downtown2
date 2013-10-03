@@ -10,7 +10,7 @@ MMSOURCE ?= ../mmsource-central
 ### EDIT BELOW FOR OTHER PROJECTS ###
 #####################################
 
-PROJECT = left4downtown
+PROJECT = left4downtown2
 
 OBJECTS = sdk/smsdk_ext.cpp extension.cpp natives.cpp vglobals.cpp l4d2sdk/l4d2calls.cpp util.cpp asm/asm.c \
 			detours/detour.cpp detours/spawn_tank.cpp detours/spawn_witch.cpp detours/clear_team_scores.cpp \
@@ -23,7 +23,8 @@ OBJECTS = sdk/smsdk_ext.cpp extension.cpp natives.cpp vglobals.cpp l4d2sdk/l4d2c
 			timernatives.cpp detours/start_melee_swing.cpp weaponnatives.cpp meleeweaponnatives.cpp directornatives.cpp \
 			detours/send_in_rescue_vehicle.cpp detours/change_finale_stage.cpp detours/get_script_value_string.cpp \
 			detours/end_versus_mode_round.cpp detours/select_weighted_sequence.cpp detours/spawn_special.cpp \
-			detours/spawn_witchbride.cpp detours/on_revived.cpp detours/on_nav_area_changed.cpp
+			detours/spawn_witchbride.cpp detours/on_revived.cpp detours/use_healing_items.cpp detours/find_scavenge_item.cpp \
+            detours/water_move.cpp detours/on_stagger.cpp
 
 ifeq "$(USE_PLAYERSLOTS)" "true"
 	OBJECTS += player_slots.cpp detours/server_player_counts.cpp
@@ -47,7 +48,7 @@ INCLUDE += -I$(HL2SDK_L4D2)/public/game/server -I$(HL2SDK_L4D2)/common -I$(HL2SD
 SRCDS = $(SRCDS_BASE)/left4dead2
 GAMEFIX = 2.l4d2
 
-LINK += $(HL2LIB)/tier1_i486.a $(HL2LIB)/mathlib_i486.a libvstdlib.so libtier0.so
+LINK += $(HL2LIB)/tier1_i486.a $(HL2LIB)/mathlib_i486.a libvstdlib_srv.so libtier0_srv.so
 
 INCLUDE += -I. -I.. -Isdk -I$(HL2PUB) -I$(HL2PUB)/engine -I$(HL2PUB)/mathlib -I$(HL2PUB)/tier0 \
         -I$(HL2PUB)/tier1 -I$(METAMOD) -I$(METAMOD)/sourcehook -I$(SMSDK)/public -I$(SMSDK)/public/extensions \
@@ -107,8 +108,8 @@ all:
 	mkdir -p $(BIN_DIR)/detours
 	mkdir -p $(BIN_DIR)/codepatch
 	mkdir -p $(BIN_DIR)/l4d2sdk
-	cp $(SRCDS)/bin/libvstdlib.so libvstdlib.so;
-	cp $(SRCDS)/bin/libtier0.so libtier0.so;
+	cp $(SRCDS)/bin/libvstdlib_srv.so libvstdlib_srv.so;
+	cp $(SRCDS)/bin/libtier0_srv.so libtier0_srv.so;
 	$(MAKE) -f Makefile extension
 
 playerslots:
@@ -116,8 +117,8 @@ playerslots:
 	mkdir -p $(PLAYERSLOTS_BIN_DIR)/detours
 	mkdir -p $(PLAYERSLOTS_BIN_DIR)/codepatch
 	mkdir -p $(PLAYERSLOTS_BIN_DIR)/l4d2sdk
-	cp $(SRCDS)/bin/libvstdlib.so libvstdlib.so;
-	cp $(SRCDS)/bin/libtier0.so libtier0.so;
+	cp $(SRCDS)/bin/libvstdlib_srv.so libvstdlib_srv.so;
+	cp $(SRCDS)/bin/libtier0_srv.so libtier0_srv.so;
 	$(MAKE) -f Makefile extension USE_PLAYERSLOTS=true DEBUG=$(DEBUG)
 
 extension: $(OBJ_LINUX)

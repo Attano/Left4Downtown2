@@ -41,10 +41,12 @@
 #define OP_JZ_REL8  '\x74'
 #define OP_JZ_REL8_SIZE 2
 
-#define OP_RETN     '\xC3' //this is actually a near return
+//this is actually a near return
+#define OP_RETN     '\xC3'
 #define OP_RETN_SIZE 1
 
-#define OP_CMP_EAX_IMM32 '\x3D'  //CMP EAX, imm32
+//CMP EAX, imm32
+#define OP_CMP_EAX_IMM32 '\x3D'
 #define OP_CMP_EAX_IMM32_SIZE 5
 
 #define OP_CMP_R32_RM32 '\x3B'
@@ -55,12 +57,14 @@
 #define OP_CMP_RM32_IMM32_SIZE 6
 #define OP_CMP_RM32_IMM32_MODRM_DIGIT ((char)(7 << 3))
 
-#define OP_MOV_EAX_IMM32 '\xB8'  //MOV EAX, imm32
+//MOV EAX, imm32
+#define OP_MOV_EAX_IMM32 '\xB8'
 #define OP_MOV_EAX_IMM32_SIZE 5
 
 #define MODRM_BYTE 1
 #define MODRM_MOD_DIRECT ((char)(3 << 6))
 #define MODRM_RM_EDX '\x02'
+#define MODRM_RM_ESI '\x06'
 #define MODRM_RM_EDI '\x07'
 
 #if defined PLATFORM_WINDOWS
@@ -93,6 +97,7 @@ void PlayerSlots::Patch()
 	/*
 	Server patch
 	** Needed on windows only. On Linux, this called GetMaxHumanPlayers
+	L4DToolZ doesn't patch this anymore?
 	*/
 	
 #if defined PLATFORM_WINDOWS
@@ -145,7 +150,7 @@ void PlayerSlots::Patch()
 
 		jz -> nop (linux or windows)
 
-	 do not skip the server is full code when sv_allow_lobby_connect is 0
+	 do not skip to the server is full code when sv_allow_lobby_connect is 0
 	*/
 	patch_t lobbyConnectPatch;
 	lobbyConnectPatch.bytes = OP_JZ_REL8_SIZE;
@@ -297,7 +302,7 @@ void PlayerSlots::PatchSlotCheckOnly()
 	cmp around the string "#Valve_Reject_Server_Full"
 
 	 cmp eax, [esi+180h] -> cmp eax, IMM32(PLAYER_SLOTS_MAX)        (Windows)
-	 cmp edi, [ebp+17Ch] -> cmp edx, IMM32(PLAYER_SLOTS_MAX)        (Linux)
+	 cmp esi, [ebx+17Ch] -> cmp esi, IMM32(PLAYER_SLOTS_MAX)        (Linux)
 
 	we effectively change how many max players we allow
 	*/
@@ -307,7 +312,7 @@ void PlayerSlots::PatchSlotCheckOnly()
 #if defined PLATFORM_LINUX
 	serverFullPatch.bytes  = OP_CMP_RM32_IMM32_SIZE;
 	serverFullPatch.patch[0] = OP_CMP_RM32_IMM32;
-	serverFullPatch.patch[MODRM_BYTE] = MODRM_MOD_DIRECT | OP_CMP_RM32_IMM32_MODRM_DIGIT | MODRM_RM_EDI; //0xFF
+	serverFullPatch.patch[MODRM_BYTE] = MODRM_MOD_DIRECT | OP_CMP_RM32_IMM32_MODRM_DIGIT | MODRM_RM_ESI; //0xFF
 	*(uint32_t*)(serverFullPatch.patch+MODRM_BYTE+sizeof(uint8_t)) = (uint32_t)PLAYER_SLOTS_MAX;
 
 #else //PLATFORM_WINDOWS

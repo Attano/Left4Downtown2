@@ -111,17 +111,17 @@ IntervalTimer * IdToITimer(int id)
 	switch(id)
 	{
 		case L4D2IT_SmokerDeathTimer:
-			return &(director->SmokerDeathTimer);
+			return &(director->m_ClassDeathTimers[ZombieClassType_Smoker]);
 		case L4D2IT_BoomerDeathTimer:
-			return &(director->BoomerDeathTimer);
+			return &(director->m_ClassDeathTimers[ZombieClassType_Boomer]);
 		case L4D2IT_HunterDeathTimer:
-			return &(director->HunterDeathTimer);
+			return &(director->m_ClassDeathTimers[ZombieClassType_Hunter]);
 		case L4D2IT_SpitterDeathTimer:
-			return &(director->SpitterDeathTimer);
+			return &(director->m_ClassDeathTimers[ZombieClassType_Spitter]);
 		case L4D2IT_JockeyDeathTimer:
-			return &(director->JockeyDeathTimer);
+			return &(director->m_ClassDeathTimers[ZombieClassType_Jockey]);
 		case L4D2IT_ChargerDeathTimer:
-			return &(director->ChargerDeathTimer);
+			return &(director->m_ClassDeathTimers[ZombieClassType_Charger]);
 		default:
 			return NULL;
 	}

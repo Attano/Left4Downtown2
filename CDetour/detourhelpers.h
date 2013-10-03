@@ -35,7 +35,7 @@
 //#define DETOURHELPERS_LOG(...) L4D_DEBUG_LOG(__VA_ARGS__)
 #define DETOURHELPERS_LOG(...)
 
-#if defined PLATFORM_LINUX
+#if defined PLATFORM_POSIX
 #include <sys/mman.h>
 #define	PAGE_SIZE	4096
 #define ALIGN(ar) ((long)ar & ~(PAGE_SIZE-1))
@@ -62,7 +62,7 @@ inline void ProtectMemory(void *addr, int length, int prot)
 {
 	DETOURHELPERS_LOG("Protecting memory...");
 
-#if defined PLATFORM_LINUX
+#if defined PLATFORM_POSIX
 	void *addr2 = (void *)ALIGN(addr);
 	void *addr3 = (void*)ALIGN((unsigned char*)((unsigned char*)addr + length));
 	mprotect(addr2, sysconf(_SC_PAGESIZE), prot);

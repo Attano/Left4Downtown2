@@ -103,7 +103,8 @@ if AMBuild.mode == "config":
         compiler.AddToListVar("CXXFLAGS", "-Werror")
         compiler.AddToListVar("CFLAGS", "-Wno-switch")
         compiler.AddToListVar("CFLAGS", "-Wno-unused")
-        compiler.AddToListVar("CFLAGS", "-mfpmath=sse")
+        if not isinstance(cxx, Cpp.Clang):
+            compiler.AddToListVar("CFLAGS", "-mfpmath=sse")
         compiler.AddToListVar("CFLAGS", "-msse")
         compiler.AddToListVar("CFLAGS", "-m32")
         compiler.AddToListVar("CXXFLAGS", "-Wno-non-virtual-dtor")
@@ -116,8 +117,8 @@ if AMBuild.mode == "config":
         compiler.AddToListVar("POSTLINKFLAGS", "-lm")
         compiler.AddToListVar("POSTLINKFLAGS", os.path.join(envvars["HL2SDKL4D2"], "lib", "linux", "tier1_i486.a"))
         compiler.AddToListVar("POSTLINKFLAGS", os.path.join(envvars["HL2SDKL4D2"], "lib", "linux", "mathlib_i486.a"))
-        compiler.AddToListVar("POSTLINKFLAGS", os.path.join(envvars["HL2SDKL4D2"], "lib", "linux", "libvstdlib.so"))
-        compiler.AddToListVar("POSTLINKFLAGS", os.path.join(envvars["HL2SDKL4D2"], "lib", "linux", "libtier0.so"))
+        compiler.AddToListVar("POSTLINKFLAGS", os.path.join(envvars["HL2SDKL4D2"], "lib", "linux", "libvstdlib_srv.so"))
+        compiler.AddToListVar("POSTLINKFLAGS", os.path.join(envvars["HL2SDKL4D2"], "lib", "linux", "libtier0_srv.so"))
 
     if AMBuild.options.debug:
         compiler.AddToListVar("CDEFINES", "_DEBUG")

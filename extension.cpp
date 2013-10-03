@@ -74,12 +74,15 @@
 #include "detours/get_mission_versus_boss_spawning.h"
 #include "detours/cthrow_activate_ability.h"
 #include "detours/start_melee_swing.h"
+#include "detours/use_healing_items.h"
+#include "detours/find_scavenge_item.h"
 #include "detours/send_in_rescue_vehicle.h"
 #include "detours/change_finale_stage.h"
 #include "detours/end_versus_mode_round.h"
 #include "detours/select_weighted_sequence.h"//for SelectTankAttack
 #include "detours/on_revived.h"
-#include "detours/on_nav_area_changed.h"
+#include "detours/water_move.h"
+#include "detours/on_stagger.h"
 
 #define GAMECONFIG_FILE "left4downtown.l4d2"
 
@@ -91,7 +94,6 @@ IServer *g_pServer = NULL; //ptr to CBaseServer
 ISDKTools *g_pSDKTools = NULL;
 IServerGameEnts *gameents = NULL;
 CGlobalVars *gpGlobals;
-IGameEventManager2 *gameeventmanager = NULL;
 
 IForward *g_pFwdOnSpawnSpecial = NULL;
 IForward *g_pFwdOnSpawnTank = NULL;
@@ -117,14 +119,16 @@ IForward *g_pFwdOnFastGetSurvivorSet = NULL;
 IForward *g_pFwdOnGetMissionVersusBossSpawning = NULL;
 IForward *g_pFwdOnCThrowActivate = NULL;
 IForward *g_pFwdOnStartMeleeSwing = NULL;
+IForward *g_pFwdOnUseHealingItems = NULL;
+IForward *g_pFwdOnFindScavengeItem = NULL;
 IForward *g_pFwdOnSendInRescueVehicle = NULL;
 IForward *g_pFwdOnChangeFinaleStage = NULL;
 IForward *g_pFwdOnEndVersusModeRound = NULL;
 IForward *g_pFwdOnEndVersusModeRound_Post = NULL;
 IForward *g_pFwdOnSelectTankAttack = NULL;
 IForward *g_pFwdOnRevived = NULL;
-IForward *g_pFwdOnAddonsEclipseUpdate = NULL;
-IForward *g_pFwdOnNavAreaChanged = NULL;
+IForward *g_pFwdOnWaterMove = NULL;
+IForward *g_pFwdOnPlayerStagger = NULL;
 
 bool g_bRoundEnd = false;
 
@@ -138,7 +142,6 @@ extern sp_nativeinfo_t g_L4DoMeleeWeaponNatives[];
 extern sp_nativeinfo_t g_L4DoDirectorNatives[];
 
 ConVar g_Version("left4downtown_version", SMEXT_CONF_VERSION, FCVAR_SPONLY|FCVAR_NOTIFY, "Left 4 Downtown Extension Version");
-ConVar g_AddonsEclipse("l4d2_addons_eclipse", "0", FCVAR_SPONLY|FCVAR_NOTIFY, "Forces any joining clients into disabling their addons");
 #ifdef USE_PLAYERSLOTS_PATCHES
 ConVar g_MaxPlayers("l4d_maxplayers", "-1", FCVAR_SPONLY|FCVAR_NOTIFY, "Overrides maxplayers with this value");
 #endif
@@ -207,14 +210,16 @@ bool Left4Downtown::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	g_pFwdOnGetMissionVersusBossSpawning = forwards->CreateForward("L4D_OnGetMissionVSBossSpawning", ET_Event, 4, /*types*/NULL, Param_FloatByRef, Param_FloatByRef, Param_FloatByRef, Param_FloatByRef);
 	g_pFwdOnCThrowActivate = forwards->CreateForward("L4D_OnCThrowActivate", ET_Event, 1, /*types*/NULL, Param_Cell);
 	g_pFwdOnStartMeleeSwing = forwards->CreateForward("L4D_OnStartMeleeSwing", ET_Event, 2, /*types*/NULL, Param_Cell, Param_Cell);
+	g_pFwdOnUseHealingItems = forwards->CreateForward("L4D2_OnUseHealingItems", ET_Event, 1, /*types*/NULL, Param_Cell);
+	g_pFwdOnFindScavengeItem = forwards->CreateForward("L4D2_OnFindScavengeItem", ET_Event, 2, /*types*/NULL, Param_Cell, Param_CellByRef);
 	g_pFwdOnSendInRescueVehicle = forwards->CreateForward("L4D2_OnSendInRescueVehicle", ET_Event, 0, /*types*/NULL);
 	g_pFwdOnChangeFinaleStage = forwards->CreateForward("L4D2_OnChangeFinaleStage", ET_Event, 2, /*types*/NULL, Param_CellByRef, Param_String);
 	g_pFwdOnEndVersusModeRound = forwards->CreateForward("L4D2_OnEndVersusModeRound", ET_Event, 1, /*types*/NULL, Param_Cell);
 	g_pFwdOnEndVersusModeRound_Post = forwards->CreateForward("L4D2_OnEndVersusModeRound_Post", ET_Ignore, 0, /*types*/NULL);
 	g_pFwdOnSelectTankAttack = forwards->CreateForward("L4D2_OnSelectTankAttack", ET_Event, 2, /*types*/NULL, Param_Cell, Param_CellByRef);
 	g_pFwdOnRevived = forwards->CreateForward("L4D_OnRevived", ET_Event, 1, /*types*/NULL, Param_Cell);
-	g_pFwdOnAddonsEclipseUpdate = forwards->CreateForward("L4D2_OnAddonsEclipseUpdate", ET_Event, 1, /*types*/NULL, Param_Cell);
-	g_pFwdOnNavAreaChanged = forwards->CreateForward("L4D2_OnNavAreaChanged", ET_Event, 1, /*types*/NULL, Param_Cell);
+    g_pFwdOnWaterMove = forwards->CreateForward("L4D2_OnWaterMove", ET_Event, 1, /*types*/NULL, Param_Cell);
+	g_pFwdOnPlayerStagger = forwards->CreateForward("L4D2_OnStagger", ET_Event, 2, /*types*/NULL, Param_Cell, Param_Cell);
 	
 	playerhelpers->AddClientListener(&g_Left4DowntownTools);
 	playerhelpers->RegisterCommandTargetProcessor(&g_Left4DowntownTools);
@@ -308,13 +313,16 @@ void Left4Downtown::SDK_OnAllLoaded()
 	g_PatchManager.Register(new AutoPatch<Detours::GetMissionVersusBossSpawning>());
 	g_PatchManager.Register(new AutoPatch<Detours::CThrowActivate>());
 	g_PatchManager.Register(new AutoPatch<Detours::StartMeleeSwing>());
+	g_PatchManager.Register(new AutoPatch<Detours::UseHealingItems>());
+	g_PatchManager.Register(new AutoPatch<Detours::FindScavengeItem>());
 	g_PatchManager.Register(new AutoPatch<Detours::SendInRescueVehicle>());
 	g_PatchManager.Register(new AutoPatch<Detours::ChangeFinaleStage>());
 	g_PatchManager.Register(new AutoPatch<Detours::EndVersusModeRound>());
 	g_PatchManager.Register(new AutoPatch<Detours::SelectWeightedSequence>());//for SelectTankAttack
 	g_PatchManager.Register(new AutoPatch<Detours::Revived>());
-	g_PatchManager.Register(new AutoPatch<Detours::NavAreaChanged>());
-
+    g_PatchManager.Register(new AutoPatch<Detours::WaterMove>());
+	g_PatchManager.Register(new AutoPatch<Detours::PlayerStagger>());
+    
 	//new style detours that create/destroy the forwards themselves
 	g_PatchManager.Register(new AutoPatch<Detours::IsFinale>());
 	g_PatchManager.Register(new AutoPatch<Detours::OnEnterGhostState>());
@@ -363,14 +371,16 @@ void Left4Downtown::SDK_OnUnload()
 	forwards->ReleaseForward(g_pFwdOnGetMissionVersusBossSpawning);
 	forwards->ReleaseForward(g_pFwdOnCThrowActivate);
 	forwards->ReleaseForward(g_pFwdOnStartMeleeSwing);
+	forwards->ReleaseForward(g_pFwdOnUseHealingItems);
+	forwards->ReleaseForward(g_pFwdOnFindScavengeItem);
 	forwards->ReleaseForward(g_pFwdOnSendInRescueVehicle);
 	forwards->ReleaseForward(g_pFwdOnChangeFinaleStage);
 	forwards->ReleaseForward(g_pFwdOnEndVersusModeRound);
 	forwards->ReleaseForward(g_pFwdOnEndVersusModeRound_Post);
 	forwards->ReleaseForward(g_pFwdOnSelectTankAttack);
 	forwards->ReleaseForward(g_pFwdOnRevived);
-	forwards->ReleaseForward(g_pFwdOnAddonsEclipseUpdate);
-	forwards->ReleaseForward(g_pFwdOnNavAreaChanged);
+    forwards->ReleaseForward(g_pFwdOnWaterMove);
+	forwards->ReleaseForward(g_pFwdOnPlayerStagger);
 }
 
 class BaseAccessor : public IConCommandBaseAccessor
@@ -393,74 +403,8 @@ bool Left4Downtown::SDK_OnMetamodLoad(SourceMM::ISmmAPI *ismm, char *error, size
 
 	GET_V_IFACE_ANY(GetServerFactory, gameents, IServerGameEnts, INTERFACEVERSION_SERVERGAMEENTS);
 	gpGlobals = ismm->GetCGlobals();
-	
-	GET_V_IFACE_CURRENT(GetEngineFactory, gameeventmanager, IGameEventManager2, INTERFACEVERSION_GAMEEVENTSMANAGER2);
-	
+
 	return true;
-}
-
-/**
- * @brief Called when a client is authorized.
- *
- * @param client		Index of the client.
- * @param authstring	His SteamID.
- */	
-void Left4Downtown::OnClientAuthorized(int client, const char *authstring)
-{
-	/* 
-		Credits to Scott "DS" Ehlert from the SourceMod Dev Team for providing me with
-		this super-easy method of selective event broadcasting. If it wasn't for him,
-		I'd be stuck with a bunch of nasty code -- i.e. my initial idea of a NET_SendPacket
-		vcall(bitbuffers, serializing events, casting IPs to netadr_t etc.)
-		/blog
-	*/
-	
-	if (!g_AddonsEclipse.GetBool())
-	{
-		L4D_DEBUG_LOG("l4d2_addons_eclipse set to 0, skipping function");
-		return;
-	}
-	
-	IGamePlayer *pPlayer = playerhelpers->GetGamePlayer(client);
-	if (pPlayer->IsFakeClient())
-	{
-		L4D_DEBUG_LOG("Fake client %d connected, ignoring...", client);
-		return;
-	}
-	
-	cell_t result = Pl_Continue;
-	if (g_pFwdOnAddonsEclipseUpdate)
-	{
-		g_pFwdOnAddonsEclipseUpdate->PushCell(client);
-		g_pFwdOnAddonsEclipseUpdate->Execute(&result);
-		
-		if(result == Pl_Handled)
-		{
-			L4D_DEBUG_LOG("L4D2_OnAddonsEclipseUpdate(%d) will be skipped", client);
-			return;
-		}
-		L4D_DEBUG_LOG("L4D2_OnAddonsEclipseUpdate(%d) has been sent out...", client);
-	}
-	
-	// Getting the client event listener
-	INetChannel *pNetChan = static_cast<INetChannel *>(engine->GetPlayerNetInfo(client));
-	IClient *pClient = static_cast<IClient *>(pNetChan->GetMsgHandler());
-	unsigned char *pBaseClient = reinterpret_cast<unsigned char *>(pClient) - 4;
-	IGameEventListener2 *pClientListener = reinterpret_cast<IGameEventListener2 *>(pBaseClient);
-
-	// Firing our event; it will tell the client to unload his addons
-	IGameEvent *pEvent = gameeventmanager->CreateEvent("server_spawn");
-	if (pEvent)
-	{
-		pEvent->SetString("address", "159.253.143.194:0");
-        pEvent->SetString("mapname", STRING(gpGlobals->mapname));
-		pClientListener->FireGameEvent(pEvent);
-		
-		L4D_DEBUG_LOG("Fired event for client %d", client);
-	}
-
-	// When done with event, must destroy it manually
-	gameeventmanager->FreeEvent(pEvent);  
 }
 #ifdef USE_PLAYERSLOTS_PATCHES
 	/**

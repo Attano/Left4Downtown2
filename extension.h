@@ -50,9 +50,6 @@
 #include <convar.h>
 #include <icvar.h>
 #include <icommandline.h>
-#include <igameevents.h>
-#include <inetchannel.h>
-#include <iclient.h>
 
 
 /**
@@ -138,13 +135,6 @@ public:
 	 */
 	virtual void OnServerActivated(int max_clients);
 #endif
-	/**
-	 * @brief Called when a client is put in server.
-	 *
-	 * @param client		Index of the client.
-	 */
-	//virtual void OnClientPutInServer(int client);
-	virtual void OnClientAuthorized(int client, const char *authstring);
 public: //ICommandTargetProcessor
 	bool ProcessCommandTarget(cmd_target_info_t *info);
 };
@@ -173,13 +163,16 @@ extern IForward *g_pFwdOnFastGetSurvivorSet;
 extern IForward *g_pFwdOnGetMissionVersusBossSpawning;
 extern IForward *g_pFwdOnCThrowActivate;
 extern IForward *g_pFwdOnStartMeleeSwing;
+extern IForward *g_pFwdOnUseHealingItems;
+extern IForward *g_pFwdOnFindScavengeItem;
 extern IForward *g_pFwdOnSendInRescueVehicle;
 extern IForward *g_pFwdOnChangeFinaleStage;
 extern IForward *g_pFwdOnEndVersusModeRound;
 extern IForward *g_pFwdOnEndVersusModeRound_Post;
 extern IForward *g_pFwdOnSelectTankAttack;
 extern IForward *g_pFwdOnRevived;
-extern IForward *g_pFwdOnNavAreaChanged;
+extern IForward *g_pFwdOnWaterMove;
+extern IForward *g_pFwdOnPlayerStagger;
 
 extern bool g_bRoundEnd;
 
@@ -193,8 +186,6 @@ extern IServerGameEnts *gameents;
 extern ICvar *icvar;
 extern IServer *iserver;
 extern CGlobalVars *gpGlobals;
-extern IGameEventManager2 *gameeventmanager;
-
 /* Interfaces from SourceMod */
 
 #include "compat_wrappers.h"

@@ -13,6 +13,8 @@
 #define IA32_MOV_REG_IMM		0xB8	// encoding is +r <imm32>
 #endif
 
+extern void Msg( const char *, ... );
+
 /**
 * Checks if a call to a fpic thunk has just been written into dest.
 * If found replaces it with a direct mov that sets the required register to the value of pc.
@@ -368,7 +370,7 @@ void* eval_jump(void* src) {
 	else if (addr[0] == OP_JMP_BYTE) {
 		addr = &addr[OP_JMP_BYTE_SIZE] + *(char*)&addr[1];
 		//mangled 32bit jump?
-		if (addr[0] = OP_JMP) {
+		if (addr[0] == OP_JMP) {
 			addr = addr + *(int*)&addr[1];
 		}
 		return addr;

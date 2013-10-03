@@ -63,15 +63,15 @@ enum L4D2FloatWeaponAttributes
 	L4D2FWA_MinStandingSpread,
 	L4D2FWA_MinInAirSpread,
 	L4D2FWA_MaxMovementSpread,
-	L4D2FWA_PelletScatterPitch,
-	L4D2FWA_PelletScatterYaw,
 	L4D2FWA_PenetrationNumLayers,
 	L4D2FWA_PenetrationPower,
 	L4D2FWA_PenetrationMaxDist,
 	L4D2FWA_CharPenetrationMaxDist,
 	L4D2FWA_Range,
 	L4D2FWA_RangeModifier,
-	L4D2FWA_CycleTime
+	L4D2FWA_CycleTime,
+	L4D2FWA_PelletScatterPitch,
+	L4D2FWA_PelletScatterYaw
 };
 
 enum L4D2BoolMeleeWeaponAttributes

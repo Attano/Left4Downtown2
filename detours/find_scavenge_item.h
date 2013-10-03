@@ -2,7 +2,7 @@
  * vim: set ts=4 :
  * =============================================================================
  * Left 4 Downtown SourceMod Extension
- * Copyright (C) 2010 Michael "ProdigySim" Busby
+ * Copyright (C) 2009 Igor "Downtown1" Smirnov.
  * =============================================================================
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -29,33 +29,35 @@
  * Version: $Id$
  */
 
-#ifndef _INCLUDE_SOURCEMOD_DETOUR_HAS_CONFIGURABLE_DIFFICULTY_H_
-#define _INCLUDE_SOURCEMOD_DETOUR_HAS_CONFIGURABLE_DIFFICULTY_H_
+#ifndef _INCLUDE_SOURCEMOD_DETOUR_FIND_SCAVENGE_ITEMS_H_
+#define _INCLUDE_SOURCEMOD_DETOUR_FIND_SCAVENGE_ITEMS_H_
 
 #include "detour_template.h"
 
+class ActionSurvivorBot;
+class SurvivorBot;
+
 namespace Detours {
-	
-class HasConfigurableDifficulty;
 
-typedef int (HasConfigurableDifficulty::*HasConfigurableDifficultyFunc)();
+class FindScavengeItem;
+typedef void* (FindScavengeItem::*FindScavengeItemFunc)(float);
 
-class HasConfigurableDifficulty : public DetourTemplate<HasConfigurableDifficultyFunc, HasConfigurableDifficulty>
+class FindScavengeItem : public DetourTemplate<FindScavengeItemFunc, FindScavengeItem>
 {
 private: //note: implementation of DetourTemplate abstracts
 
-	int OnHasConfigurableDifficulty();
+	void* OnFindScavengeItem(float);
 
-	// get the signature name (i.e. "HasConfigurableDifficulty") from the game conf
-	virtual const char * GetSignatureName()
+	// get the signature name (i.e. "FindScavengeItem") from the game conf
+	virtual const char *GetSignatureName()
 	{
-		return "HasConfigurableDifficulty";
+		return "FindScavengeItem";
 	}
 
 	//notify our patch system which function should be used as the detour
-	virtual HasConfigurableDifficultyFunc GetDetour()
+	virtual FindScavengeItemFunc GetDetour()
 	{
-		return &HasConfigurableDifficulty::OnHasConfigurableDifficulty;
+		return &FindScavengeItem::OnFindScavengeItem;
 	}
 };
 

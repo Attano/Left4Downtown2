@@ -364,24 +364,46 @@ forward Action:L4D2_OnSelectTankAttack(client, &sequence);
 forward Action:L4D2_OnRevived(client);
 
 /**
- * @brief Called when UpdateAddonEclipseContentCvar(char, char) is available for invocation(clientside)
- * @remarks Doesn't fire if l4d2_addons_eclipse equals 0.
+ * @brief Called when SurvivorBot::UseHealingItems(Action<SurvivorBot> *) is invoked
+ * @remarks Causes bots to use or give healing items (except in safe room on non-expert)
  *
- * @param client   the client the cvar is being set for
+ * @param client	the client that will decide whether to use healing items
  *
- * @return Pl_Handled to let the client through with addons, Pl_Continue otherwise.
+ * @noreturn Pl_Handled to block, Pl_Continue otherwise.
  */
-forward Action:L4D2_OnAddonsEclipseUpdate(client);
+forward Action:L4D2_OnUseHealingItems(client);
 
 /**
- * @brief Called whenever CTerrorPlayer::OnNavAreaChanged(CNavArea, CNavArea) is invoked
- * @remarks Spammy, but still more efficient than GameFrame() or PlayerRunCmd()
+ * @brief Called after SurvivorBot::FindScavengeItem(Action<SurvivorBot> *) is invoked
+ * @remarks Indicates which item the Survivor Bot will attempt to pick up
  *
- * @param client   the client whose NavArea has changed
+ * @param client	the client that will try to pick something up
+ * @param item		the item the client will try to pick up (null means no item)
+ *
+ * @noreturn Pl_Handled to block, Pl_Continue otherwise.
+ */
+forward Action:L4D2_OnFindScavengeItem(client, item);
+
+/**
+ * @brief Called whenever CBasePlayer::WaterMove() is invoked
+ * @remarks Couple it with a FL_INWATER check to be sure
+ *
+ * @param client	the client that is moving in the water
  *
  * @noreturn
  */
-forward Action:L4D2_OnNavAreaChanged(client);
+forward L4D2_OnWaterMove(client);
+
+/**
+ * @brief Called whenever CTerrorPlayer::OnStagger() is invoked
+ * @remarks Source is always null for Charger impacts(Valve)
+ *
+ * @param target	the client that is about to get staggered
+ * @param source	the client that is about to stagger the target
+ *
+ * @noreturn
+ */
+forward Action:L4D2_OnStagger(target, source);
 
 /**
  * @brief Get the current campaign scores stored in the Director
