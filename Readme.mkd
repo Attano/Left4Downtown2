@@ -1,0 +1,26 @@
+#Left4Downtown2 - L4D2 Sourcemod Extension#
+
+##Changelog##
+
+###May 02, 2013 :: 0.5.5###
+* Initial fork from v0.5.4.2
+* Created the manageable **Serverside Addons Disabler** and integrated it into the extension. Controlled by the cvar `l4d2_addons_eclipse` and the forward `L4D2_OnAddonsEclipseUpdate(client)`. Details [here](http://www.l4dnation.com/confogl-and-other-configs/the-serverside-addons-disabler%28left4downtown-update%29/).
+
+###June 06, 2013 :: 0.5.6###
+####*[!] This L4DT fork now supports Linux platform only*####
+
+* Added new forwards
+    * `L4D2_OnNavAreaChanged(client)` -- an effective detour for tracking player progress throughout the map. Initially implemented for my distance-based competitive scoring mod, but can be easily used as a superior, from server resources conservation potential perspective, alternative for `OnGameFrame()` and `OnPlayerRunCmd()`
+    * `L4D2_OnWaterMove(client)` -- once again, meant to conserve precious server resources. Currently, `OnGameFrame()` is used in plugins(including Confogl core and AtomicStryker's variant) to slow down survivor movement in the water. It is best to avoid the use of these functions altogether, especially on a server with an increased tickrate/unlocked fps_max cvar.
+    * `L4D2_OnStagger(target, source)` -- fires whenever someone gets staggered. Meant for my **No SI Friendly Staggers** plugin. Boomer explosions, running witches and charger wall impacts no longer stumble fellow zombies, as well as don't cause the captured Survivor to let off.
+* Unlocked shotgun pellet attributes: `m_fPelletScatterPitch` and `m_fPelletScatterYaw`
+
+###Oct 03, 2013 :: 0.5.6###
+* Updated gamedata since the July update and commited all recent changes.
+* Removed the `Serverside Addons Disabler`. It has become deprecated since the latest major update and was replaced by Valve's own addons disabler.
+* Removed the `L4D2_OnNavAreaChanged(client)` detour since the new scoring system it was meant to be used in has been ditched.
+
+###Oct 11, 2013 :: 0.5.7###
+* Brought back the manageable **Serverside Addons Disabler**. Now it is 100% reliable and is no longer a hack, but a patch for stuff that's already in there. Details [here](http://www.l4dnation.com/confogl-and-other-configs/the-serverside-addons-disabler%28left4downtown-update%29/).
+* Added the global melee unlocker into the extension. This should render any melee unlocking addons redundant.
+* Added the `L4D2_OnEntityShoved(client, entity, weapon, Float:vector[3], bool:bIsHunterDeadstop)` forward. It is blockable and it fires whenever an entity gets shoved. This includes absolutely any kind of entity, starting with SI and commons and ending with road cones. Blocking it negates the shove(M2) effect as if it never happened. Designed primarily to block cases of hunters getting deadstopped when they shouldn't have(because `L4D_OnShovedBySurvivor(client, victim, const Float:vector[3])` didn't fire or blocking it had no effect). But it can also be used to prevent teams from exploiting entities to block the opponent's path(e.g. **No Mercy 3** ground lantern block in the tunnel for Survivors, or the same prop on **Parish 4** used to block the tank in the room's entrance). Also, the hunter deadstop boolean is not reliable 100% of the time(Valve), so keep that in mind.

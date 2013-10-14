@@ -40,9 +40,9 @@
 /* Basic information exposed publicly */
 #define SMEXT_CONF_NAME			"Left 4 Downtown 2 Extension"
 #define SMEXT_CONF_DESCRIPTION		"Downtown1's extension to perform useful L4D1/L4D2 calls"
-#define SMEXT_CONF_VERSION		"0.5.6"
-#define SMEXT_CONF_AUTHOR		"Igor \"Downtown1\" Smirnov / Andrew \"XBetaAlpha\" Burrows / AtomicStryker / Michael \"ProdigySim\" Busby"
-#define SMEXT_CONF_URL			"http://left4downtown2.googlecode.com/"
+#define SMEXT_CONF_VERSION		"0.5.7"
+#define SMEXT_CONF_AUTHOR		"Igor \"Downtown1\" Smirnov / Andrew \"XBetaAlpha\" Burrows / AtomicStryker / Michael \"ProdigySim\" Busby / Visor"
+#define SMEXT_CONF_URL			"https://github.com/Attano/Left4Downtown2"
 #define SMEXT_CONF_LOGTAG		"LEFT4DOWNTOWN"
 #define SMEXT_CONF_LICENSE		"GPLv3"
 #define SMEXT_CONF_DATESTRING	__DATE__

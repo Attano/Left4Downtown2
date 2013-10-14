@@ -395,15 +395,39 @@ forward Action:L4D2_OnFindScavengeItem(client, item);
 forward L4D2_OnWaterMove(client);
 
 /**
- * @brief Called whenever CTerrorPlayer::OnStagger() is invoked
+ * @brief Called whenever CTerrorPlayer::OnStaggered(CBaseEntity *, Vector const *) is invoked
  * @remarks Source is always null for Charger impacts(Valve)
  *
  * @param target	the client that is about to get staggered
  * @param source	the client that is about to stagger the target
  *
- * @noreturn
+ * @return 		Pl_Handled to block, Pl_Continue otherwise
  */
 forward Action:L4D2_OnStagger(target, source);
+
+/**
+ * @brief Called whenever CTerrorWeapon::OnHit(CGameTrace &, Vector  const&, bool) is invoked
+ * @remarks Called for every single shovable and even some of the unshovable entities in the game
+ *
+ * @param client	survivor who did the shoving
+ * @param entity	entity that is about to get shoved
+ * @param weapon	weapon that has been held while shoving
+ * @param vector	not sure what are these coordinates, probably some kind of shove distance
+ * @param bIsHunterDeadstop	    a boolean to determine if it was a pounce from a height or not; reliable to a certain degree and should only be considered for hunters
+ *
+ * @return 		Pl_Handled to block, Pl_Continue otherwise
+ */
+forward Action:L4D2_OnEntityShoved(client, entity, weapon, Float:vector[3], bool:bIsHighPounce);
+
+/**
+ * @brief Called when the client's material system is expecting instructions from the server in regards to addons
+ * @remarks Doesn't fire if l4d2_addons_eclipse is -1 or 0
+ *
+ * @param SteamID   SteamID of the client expecting a matsys reply
+ *
+ * @return      Pl_Handled to let the client through with addons, Pl_Continue otherwise.
+ */
+forward Action:L4D2_OnClientDisableAddons(const String:SteamID[]);
 
 /**
  * @brief Get the current campaign scores stored in the Director

@@ -50,6 +50,7 @@
 #include <convar.h>
 #include <icvar.h>
 #include <icommandline.h>
+#include <iclient.h>
 
 
 /**
@@ -173,6 +174,8 @@ extern IForward *g_pFwdOnSelectTankAttack;
 extern IForward *g_pFwdOnRevived;
 extern IForward *g_pFwdOnWaterMove;
 extern IForward *g_pFwdOnPlayerStagger;
+extern IForward *g_pFwdOnTerrorWeaponHit;
+extern IForward *g_pFwdAddonsDisabler;
 
 extern bool g_bRoundEnd;
 

@@ -140,16 +140,6 @@
 				"windows"  "\x55\x8B\xEC\x51\x0F\x57\xC0\x53\x56\x57\x33\xDB\x8B"
 				/* 55 8B EC 51 0F 57 C0 53  56 57 33 DB 8B */
 			}
-			
-            /* 
-			* CBasePlayer::WaterMove(void)
-			*/
-			"WaterMove"
-			{
-				"library"    "server"
-				"linux"    "@_ZN11CBasePlayer9WaterMoveEv"
-				"windows" ""
-			}
             
 			/*
 			 * CBaseServer::SetReservationCookie(uint64_t, char*, va_list)
@@ -833,7 +823,59 @@
 				/* 55 8B EC 81 EC ? ? ? ? A1 ? ? ? ? 33 C5 89 45 FC 53 56 57 8B F9 8B 97 ? ? ? ? 8D 85 */
 			}
 			
+            /* 
+			* CTerrorWeapon::OnHit(CGameTrace &, Vector  const&, bool)
+			*/
+            "CTerrorWeapon__OnHit"
+			{
+				"library"    "server"
+				"linux"    "@_ZN13CTerrorWeapon5OnHitER10CGameTraceRK6Vectorb"
+				"windows" ""
+			}
 
+            /* 
+			* CBasePlayer::WaterMove(void)
+			*/
+			"WaterMove"
+			{
+				"library"    "server"
+				"linux"    "@_ZN11CBasePlayer9WaterMoveEv"
+				"windows" ""
+			}
+            
+            /* 
+			* KeyValues *CTerrorGameRules::GetMissionInfo(void)
+			*/
+			"CTerrorGameRules__GetMissionInfo"
+			{
+				"library"    "server"
+				"linux"    "@_ZN16CTerrorGameRules14GetMissionInfoEv"
+				"windows" ""
+			}
+            
+/*********************************************************************
+********************* ADDONS DISABLER ********************************
+*********************************************************************/
+            /* 
+			* CBaseServer::FillServerInfo(SVC_ServerInfo *)
+			*/
+			"CBaseServer__FillServerInfo"
+			{
+				"library"    "engine"
+				"linux"    "@_ZN11CBaseServer14FillServerInfoER14SVC_ServerInfo"
+				"windows" ""
+			}
+
+            /* 
+			* mov esi+[19h]
+			*/
+            "VanillaModeOffset"
+			{
+				"library" "engine"
+				"linux" "\xC6\x46\x1B\x4C\x88\x46\x19"
+				"windows" ""
+			}
+            
 /*********************************************************************
 ****************** PLAYER SLOTS PATCHING *****************************
 *********************************************************************/

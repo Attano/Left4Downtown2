@@ -83,6 +83,10 @@
 #include "detours/on_revived.h"
 #include "detours/water_move.h"
 #include "detours/on_stagger.h"
+#include "detours/terror_weapon_hit.h"
+#include "detours/get_mission_info.h"
+
+#include "addons_disabler.h"
 
 #define GAMECONFIG_FILE "left4downtown.l4d2"
 
@@ -129,6 +133,8 @@ IForward *g_pFwdOnSelectTankAttack = NULL;
 IForward *g_pFwdOnRevived = NULL;
 IForward *g_pFwdOnWaterMove = NULL;
 IForward *g_pFwdOnPlayerStagger = NULL;
+IForward *g_pFwdOnTerrorWeaponHit = NULL;
+IForward *g_pFwdAddonsDisabler = NULL;
 
 bool g_bRoundEnd = false;
 
@@ -142,6 +148,7 @@ extern sp_nativeinfo_t g_L4DoMeleeWeaponNatives[];
 extern sp_nativeinfo_t g_L4DoDirectorNatives[];
 
 ConVar g_Version("left4downtown_version", SMEXT_CONF_VERSION, FCVAR_SPONLY|FCVAR_NOTIFY, "Left 4 Downtown Extension Version");
+ConVar g_AddonsEclipse("l4d2_addons_eclipse", "-1", FCVAR_SPONLY|FCVAR_NOTIFY, "Addons Manager(-1: use addonconfig; 0/1: override addonconfig");
 #ifdef USE_PLAYERSLOTS_PATCHES
 ConVar g_MaxPlayers("l4d_maxplayers", "-1", FCVAR_SPONLY|FCVAR_NOTIFY, "Overrides maxplayers with this value");
 #endif
@@ -220,7 +227,9 @@ bool Left4Downtown::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	g_pFwdOnRevived = forwards->CreateForward("L4D_OnRevived", ET_Event, 1, /*types*/NULL, Param_Cell);
     g_pFwdOnWaterMove = forwards->CreateForward("L4D2_OnWaterMove", ET_Event, 1, /*types*/NULL, Param_Cell);
 	g_pFwdOnPlayerStagger = forwards->CreateForward("L4D2_OnStagger", ET_Event, 2, /*types*/NULL, Param_Cell, Param_Cell);
-	
+	g_pFwdOnTerrorWeaponHit = forwards->CreateForward("L4D2_OnEntityShoved", ET_Event, 5, /*types*/NULL, Param_Cell, Param_Cell, Param_Cell, Param_Array, Param_Cell);
+	g_pFwdAddonsDisabler = forwards->CreateForward("L4D2_OnClientDisableAddons", ET_Event, 1, /*types*/NULL, Param_String);
+
 	playerhelpers->AddClientListener(&g_Left4DowntownTools);
 	playerhelpers->RegisterCommandTargetProcessor(&g_Left4DowntownTools);
 
@@ -249,6 +258,9 @@ void Left4Downtown::SDK_OnAllLoaded()
 	g_pServer = server;
 
 	InitializeValveGlobals();
+
+    g_AddonsEclipse.InstallChangeCallback(::OnAddonsEclipseChanged);
+    AddonsDisabler::AddonsEclipse = g_AddonsEclipse.GetInt();
 
 #ifdef USE_PLAYERSLOTS_PATCHES
 	/*
@@ -322,7 +334,10 @@ void Left4Downtown::SDK_OnAllLoaded()
 	g_PatchManager.Register(new AutoPatch<Detours::Revived>());
     g_PatchManager.Register(new AutoPatch<Detours::WaterMove>());
 	g_PatchManager.Register(new AutoPatch<Detours::PlayerStagger>());
-    
+	g_PatchManager.Register(new AutoPatch<Detours::TerrorWeaponHit>());
+    g_PatchManager.Register(new AutoPatch<Detours::CTerrorGameRules>());
+	g_PatchManager.Register(new AutoPatch<Detours::CBaseServer>());
+
 	//new style detours that create/destroy the forwards themselves
 	g_PatchManager.Register(new AutoPatch<Detours::IsFinale>());
 	g_PatchManager.Register(new AutoPatch<Detours::OnEnterGhostState>());
@@ -343,6 +358,8 @@ void Left4Downtown::SDK_OnUnload()
 	//go back to normal old asm 
 	PlayerSlots::Unpatch();
 #endif
+
+    AddonsDisabler::Unpatch();
 
 	g_PatchManager.UnregisterAll();
 
@@ -381,6 +398,8 @@ void Left4Downtown::SDK_OnUnload()
 	forwards->ReleaseForward(g_pFwdOnRevived);
     forwards->ReleaseForward(g_pFwdOnWaterMove);
 	forwards->ReleaseForward(g_pFwdOnPlayerStagger);
+	forwards->ReleaseForward(g_pFwdOnTerrorWeaponHit);
+    forwards->ReleaseForward(g_pFwdAddonsDisabler);
 }
 
 class BaseAccessor : public IConCommandBaseAccessor
