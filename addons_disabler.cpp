@@ -35,88 +35,88 @@
 
 static void *vanillaModeSig = NULL;
 static patch_t vanillaModeSigRestore;
-	
+    
 extern ConVar g_AddonsEclipse;
 
 int AddonsDisabler::AddonsEclipse;
 
 void AddonsDisabler::Patch()
 {
-	L4D_DEBUG_LOG("AddonsDisabler - Patching ...");
-	
-	bool firstTime = (vanillaModeSig == NULL);
-	if (firstTime)
-	{
-		if (!g_pGameConf->GetMemSig("VanillaModeOffset", &vanillaModeSig) || !vanillaModeSig) 
-		{ 
-			g_pSM->LogError(myself, "AddonsDisabler -- Could not find 'VanillaModeOffset' signature");
-			return;
-		} 
-	}
-	patch_t vanillaModePatch;
-	vanillaModePatch.bytes = 3;
+    L4D_DEBUG_LOG("AddonsDisabler - Patching ...");
+    
+    bool firstTime = (vanillaModeSig == NULL);
+    if (firstTime)
+    {
+        if (!g_pGameConf->GetMemSig("VanillaModeOffset", &vanillaModeSig) || !vanillaModeSig) 
+        { 
+            g_pSM->LogError(myself, "AddonsDisabler -- Could not find 'VanillaModeOffset' signature");
+            return;
+        } 
+    }
+    patch_t vanillaModePatch;
+    vanillaModePatch.bytes = 3;
 
-	// mov esi+19h -> NOP
-	vanillaModePatch.patch[0] = 0x0f;
-	vanillaModePatch.patch[1] = 0x1f;
-	vanillaModePatch.patch[2] = 0x00;
+    // mov esi+19h -> NOP
+    vanillaModePatch.patch[0] = 0x0f;
+    vanillaModePatch.patch[1] = 0x1f;
+    vanillaModePatch.patch[2] = 0x00;
 
-	ApplyPatch(vanillaModeSig, /*offset*/4, &vanillaModePatch, /*restore*/firstTime ? &vanillaModeSigRestore : NULL);
-	L4D_DEBUG_LOG("AddonsDisabler -- 'VanillaModeOffset' patched to NOP");
+    ApplyPatch(vanillaModeSig, /*offset*/4, &vanillaModePatch, /*restore*/firstTime ? &vanillaModeSigRestore : NULL);
+    L4D_DEBUG_LOG("AddonsDisabler -- 'VanillaModeOffset' patched to NOP");
 }
 
 void AddonsDisabler::Unpatch()
 {
-	L4D_DEBUG_LOG("AddonsDisabler - Unpatching ...");
+    L4D_DEBUG_LOG("AddonsDisabler - Unpatching ...");
 
-	if (vanillaModeSig)
-	{
-		ApplyPatch(vanillaModeSig, /*offset*/4, &vanillaModeSigRestore, /*restore*/NULL);
-		L4D_DEBUG_LOG("AddonsDisabler -- 'VanillaModeOffset' restored");
-	}
+    if (vanillaModeSig)
+    {
+        ApplyPatch(vanillaModeSig, /*offset*/4, &vanillaModeSigRestore, /*restore*/NULL);
+        L4D_DEBUG_LOG("AddonsDisabler -- 'VanillaModeOffset' restored");
+    }
 }
 
 void OnAddonsEclipseChanged( IConVar *var, const char *pOldValue, float flOldValue )
 {
-	if (AddonsDisabler::AddonsEclipse == g_AddonsEclipse.GetInt())
-		return;
+    if (AddonsDisabler::AddonsEclipse == g_AddonsEclipse.GetInt())
+        return;
 
-	AddonsDisabler::AddonsEclipse = g_AddonsEclipse.GetInt();
-	L4D_DEBUG_LOG("CVAR l4d2_addons_eclipse changed to %i...", AddonsDisabler::AddonsEclipse);
-	
-	if (AddonsDisabler::AddonsEclipse > -1)
-	{
-		L4D_DEBUG_LOG("Enabling AddonsDisabler patch");
-		AddonsDisabler::Patch();
-	}
-	else
-	{
-		L4D_DEBUG_LOG("Disabling AddonsDisabler patch");
-		AddonsDisabler::Unpatch();
-	}
+    AddonsDisabler::AddonsEclipse = g_AddonsEclipse.GetInt();
+    L4D_DEBUG_LOG("CVAR l4d2_addons_eclipse changed to %i...", AddonsDisabler::AddonsEclipse);
+    
+    if (AddonsDisabler::AddonsEclipse > -1)
+    {
+        L4D_DEBUG_LOG("Enabling AddonsDisabler patch");
+        AddonsDisabler::Patch();
+    }
+    else
+    {
+        L4D_DEBUG_LOG("Disabling AddonsDisabler patch");
+        AddonsDisabler::Unpatch();
+    }
 }
 
 namespace Detours
 {
-	void CBaseServer::OnFillServerInfo(int SVC_ServerInfo)
-	{
-		cell_t result = Pl_Continue;
-	
-		if (g_pFwdAddonsDisabler && AddonsDisabler::AddonsEclipse > 0 && vanillaModeSig)
-		{
-			int m_nPlayerSlot = *(int *)((unsigned char *)SVC_ServerInfo + 48);
-			IClient *pClient = g_pServer->GetClient(m_nPlayerSlot);
+    void CBaseServer::OnFillServerInfo(int SVC_ServerInfo)
+    {
+        cell_t result = Pl_Continue;
+    
+        if (g_pFwdAddonsDisabler && AddonsDisabler::AddonsEclipse > 0 && vanillaModeSig)
+        {
+            int m_nPlayerSlot = *(int *)((unsigned char *)SVC_ServerInfo + 48);
+            IClient *pClient = g_pServer->GetClient(m_nPlayerSlot);
 
-			L4D_DEBUG_LOG("ADDONS DISABLER: Eligible client '%s' connected[%s]", pClient->GetClientName(), pClient->GetNetworkIDString());
-			
+            L4D_DEBUG_LOG("ADDONS DISABLER: Eligible client '%s' connected[%s]", pClient->GetClientName(), pClient->GetNetworkIDString());
+            
             g_pFwdAddonsDisabler->PushString(pClient->GetNetworkIDString());
-			g_pFwdAddonsDisabler->Execute(&result);
+            g_pFwdAddonsDisabler->Execute(&result);
             
             /* uint8_t != unsigned char in terms of type */
-			uint8_t disableAddons = result == Pl_Handled ? 0 : 1;
-			memset((unsigned char *)SVC_ServerInfo + 25, disableAddons, sizeof(uint8_t));
-		}
+            uint8_t disableAddons = result == Pl_Handled ? 0 : 1;
+            memset((unsigned char *)SVC_ServerInfo + 25, disableAddons, sizeof(uint8_t));
+        }
 
-		(this->*(GetTrampoline()))(SVC_ServerInfo);
-	}
+        (this->*(GetTrampoline()))(SVC_ServerInfo);
+    }
 };
