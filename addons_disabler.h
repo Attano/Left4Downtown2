@@ -38,18 +38,18 @@
 class AddonsDisabler
 {
 public:
-	/* 
-		patch the engine to skip setting addons mode for clients
-		so we can do it manually
-	*/
-	static void Patch();
+    /* 
+        patch the engine to skip setting addons mode for clients
+        so we can do it manually
+    */
+    static void Patch();
 
-	/*
-		remove the previous patch and restore the binary back to normal 
-	*/
-	static void Unpatch();
+    /*
+        remove the previous patch and restore the binary back to normal 
+    */
+    static void Unpatch();
 
-	static int AddonsEclipse;
+    static int AddonsEclipse;
 };
 
 void OnAddonsEclipseChanged( IConVar *var, const char *pOldValue, float flOldValue );
@@ -64,19 +64,19 @@ class CBaseServer: public DetourTemplate<FillServerInfo, CBaseServer>
 {
 private: //note: implementation of DetourTemplate abstracts
 
-	void OnFillServerInfo(int);
+    void OnFillServerInfo(int);
 
-	// get the signature name from the game conf
-	virtual const char *GetSignatureName()
-	{
-		return "CBaseServer__FillServerInfo";
-	}
+    // get the signature name from the game conf
+    virtual const char *GetSignatureName()
+    {
+        return "CBaseServer__FillServerInfo";
+    }
 
-	//notify our patch system which function should be used as the detour
-	virtual FillServerInfo GetDetour()
-	{
-		return &CBaseServer::OnFillServerInfo;
-	}
+    //notify our patch system which function should be used as the detour
+    virtual FillServerInfo GetDetour()
+    {
+        return &CBaseServer::OnFillServerInfo;
+    }
 };
 
 };
