@@ -18,21 +18,23 @@ new bool:g_bUnreserved = false;
 public Plugin:myinfo =
 {
 	name = "L4D 1/2 Remove Lobby Reservation",
-	author = "Downtown1",
+	author = "Downtown1, Anime4000",
 	description = "Removes lobby reservation when server is full",
 	version = UNRESERVE_VERSION,
 	url = "http://forums.alliedmods.net/showthread.php?t=87759"
 }
 
 new Handle:cvarUnreserve = INVALID_HANDLE;
+new Handle:cvarAutoLobby = INVALID_HANDLE;
 
 public OnPluginStart()
 {
 	LoadTranslations("common.phrases");
-
+	HookEvent("player_disconnect", OnPlayerDisconnect)
 	RegAdminCmd("sm_unreserve", Command_Unreserve, ADMFLAG_BAN, "sm_unreserve - manually force removes the lobby reservation");
 
 	cvarUnreserve = CreateConVar("l4d_unreserve_full", "1", "Automatically unreserve server after a full lobby joins", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_NOTIFY);
+	cvarAutoLobby = CreateConVar("l4d_autolobby", "1", "Automatically adjust sv_allow_lobby_connect_only. When lobby full it set to 0, when server empty it set to 1", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_NOTIFY);
 	CreateConVar("l4d_unreserve_version", UNRESERVE_VERSION, "Version of the Lobby Unreserve plugin.", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_NOTIFY);
 }
 
@@ -64,6 +66,12 @@ IsServerLobbyFull()
 	return humans >= L4D_MAXHUMANS_LOBBY_OTHER;
 }
 
+IsAllowLobby(bool:e)
+{
+	if(GetConVarBool(cvarAutoLobby))
+		SetConVarBool(FindConVar("sv_allow_lobby_connect_only"), e);
+}
+
 public OnClientPutInServer(client)
 {
 	DebugPrintToAll("Client put in server %N", client);
@@ -75,18 +83,23 @@ public OnClientPutInServer(client)
 			LogMessage("[UL] A full lobby has connected, automatically unreserving the server.");
 			L4D_LobbyUnreserve();
 			g_bUnreserved = true;
+			IsAllowLobby(false);
 		}
 	}
 }
-
-public OnClientDisconnect(client)
+//OnClientDisconnect will fired when changing map, issued by gH0sTy at http://docs.sourcemod.net/api/index.php?fastload=show&id=390&
+public Action:OnPlayerDisconnect(Handle:event, const String:name[], bool:dontBroadcast)
 {
+	new client = GetClientOfUserId(GetEventInt(event, "userid"));
+
 	if (IsFakeClient(client))
 		return;
-
-	if (!RealClientsInGame(client))
+	
+	if (!RealClientsInServer(client))
 	{
+		PrintToServer("[UL] No human want to play in this server. :(");
 		g_bUnreserved = false;
+		IsAllowLobby(true);
 	}
 }
 
@@ -101,6 +114,7 @@ public Action:Command_Unreserve(client, args)
 		L4D_LobbyUnreserve();
 		g_bUnreserved = true;
 		ReplyToCommand(client, "[UL] Lobby reservation has been removed.");
+		IsAllowLobby(false);
 	}
 
 	return Plugin_Handled;
@@ -150,15 +164,16 @@ DebugPrintToAll(const String:format[], any:...)
 	#endif
 }
 
-public RealClientsInGame(client)
+//No need check client in game, issue when client left and server empty, then got client still connecting.
+public RealClientsInServer(client)
 {
-        for (new i = 1; i <= MaxClients; i++)
-        {
-                if (i != client)
-                {
-                        if (IsClientConnected(i) && IsClientInGame(i) && !IsFakeClient(i))
-                                return true;
-                }
-        }
-        return false;
+	for (new i = 1; i <= MaxClients; i++)
+	{
+		if (i != client)
+		{
+			if (IsClientConnected(i) && !IsFakeClient(i))
+				return true;
+		}
+	}
+	return false;
 }
