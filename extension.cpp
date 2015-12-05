@@ -2,7 +2,7 @@
  * vim: set ts=4 :
  * =============================================================================
  * Left 4 Downtown SourceMod Extension
- * Copyright (C) 2009 Igor "Downtown1" Smirnov.
+ * Copyright (C) 2009-2011 Downtown1, ProdigySim; 2012-2015 Visor
  * =============================================================================
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -85,6 +85,8 @@
 #include "detours/on_stagger.h"
 #include "detours/terror_weapon_hit.h"
 #include "detours/get_mission_info.h"
+#include "detours/inferno_spread.h"
+#include "detours/shoved_by_pounce_landing.h"
 
 #include "addons_disabler.h"
 
@@ -135,6 +137,8 @@ IForward *g_pFwdOnWaterMove = NULL;
 IForward *g_pFwdOnPlayerStagger = NULL;
 IForward *g_pFwdOnTerrorWeaponHit = NULL;
 IForward *g_pFwdAddonsDisabler = NULL;
+IForward *g_pFwdInfernoSpread = NULL;
+IForward *g_pFwdOnShovedByPounceLanding = NULL;
 
 bool g_bRoundEnd = false;
 
@@ -149,6 +153,7 @@ extern sp_nativeinfo_t g_L4DoDirectorNatives[];
 
 ConVar g_Version("left4downtown_version", SMEXT_CONF_VERSION, FCVAR_SPONLY|FCVAR_NOTIFY, "Left 4 Downtown Extension Version");
 ConVar g_AddonsEclipse("l4d2_addons_eclipse", "-1", FCVAR_SPONLY|FCVAR_NOTIFY, "Addons Manager(-1: use addonconfig; 0/1: override addonconfig");
+ConVar g_UnlockMelees("l4d2_unlock_melees", "0", FCVAR_SPONLY|FCVAR_NOTIFY, "1: Unlock all melees, 0: don't (set to 0 if you're experiencing crashes on modes other than versus)");
 #ifdef USE_PLAYERSLOTS_PATCHES
 ConVar g_MaxPlayers("l4d_maxplayers", "-1", FCVAR_SPONLY|FCVAR_NOTIFY, "Overrides maxplayers with this value");
 #endif
@@ -229,6 +234,8 @@ bool Left4Downtown::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	g_pFwdOnPlayerStagger = forwards->CreateForward("L4D2_OnStagger", ET_Event, 2, /*types*/NULL, Param_Cell, Param_Cell);
 	g_pFwdOnTerrorWeaponHit = forwards->CreateForward("L4D2_OnEntityShoved", ET_Event, 5, /*types*/NULL, Param_Cell, Param_Cell, Param_Cell, Param_Array, Param_Cell);
 	g_pFwdAddonsDisabler = forwards->CreateForward("L4D2_OnClientDisableAddons", ET_Event, 1, /*types*/NULL, Param_String);
+	g_pFwdInfernoSpread = forwards->CreateForward("L4D2_OnSpitSpread", ET_Event, 5, /*types*/NULL, Param_Cell, Param_Cell, Param_FloatByRef, Param_FloatByRef, Param_FloatByRef);
+	g_pFwdOnShovedByPounceLanding = forwards->CreateForward("L4D2_OnPounceOrLeapStumble", ET_Event, 2, /*types*/NULL, Param_Cell, Param_Cell);
 
 	playerhelpers->AddClientListener(&g_Left4DowntownTools);
 	playerhelpers->RegisterCommandTargetProcessor(&g_Left4DowntownTools);
@@ -337,6 +344,8 @@ void Left4Downtown::SDK_OnAllLoaded()
 	g_PatchManager.Register(new AutoPatch<Detours::TerrorWeaponHit>());
     g_PatchManager.Register(new AutoPatch<Detours::CTerrorGameRules>());
 	g_PatchManager.Register(new AutoPatch<Detours::CBaseServer>());
+	g_PatchManager.Register(new AutoPatch<Detours::InfernoSpread>());
+	g_PatchManager.Register(new AutoPatch<Detours::ShovedByPounceLanding>());
 
 	//new style detours that create/destroy the forwards themselves
 	g_PatchManager.Register(new AutoPatch<Detours::IsFinale>());
@@ -400,6 +409,8 @@ void Left4Downtown::SDK_OnUnload()
 	forwards->ReleaseForward(g_pFwdOnPlayerStagger);
 	forwards->ReleaseForward(g_pFwdOnTerrorWeaponHit);
     forwards->ReleaseForward(g_pFwdAddonsDisabler);
+    forwards->ReleaseForward(g_pFwdInfernoSpread);
+    forwards->ReleaseForward(g_pFwdOnShovedByPounceLanding);
 }
 
 class BaseAccessor : public IConCommandBaseAccessor

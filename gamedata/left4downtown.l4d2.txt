@@ -853,6 +853,26 @@
 				"windows" ""
 			}
             
+			/* 
+			* CInferno::Spread(Vector  const&)
+			*/
+			"CInferno__Spread"
+			{
+				"library"    	"server"
+				"linux"    		"@_ZN8CInferno6SpreadERK6Vector"
+				"windows" 		""
+			}
+			
+			/* 
+			* CTerrorPlayer::OnShovedByPounceLanding(CTerrorPlayer*)
+			*/
+			"CTerrorPlayer__OnShovedByPounceLanding"
+			{
+				"library"    	"server"
+				"linux"    		"@_ZN13CTerrorPlayer23OnShovedByPounceLandingEPS_b"
+				"windows" 		""
+			}
+			
 /*********************************************************************
 ********************* ADDONS DISABLER ********************************
 *********************************************************************/

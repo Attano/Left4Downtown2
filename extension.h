@@ -2,7 +2,7 @@
  * vim: set ts=4 :
  * =============================================================================
  * Left 4 Downtown SourceMod Extension
- * Copyright (C) 2009 Igor "Downtown1" Smirnov.
+ * Copyright (C) 2009-2011 Downtown1, ProdigySim; 2012-2015 Visor
  * =============================================================================
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -176,8 +176,12 @@ extern IForward *g_pFwdOnWaterMove;
 extern IForward *g_pFwdOnPlayerStagger;
 extern IForward *g_pFwdOnTerrorWeaponHit;
 extern IForward *g_pFwdAddonsDisabler;
+extern IForward *g_pFwdInfernoSpread;
+extern IForward *g_pFwdOnShovedByPounceLanding;
 
 extern bool g_bRoundEnd;
+
+extern ConVar g_UnlockMelees;
 
 extern IBinTools *g_pBinTools;
 extern IServer *g_pServer; //pointer to CBaseServer

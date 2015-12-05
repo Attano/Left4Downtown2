@@ -1,10 +1,10 @@
 # (C)2004-2008 SourceMod Development Team
 # Makefile written by David "BAILOPAN" Anderson
 
-SMSDK ?= ../dt/sourcemod-central
-SRCDS_BASE ?= ../dt/srcds
-HL2SDK_L4D2 ?= ../dt/hl2sdk-l4d2
-MMSOURCE ?= ../dt/mmsource-central
+SMSDK ?= ../sourcemod-central
+SRCDS_BASE ?= ../srcds
+HL2SDK_L4D2 ?= ../hl2sdk-l4d2
+MMSOURCE ?= ../mmsource-central
 
 #####################################
 ### EDIT BELOW FOR OTHER PROJECTS ###
@@ -25,7 +25,8 @@ OBJECTS = sdk/smsdk_ext.cpp extension.cpp natives.cpp vglobals.cpp l4d2sdk/l4d2c
 			detours/end_versus_mode_round.cpp detours/select_weighted_sequence.cpp detours/spawn_special.cpp \
 			detours/spawn_witchbride.cpp detours/on_revived.cpp detours/use_healing_items.cpp detours/find_scavenge_item.cpp \
             detours/water_move.cpp detours/on_stagger.cpp detours/terror_weapon_hit.cpp detours/get_mission_info.cpp \
-            addons_disabler.cpp
+            detours/inferno_spread.cpp detours/shoved_by_pounce_landing.cpp \
+			addons_disabler.cpp
 
 ifeq "$(USE_PLAYERSLOTS)" "true"
 	OBJECTS += player_slots.cpp detours/server_player_counts.cpp
