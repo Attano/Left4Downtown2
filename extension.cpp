@@ -40,8 +40,6 @@
 #endif
 #include "convar_public.h"
 
-#include <ISDKTools.h>
-
 #include "codepatch/patchmanager.h"
 #include "codepatch/autopatch.h"
 
@@ -74,6 +72,7 @@
 #include "detours/get_mission_versus_boss_spawning.h"
 #include "detours/cthrow_activate_ability.h"
 #include "detours/start_melee_swing.h"
+#include "detours/replace_tank.h"
 #include "detours/use_healing_items.h"
 #include "detours/find_scavenge_item.h"
 #include "detours/send_in_rescue_vehicle.h"
@@ -85,8 +84,8 @@
 #include "detours/on_stagger.h"
 #include "detours/terror_weapon_hit.h"
 #include "detours/get_mission_info.h"
-#include "detours/inferno_spread.h"
-#include "detours/shoved_by_pounce_landing.h"
+//#include "detours/inferno_spread.h"
+//#include "detours/shoved_by_pounce_landing.h"
 
 #include "addons_disabler.h"
 
@@ -125,6 +124,7 @@ IForward *g_pFwdOnFastGetSurvivorSet = NULL;
 IForward *g_pFwdOnGetMissionVersusBossSpawning = NULL;
 IForward *g_pFwdOnCThrowActivate = NULL;
 IForward *g_pFwdOnStartMeleeSwing = NULL;
+IForward *g_pFwdOnReplaceTank = NULL;
 IForward *g_pFwdOnUseHealingItems = NULL;
 IForward *g_pFwdOnFindScavengeItem = NULL;
 IForward *g_pFwdOnSendInRescueVehicle = NULL;
@@ -137,8 +137,8 @@ IForward *g_pFwdOnWaterMove = NULL;
 IForward *g_pFwdOnPlayerStagger = NULL;
 IForward *g_pFwdOnTerrorWeaponHit = NULL;
 IForward *g_pFwdAddonsDisabler = NULL;
-IForward *g_pFwdInfernoSpread = NULL;
-IForward *g_pFwdOnShovedByPounceLanding = NULL;
+//IForward *g_pFwdInfernoSpread = NULL;
+//IForward *g_pFwdOnShovedByPounceLanding = NULL;
 
 bool g_bRoundEnd = false;
 
@@ -222,6 +222,7 @@ bool Left4Downtown::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	g_pFwdOnGetMissionVersusBossSpawning = forwards->CreateForward("L4D_OnGetMissionVSBossSpawning", ET_Event, 4, /*types*/NULL, Param_FloatByRef, Param_FloatByRef, Param_FloatByRef, Param_FloatByRef);
 	g_pFwdOnCThrowActivate = forwards->CreateForward("L4D_OnCThrowActivate", ET_Event, 1, /*types*/NULL, Param_Cell);
 	g_pFwdOnStartMeleeSwing = forwards->CreateForward("L4D_OnStartMeleeSwing", ET_Event, 2, /*types*/NULL, Param_Cell, Param_Cell);
+	g_pFwdOnReplaceTank = forwards->CreateForward("L4D_OnReplaceTank", ET_Event, 2, /*types*/NULL, Param_Cell, Param_Cell);
 	g_pFwdOnUseHealingItems = forwards->CreateForward("L4D2_OnUseHealingItems", ET_Event, 1, /*types*/NULL, Param_Cell);
 	g_pFwdOnFindScavengeItem = forwards->CreateForward("L4D2_OnFindScavengeItem", ET_Event, 2, /*types*/NULL, Param_Cell, Param_CellByRef);
 	g_pFwdOnSendInRescueVehicle = forwards->CreateForward("L4D2_OnSendInRescueVehicle", ET_Event, 0, /*types*/NULL);
@@ -234,8 +235,8 @@ bool Left4Downtown::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	g_pFwdOnPlayerStagger = forwards->CreateForward("L4D2_OnStagger", ET_Event, 2, /*types*/NULL, Param_Cell, Param_Cell);
 	g_pFwdOnTerrorWeaponHit = forwards->CreateForward("L4D2_OnEntityShoved", ET_Event, 5, /*types*/NULL, Param_Cell, Param_Cell, Param_Cell, Param_Array, Param_Cell);
 	g_pFwdAddonsDisabler = forwards->CreateForward("L4D2_OnClientDisableAddons", ET_Event, 1, /*types*/NULL, Param_String);
-	g_pFwdInfernoSpread = forwards->CreateForward("L4D2_OnSpitSpread", ET_Event, 5, /*types*/NULL, Param_Cell, Param_Cell, Param_FloatByRef, Param_FloatByRef, Param_FloatByRef);
-	g_pFwdOnShovedByPounceLanding = forwards->CreateForward("L4D2_OnPounceOrLeapStumble", ET_Event, 2, /*types*/NULL, Param_Cell, Param_Cell);
+	//g_pFwdInfernoSpread = forwards->CreateForward("L4D2_OnSpitSpread", ET_Event, 5, /*types*/NULL, Param_Cell, Param_Cell, Param_FloatByRef, Param_FloatByRef, Param_FloatByRef);
+	//g_pFwdOnShovedByPounceLanding = forwards->CreateForward("L4D2_OnPounceOrLeapStumble", ET_Event, 2, /*types*/NULL, Param_Cell, Param_Cell);
 
 	playerhelpers->AddClientListener(&g_Left4DowntownTools);
 	playerhelpers->RegisterCommandTargetProcessor(&g_Left4DowntownTools);
@@ -332,6 +333,7 @@ void Left4Downtown::SDK_OnAllLoaded()
 	g_PatchManager.Register(new AutoPatch<Detours::GetMissionVersusBossSpawning>());
 	g_PatchManager.Register(new AutoPatch<Detours::CThrowActivate>());
 	g_PatchManager.Register(new AutoPatch<Detours::StartMeleeSwing>());
+	g_PatchManager.Register(new AutoPatch<Detours::ReplaceTank>());
 	g_PatchManager.Register(new AutoPatch<Detours::UseHealingItems>());
 	g_PatchManager.Register(new AutoPatch<Detours::FindScavengeItem>());
 	g_PatchManager.Register(new AutoPatch<Detours::SendInRescueVehicle>());
@@ -344,8 +346,8 @@ void Left4Downtown::SDK_OnAllLoaded()
 	g_PatchManager.Register(new AutoPatch<Detours::TerrorWeaponHit>());
     g_PatchManager.Register(new AutoPatch<Detours::CTerrorGameRules>());
 	g_PatchManager.Register(new AutoPatch<Detours::CBaseServer>());
-	g_PatchManager.Register(new AutoPatch<Detours::InfernoSpread>());
-	g_PatchManager.Register(new AutoPatch<Detours::ShovedByPounceLanding>());
+	//g_PatchManager.Register(new AutoPatch<Detours::InfernoSpread>());
+	//g_PatchManager.Register(new AutoPatch<Detours::ShovedByPounceLanding>());
 
 	//new style detours that create/destroy the forwards themselves
 	g_PatchManager.Register(new AutoPatch<Detours::IsFinale>());
@@ -397,6 +399,7 @@ void Left4Downtown::SDK_OnUnload()
 	forwards->ReleaseForward(g_pFwdOnGetMissionVersusBossSpawning);
 	forwards->ReleaseForward(g_pFwdOnCThrowActivate);
 	forwards->ReleaseForward(g_pFwdOnStartMeleeSwing);
+	forwards->ReleaseForward(g_pFwdOnReplaceTank);
 	forwards->ReleaseForward(g_pFwdOnUseHealingItems);
 	forwards->ReleaseForward(g_pFwdOnFindScavengeItem);
 	forwards->ReleaseForward(g_pFwdOnSendInRescueVehicle);
@@ -409,8 +412,8 @@ void Left4Downtown::SDK_OnUnload()
 	forwards->ReleaseForward(g_pFwdOnPlayerStagger);
 	forwards->ReleaseForward(g_pFwdOnTerrorWeaponHit);
     forwards->ReleaseForward(g_pFwdAddonsDisabler);
-    forwards->ReleaseForward(g_pFwdInfernoSpread);
-    forwards->ReleaseForward(g_pFwdOnShovedByPounceLanding);
+    //forwards->ReleaseForward(g_pFwdInfernoSpread);
+    //forwards->ReleaseForward(g_pFwdOnShovedByPounceLanding);
 }
 
 class BaseAccessor : public IConCommandBaseAccessor

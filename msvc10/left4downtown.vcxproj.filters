@@ -45,9 +45,6 @@
     <ClCompile Include="..\vglobals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\sdk\smsdk_ext.cpp">
-      <Filter>SourceMod SDK</Filter>
-    </ClCompile>
     <ClCompile Include="..\asm\asm.c">
       <Filter>asm</Filter>
     </ClCompile>
@@ -120,9 +117,6 @@
     <ClCompile Include="..\detours\on_revived.cpp">
       <Filter>detours</Filter>
     </ClCompile>
-    <ClCompile Include="..\l4d2sdk\l4d2calls.cpp">
-      <Filter>detours</Filter>
-    </ClCompile>
     <ClCompile Include="..\detours\start_melee_swing.cpp">
       <Filter>detours</Filter>
     </ClCompile>
@@ -165,6 +159,30 @@
     <ClCompile Include="..\detours\find_scavenge_item.cpp">
       <Filter>detours</Filter>
     </ClCompile>
+    <ClCompile Include="..\sdk\smsdk_ext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\detours\get_mission_info.cpp">
+      <Filter>detours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\detours\on_stagger.cpp">
+      <Filter>detours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\detours\water_move.cpp">
+      <Filter>detours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons_disabler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\detours\terror_weapon_hit.cpp">
+      <Filter>detours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\detours\replace_tank.cpp">
+      <Filter>detours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\l4d2sdk\l4d2calls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\convar_public.h">
@@ -180,9 +198,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\sdk\smsdk_config.h">
-      <Filter>SourceMod SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sdk\smsdk_ext.h">
       <Filter>SourceMod SDK</Filter>
     </ClInclude>
     <ClInclude Include="..\asm\asm.h">
@@ -324,6 +339,27 @@
       <Filter>detours</Filter>
     </ClInclude>
     <ClInclude Include="..\detours\find_scavenge_item.h">
+      <Filter>detours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sdk\smsdk_ext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\detours\get_mission_info.h">
+      <Filter>detours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\detours\on_stagger.h">
+      <Filter>detours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\detours\water_move.h">
+      <Filter>detours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\detours\replace_tank.h">
+      <Filter>detours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons_disabler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\detours\terror_weapon_hit.h">
       <Filter>detours</Filter>
     </ClInclude>
   </ItemGroup>

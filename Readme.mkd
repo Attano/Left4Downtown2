@@ -29,3 +29,9 @@
 * New forward: `L4D2_OnSpitSpread(spitter, projectile, &Float:x, &Float:y, &Float:z)` -- called whenever `CInferno::Spread(Vector const&)` is invoked (only for spitter acid; ignores fire). Can be used to implement static spit spread shapes.
 * New forward: `L4D2_OnPounceOrLeapStumble(victim, attacker)` -- called whenever `CTerrorPlayer::OnShovedByPounceLanding(CTerrorPlayer *)` is invoked. Used by the `l4d2_get_up_slide_fix` plugin to patch survivor get-up slides.
 * Fixed a rare scavenge crash.
+
+###August 02, 2017 :: 0.6.1###
+* New forward: `L4D_OnReplaceTank(tank, newtank)` -- called whenever `ZombieManager::ReplaceTank(CTerrorPlayer *,CTerrorPlayer *)` is invoked. Not invoked if tank is bot.
+* New native: `L4D_ReplaceTank(tank, newtank)` -- call `ZombieManager::ReplaceTank(CTerrorPlayer *,CTerrorPlayer *)`.
+* Fixed GameRules on Sourcemod >= 1.7.
+* Disabled `L4D2_OnSpitSpread` and `L4D2_OnPounceOrLeapStumble` to prevent crashes.

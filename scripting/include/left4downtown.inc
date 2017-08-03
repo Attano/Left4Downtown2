@@ -151,6 +151,15 @@ forward Action:L4D_OnGetScriptValueString(const String:key[], const String:defau
 forward L4D_OnEnterGhostState(client);
 
 /**
+ * @brief Called whenever ZombieManager::ReplaceTank(CTerrorPlayer *,CTerrorPlayer *) is invoked
+ * @remarks Not invoked if tank is bot
+ *
+ * @param CTerrorPlayer	tank the player who was a tank
+ * @param CTerrorPlayer	newtank a player who has become a new tank
+ */
+forward L4D_OnReplaceTank(tank, newtank);
+
+/**
  * @brief Called whenever CDirector::TryOfferingTankBot is invoked
  * @remarks Is used for displaying the "X gets Tank" window and transferring Tank control
  * 
@@ -605,6 +614,14 @@ native Float:L4D_GetPlayerSpawnTime(player);
  * @noreturn
  */
 native L4D2_SendInRescueVehicle();
+
+/**
+ * @brief Calls ZombieManager::ReplaceTank(CTerrorPlayer *,CTerrorPlayer *)
+ *
+ * @param tank	the player who was a tank
+ * @param newtank	a player who has become a new tank
+ */
+native L4D_ReplaceTank(tank, newtank);
 
 /**
  * @brief Calls CDirectorScriptedEventManager::ChangeFinaleStage(CDirectorScriptedEventManager::FinaleStageType,char  const*)
