@@ -1,10 +1,10 @@
 # (C)2004-2008 SourceMod Development Team
 # Makefile written by David "BAILOPAN" Anderson
 
-SMSDK ?= ../sourcemod-central
-SRCDS_BASE ?= ../srcds
-HL2SDK_L4D2 ?= ../hl2sdk-l4d2
-MMSOURCE ?= ../mmsource-central
+SMSDK ?= ../../../sourcemod
+SRCDS_BASE ?= ../../../srcds
+HL2SDK_L4D2 ?= ../../../hl2sdk
+MMSOURCE ?= ../../../mmsource
 
 #####################################
 ### EDIT BELOW FOR OTHER PROJECTS ###
@@ -12,7 +12,7 @@ MMSOURCE ?= ../mmsource-central
 
 PROJECT = left4downtown
 
-OBJECTS = sdk/smsdk_ext.cpp extension.cpp natives.cpp vglobals.cpp l4d2sdk/l4d2calls.cpp util.cpp asm/asm.c \
+OBJECTS = smsdk_ext.cpp extension.cpp natives.cpp vglobals.cpp l4d2sdk/l4d2calls.cpp util.cpp asm/asm.c \
 			detours/detour.cpp detours/spawn_tank.cpp detours/spawn_witch.cpp detours/clear_team_scores.cpp \
 			detours/set_campaign_scores.cpp detours/first_survivor_left_safe_area.cpp \
 			detours/mob_rush_start.cpp detours/spawn_it_mob.cpp detours/spawn_mob.cpp detours/try_offering_tank_bot.cpp \
@@ -24,8 +24,8 @@ OBJECTS = sdk/smsdk_ext.cpp extension.cpp natives.cpp vglobals.cpp l4d2sdk/l4d2c
 			detours/send_in_rescue_vehicle.cpp detours/change_finale_stage.cpp detours/get_script_value_string.cpp \
 			detours/end_versus_mode_round.cpp detours/select_weighted_sequence.cpp detours/spawn_special.cpp \
 			detours/spawn_witchbride.cpp detours/on_revived.cpp detours/use_healing_items.cpp detours/find_scavenge_item.cpp \
-            detours/water_move.cpp detours/on_stagger.cpp detours/terror_weapon_hit.cpp detours/get_mission_info.cpp \
-            detours/inferno_spread.cpp detours/shoved_by_pounce_landing.cpp \
+			detours/water_move.cpp detours/on_stagger.cpp detours/terror_weapon_hit.cpp detours/get_mission_info.cpp \
+			detours/replace_tank.cpp \
 			addons_disabler.cpp
 
 ifeq "$(USE_PLAYERSLOTS)" "true"
@@ -54,7 +54,7 @@ LINK += $(HL2LIB)/tier1_i486.a $(HL2LIB)/mathlib_i486.a libvstdlib_srv.so libtie
 
 INCLUDE += -I. -I.. -Isdk -I$(HL2PUB) -I$(HL2PUB)/engine -I$(HL2PUB)/mathlib -I$(HL2PUB)/tier0 \
         -I$(HL2PUB)/tier1 -I$(METAMOD) -I$(METAMOD)/sourcehook -I$(SMSDK)/public -I$(SMSDK)/public/extensions \
-        -I$(SMSDK)/public/sourcepawn
+        -I$(SMSDK)/sourcepawn/include
 
 CFLAGS += -DSE_EPISODEONE=1 -DSE_DARKMESSIAH=2 -DSE_ORANGEBOX=3 -DSE_ORANGEBOXVALVE=4 -DSE_LEFT4DEAD=5 -DSE_LEFT4DEAD2=6
 
@@ -64,7 +64,7 @@ CFLAGS += -D_LINUX -Dstricmp=strcasecmp -D_stricmp=strcasecmp -D_strnicmp=strnca
         -D_snprintf=snprintf -D_vsnprintf=vsnprintf -D_alloca=alloca -Dstrcmpi=strcasecmp -Wall -Werror -Wno-switch \
         -Wno-unused -mfpmath=sse -msse -DSOURCEMOD_BUILD -DHAVE_STDINT_H -m32 -DGNUC
 
-CPPFLAGS += -Wno-non-virtual-dtor -fno-exceptions -fno-rtti -fno-threadsafe-statics -Wno-overloaded-virtual
+CPPFLAGS += -Wno-non-virtual-dtor -fno-exceptions -fno-rtti -fno-threadsafe-statics -Wno-overloaded-virtual -std=c++11
 
 ################################################
 ### DO NOT EDIT BELOW HERE FOR MOST PROJECTS ###
@@ -106,7 +106,8 @@ $(BIN_DIR)/%.o: %.cpp
 	$(CPP) $(INCLUDE) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
 
 all:
-	mkdir -p $(BIN_DIR)/sdk
+	mkdir -p $(BIN_DIR)
+	ln -sf $(SMSDK)/public/smsdk_ext.cpp
 	mkdir -p $(BIN_DIR)/detours
 	mkdir -p $(BIN_DIR)/codepatch
 	mkdir -p $(BIN_DIR)/l4d2sdk
@@ -115,7 +116,8 @@ all:
 	$(MAKE) -f Makefile extension
 
 playerslots:
-	mkdir -p $(PLAYERSLOTS_BIN_DIR)/sdk
+	mkdir -p $(BIN_DIR)
+	ln -sf $(SMSDK)/public/smsdk_ext.cpp
 	mkdir -p $(PLAYERSLOTS_BIN_DIR)/detours
 	mkdir -p $(PLAYERSLOTS_BIN_DIR)/codepatch
 	mkdir -p $(PLAYERSLOTS_BIN_DIR)/l4d2sdk

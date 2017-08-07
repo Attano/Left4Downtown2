@@ -74,13 +74,7 @@ cell_t L4D_GetTeamScore(IPluginContext *pContext, const cell_t *params)
 		return pContext->ThrowNativeError("campaign_score %d is invalid, needs to be 0 or 1", params[2]);
 	}
 
-	/* Get the CTerrorGameRules pointer */
-	if (g_pGameRules == NULL)
-	{
-		return pContext->ThrowNativeError("GameRules unsupported or not available; file a bug report");
-	}
-
-	void *gamerules = *g_pGameRules;
+	void *gamerules = g_pSDKTools->GetGameRules();
 
 	if (gamerules == NULL)
 	{
@@ -337,14 +331,8 @@ cell_t L4D_ScavengeBeginRoundSetupTime(IPluginContext *pContext, const cell_t *p
 
 cell_t L4D_GetVersusMaxCompletionScore(IPluginContext *pContext, const cell_t *params)
 {
-	/* Get the CTerrorGameRules pointer */
-	if (g_pGameRules == NULL)
-	{
-		return pContext->ThrowNativeError("GameRules unsupported or not available; file a bug report");
-	}
-
-	void *gamerules = *g_pGameRules;
-
+	void *gamerules = g_pSDKTools->GetGameRules();
+	
 	if (gamerules == NULL)
 	{
 		return pContext->ThrowNativeError("GameRules not available before map is loaded");
@@ -363,13 +351,7 @@ cell_t L4D_GetVersusMaxCompletionScore(IPluginContext *pContext, const cell_t *p
 
 cell_t L4D_SetVersusMaxCompletionScore(IPluginContext *pContext, const cell_t *params)
 {
-	/* Get the CTerrorGameRules pointer */
-	if (g_pGameRules == NULL)
-	{
-		return pContext->ThrowNativeError("GameRules unsupported or not available; file a bug report");
-	}
-
-	void *gamerules = *g_pGameRules;
+	void *gamerules = g_pSDKTools->GetGameRules();
 
 	if (gamerules == NULL)
 	{
@@ -594,6 +576,61 @@ cell_t L4D_GetPlayerSpawnTime(IPluginContext *pContext, const cell_t *params)
 	L4D_DEBUG_LOG("Reading player %d spawn timer", params[1]);
 	
 	return sp_ftoc(*(float *)((char*)pPlayer+offset) - gpGlobals->curtime);
+}
+
+// ZombieManager::ReplaceTank(CTerrorPlayer*, CTerrorPlayer*);
+// native L4D_ReplaceTank(tank, newtank)
+cell_t L4D_ReplaceTank(IPluginContext *pContext, const cell_t *params)
+{
+	if (g_pZombieManager == NULL)
+	{
+		return pContext->ThrowNativeError("ZombieManager unsupported or not available; file a bug report");
+	}
+
+	static ICallWrapper *pWrapper = NULL;
+
+	// ZombieManager::ReplaceTank(CTerrorPlayer*, CTerrorPlayer*)
+	if (!pWrapper)
+	{
+		REGISTER_NATIVE_ADDR("ReplaceTank", 
+			PassInfo pass[2]; \
+			pass[0].flags = PASSFLAG_BYVAL; \
+			pass[0].size = sizeof(CBaseEntity *); \
+			pass[0].type = PassType_Basic; \
+			pass[1].flags = PASSFLAG_BYVAL; \
+			pass[1].size = sizeof(CBaseEntity *); \
+			pass[1].type = PassType_Basic; \
+			pWrapper = g_pBinTools->CreateCall(addr, CallConv_ThisCall, /*returnInfo*/NULL, pass, /*numparams*/2));
+	}
+	
+	int tank = params[1];
+	CBaseEntity * pTank = UTIL_GetCBaseEntity(tank, true);
+	if(pTank == NULL) 
+	{
+		return pContext->ThrowNativeError("Invalid Tank client");		
+	}
+	
+	int newtank = params[2];
+	CBaseEntity * pNewtank = UTIL_GetCBaseEntity(newtank, true);
+	if(pNewtank == NULL) 
+	{
+		return pContext->ThrowNativeError("Invalid New Tank client");
+	}
+	
+	unsigned char vstk[sizeof(void *) + sizeof(CBaseEntity *) + sizeof(CBaseEntity *)];
+	unsigned char *vptr = vstk;
+
+	*(void **)vptr = g_pZombieManager;
+	vptr += sizeof(void *);
+	
+	*(CBaseEntity **)vptr = pTank;
+	vptr += sizeof(CBaseEntity *);
+	
+	*(CBaseEntity **)vptr = pNewtank;
+
+	pWrapper->Execute(vstk, NULL);
+	
+	return 0;
 }
 
 // CDirectorScriptedEventManager::SendInRescueVehicle(void)
@@ -967,6 +1004,7 @@ sp_nativeinfo_t g_L4DoNatives[] =
 	{"L4D_GetMobSpawnTimerRemaining",	L4D_GetMobSpawnTimerRemaining},
 	{"L4D_GetMobSpawnTimerDuration",	L4D_GetMobSpawnTimerDuration},
 	{"L4D_GetPlayerSpawnTime",  		L4D_GetPlayerSpawnTime},
+	{"L4D_ReplaceTank",  				L4D_ReplaceTank},
 	{"L4D2_SendInRescueVehicle",  		L4D2_SendInRescueVehicle},
 	{"L4D2_ChangeFinaleStage",  		L4D2_ChangeFinaleStage},
 	{"L4D2_SpawnSpecial",				L4D2_SpawnSpecial},

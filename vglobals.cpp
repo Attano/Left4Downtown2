@@ -33,7 +33,6 @@
 #include "extension.h"
 #include "util.h"
 
-void **g_pGameRules = NULL;
 void **g_pEngine = NULL;
 CDirector **g_pDirector = NULL;
 void *g_pZombieManager = NULL;
@@ -45,18 +44,7 @@ void InitializeValveGlobals()
 	char *addr = NULL;
 #ifdef PLATFORM_WINDOWS
 	int offset;
-
-	/* g_pGameRules */
-	if (!g_pGameConfSDKTools->GetMemSig("CreateGameRulesObject", (void **)&addr) || !addr)
-	{
-		return;
-	}
-	if (!g_pGameConfSDKTools->GetOffset("g_pGameRules", &offset) || !offset)
-	{
-		return;
-	}
-	g_pGameRules = *reinterpret_cast<void ***>(addr + offset);
-
+	
 	/* g_pDirector */
 	const char *directorConfKey = "DirectorMusicBanks_OnRoundStart";
 	if (!g_pGameConf->GetMemSig(directorConfKey, (void **)&addr) || !addr)
@@ -69,15 +57,6 @@ void InitializeValveGlobals()
 	}
 	g_pDirector = *reinterpret_cast<CDirector ***>(addr + offset);
 #elif defined PLATFORM_LINUX
-
-	/* g_pGameRules */
-	if (!g_pGameConfSDKTools->GetMemSig("g_pGameRules", (void **)&addr) || !addr)
-	{
-	    L4D_DEBUG_LOG("Couldn't find GameRules instance!");
-		return;
-	}
-	g_pGameRules = reinterpret_cast<void **>(addr);
-
 	/* g_pDirector */
 	if (!g_pGameConf->GetMemSig("TheDirector", (void **)&addr) || !addr)
 	{

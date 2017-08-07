@@ -46,6 +46,7 @@
 
 #include "smsdk_ext.h"
 #include <IBinTools.h>
+#include <ISDKTools.h>
 #include <iserver.h>
 #include <convar.h>
 #include <icvar.h>
@@ -164,6 +165,7 @@ extern IForward *g_pFwdOnFastGetSurvivorSet;
 extern IForward *g_pFwdOnGetMissionVersusBossSpawning;
 extern IForward *g_pFwdOnCThrowActivate;
 extern IForward *g_pFwdOnStartMeleeSwing;
+extern IForward *g_pFwdOnReplaceTank;
 extern IForward *g_pFwdOnUseHealingItems;
 extern IForward *g_pFwdOnFindScavengeItem;
 extern IForward *g_pFwdOnSendInRescueVehicle;
@@ -176,8 +178,8 @@ extern IForward *g_pFwdOnWaterMove;
 extern IForward *g_pFwdOnPlayerStagger;
 extern IForward *g_pFwdOnTerrorWeaponHit;
 extern IForward *g_pFwdAddonsDisabler;
-extern IForward *g_pFwdInfernoSpread;
-extern IForward *g_pFwdOnShovedByPounceLanding;
+//extern IForward *g_pFwdInfernoSpread;
+//extern IForward *g_pFwdOnShovedByPounceLanding;
 
 extern bool g_bRoundEnd;
 
@@ -185,6 +187,7 @@ extern ConVar g_UnlockMelees;
 
 extern IBinTools *g_pBinTools;
 extern IServer *g_pServer; //pointer to CBaseServer
+extern ISDKTools *g_pSDKTools;
 extern IGameConfig *g_pGameConf;
 extern IGameConfig *g_pGameConfSDKTools;
 

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug - Left 4 Dead 2|Win32">
       <Configuration>Debug - Left 4 Dead 2</Configuration>
@@ -28,19 +28,23 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release.playerslots - Left 4 Dead 2|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug - Left 4 Dead 2|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug.playerslots - Left 4 Dead 2|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -81,7 +85,7 @@
     <ClCompile>
       <AdditionalOptions>/D SE_EPISODEONE=1 /D SE_DARKMESSIAH=2 /D SE_ORANGEBOX=3 /D SE_LEFT4DEAD=4 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..;..\sdk;$(SOURCEMOD14)\public;$(SOURCEMOD14)\public\extensions;$(SOURCEMOD14)\public\sourcepawn;$(HL2SDKL4D2)\public;$(HL2SDKL4D2)\public\engine;$(HL2SDKL4D2)\public\game\server;$(HL2SDKL4D2)\game\shared;$(HL2SDKL4D2)\public\tier0;$(HL2SDKL4D2)\public\tier1;$(MMSOURCE19)\core;$(MMSOURCE19)\core\sourcehook</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;..\sdk;$(SOURCEMOD14)\public;$(SOURCEMOD14)\public\extensions;$(SOURCEMOD14)\sourcepawn\include;$(HL2SDKL4D2)\public;$(HL2SDKL4D2)\public\engine;$(HL2SDKL4D2)\public\game\server;$(HL2SDKL4D2)\game\shared;$(HL2SDKL4D2)\public\tier0;$(HL2SDKL4D2)\public\tier1;$(MMSOURCE19)\core;$(MMSOURCE19)\core\sourcehook</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;SDK_EXPORTS;_CRT_SECURE_NO_DEPRECATE;SOURCEMOD_BUILD;SOURCE_ENGINE=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -109,7 +113,7 @@
     <ClCompile>
       <AdditionalOptions>/D SE_EPISODEONE=1 /D SE_DARKMESSIAH=2 /D SE_ORANGEBOX=3 /D SE_LEFT4DEAD=4 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..;..\sdk;$(SOURCEMOD14)\public;$(SOURCEMOD14)\public\extensions;$(SOURCEMOD14)\public\sourcepawn;$(HL2SDKL4D2)\public;$(HL2SDKL4D2)\public\engine;$(HL2SDKL4D2)\public\game\server;$(HL2SDKL4D2)\game\shared;$(HL2SDKL4D2)\public\tier0;$(HL2SDKL4D2)\public\tier1;$(MMSOURCE19)\core;$(MMSOURCE19)\core\sourcehook</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;..\sdk;$(SOURCEMOD14)\public;$(SOURCEMOD14)\public\extensions;$(SOURCEMOD14)\sourcepawn\include;$(HL2SDKL4D2)\public;$(HL2SDKL4D2)\public\engine;$(HL2SDKL4D2)\public\game\server;$(HL2SDKL4D2)\game\shared;$(HL2SDKL4D2)\public\tier0;$(HL2SDKL4D2)\public\tier1;$(MMSOURCE19)\core;$(MMSOURCE19)\core\sourcehook</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;USE_PLAYERSLOTS_PATCHES;_WINDOWS;_USRDLL;SDK_EXPORTS;_CRT_SECURE_NO_DEPRECATE;SOURCEMOD_BUILD;SOURCE_ENGINE=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -137,7 +141,7 @@
     <ClCompile>
       <AdditionalOptions>/MP /D SE_EPISODEONE=1 /D SE_DARKMESSIAH=2 /D SE_ORANGEBOX=3 /D SE_LEFT4DEAD=4 %(AdditionalOptions)</AdditionalOptions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>..;..\sdk;$(SOURCEMOD14)\public;$(SOURCEMOD14)\public\extensions;$(SOURCEMOD14)\public\sourcepawn;$(HL2SDKL4D2)\public;$(HL2SDKL4D2)\public\engine;$(HL2SDKL4D2)\public\game\server;$(HL2SDKL4D2)\game\shared;$(HL2SDKL4D2)\public\tier0;$(HL2SDKL4D2)\public\tier1;$(MMSOURCE19)\core;$(MMSOURCE19)\core\sourcehook</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;..\sdk;$(SOURCEMOD14)\public;$(SOURCEMOD14)\public\extensions;$(SOURCEMOD14)\sourcepawn\include;$(HL2SDKL4D2)\public;$(HL2SDKL4D2)\public\engine;$(HL2SDKL4D2)\public\game\server;$(HL2SDKL4D2)\game\shared;$(HL2SDKL4D2)\public\tier0;$(HL2SDKL4D2)\public\tier1;$(MMSOURCE19)\core;$(MMSOURCE19)\core\sourcehook</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SDK_EXPORTS;_CRT_SECURE_NO_DEPRECATE;SOURCEMOD_BUILD;SOURCE_ENGINE=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
@@ -165,7 +169,7 @@
     <ClCompile>
       <AdditionalOptions>/MP /D SE_EPISODEONE=1 /D SE_DARKMESSIAH=2 /D SE_ORANGEBOX=3 /D SE_LEFT4DEAD=4 %(AdditionalOptions)</AdditionalOptions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>..;..\sdk;$(SOURCEMOD14)\public;$(SOURCEMOD14)\public\extensions;$(SOURCEMOD14)\public\sourcepawn;$(HL2SDKL4D2)\public;$(HL2SDKL4D2)\public\engine;$(HL2SDKL4D2)\public\game\server;$(HL2SDKL4D2)\game\shared;$(HL2SDKL4D2)\public\tier0;$(HL2SDKL4D2)\public\tier1;$(MMSOURCE19)\core;$(MMSOURCE19)\core\sourcehook</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;..\sdk;$(SOURCEMOD14)\public;$(SOURCEMOD14)\public\extensions;$(SOURCEMOD14)\sourcepawn\include;$(HL2SDKL4D2)\public;$(HL2SDKL4D2)\public\engine;$(HL2SDKL4D2)\public\game\server;$(HL2SDKL4D2)\game\shared;$(HL2SDKL4D2)\public\tier0;$(HL2SDKL4D2)\public\tier1;$(MMSOURCE19)\core;$(MMSOURCE19)\core\sourcehook</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;USE_PLAYERSLOTS_PATCHES;_WINDOWS;_USRDLL;SDK_EXPORTS;_CRT_SECURE_NO_DEPRECATE;SOURCEMOD_BUILD;SOURCE_ENGINE=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
@@ -190,16 +194,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\addons_disabler.cpp" />
     <ClCompile Include="..\detours\change_finale_stage.cpp" />
     <ClCompile Include="..\detours\end_versus_mode_round.cpp" />
     <ClCompile Include="..\detours\find_scavenge_item.cpp" />
+    <ClCompile Include="..\detours\get_mission_info.cpp" />
     <ClCompile Include="..\detours\get_script_value_float.cpp" />
     <ClCompile Include="..\detours\get_script_value_string.cpp" />
+    <ClCompile Include="..\detours\on_stagger.cpp" />
+    <ClCompile Include="..\detours\replace_tank.cpp" />
     <ClCompile Include="..\detours\select_weighted_sequence.cpp" />
     <ClCompile Include="..\detours\send_in_rescue_vehicle.cpp" />
     <ClCompile Include="..\detours\start_melee_swing.cpp" />
+    <ClCompile Include="..\detours\terror_weapon_hit.cpp" />
     <ClCompile Include="..\detours\use_healing_items.cpp" />
-    <ClCompile Include="..\l4d2sdk\l4d2calls.cpp" />
+    <ClCompile Include="..\detours\water_move.cpp" />
     <ClCompile Include="..\detours\cthrow_activate_ability.cpp" />
     <ClCompile Include="..\detours\get_mission_versus_boss_spawning.cpp" />
     <ClCompile Include="..\detours\fast_get_survivor_set.cpp" />
@@ -212,6 +221,7 @@
     <ClCompile Include="..\detours\spawn_mob.cpp" />
     <ClCompile Include="..\detours\spawn_it_mob.cpp" />
     <ClCompile Include="..\extension.cpp" />
+    <ClCompile Include="..\l4d2sdk\l4d2calls.cpp" />
     <ClCompile Include="..\meleeweaponnatives.cpp" />
     <ClCompile Include="..\natives.cpp" />
     <ClCompile Include="..\timernatives.cpp" />
@@ -241,15 +251,21 @@
     <ClCompile Include="..\detours\server_player_counts.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\addons_disabler.h" />
     <ClInclude Include="..\detours\change_finale_stage.h" />
     <ClInclude Include="..\detours\end_versus_mode_round.h" />
     <ClInclude Include="..\detours\find_scavenge_item.h" />
+    <ClInclude Include="..\detours\get_mission_info.h" />
     <ClInclude Include="..\detours\get_script_value_float.h" />
     <ClInclude Include="..\detours\get_script_value_string.h" />
+    <ClInclude Include="..\detours\on_stagger.h" />
+    <ClInclude Include="..\detours\replace_tank.h" />
     <ClInclude Include="..\detours\select_weighted_sequence.h" />
     <ClInclude Include="..\detours\send_in_rescue_vehicle.h" />
     <ClInclude Include="..\detours\start_melee_swing.h" />
+    <ClInclude Include="..\detours\terror_weapon_hit.h" />
     <ClInclude Include="..\detours\use_healing_items.h" />
+    <ClInclude Include="..\detours\water_move.h" />
     <ClInclude Include="..\l4d2sdk\CMeleeWeaponInfo.h" />
     <ClInclude Include="..\l4d2sdk\constants.h" />
     <ClInclude Include="..\l4d2sdk\l4d2calls.h" />

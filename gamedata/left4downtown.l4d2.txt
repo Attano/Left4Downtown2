@@ -93,6 +93,11 @@
 				"windows"	"11308"
 				"linux"		"11288"
 			}
+			
+			"TheDirector"
+			{
+				"windows"	"12"
+			}
 		}
 		
 		"Signatures"
@@ -345,6 +350,20 @@
 				/* 55 8B EC 57 8B F9 8B 0D ? ? ? ? E8 ? ? ? ? 85 C0 78 ? 8B 0D ? ? ? ? 39 */
 			}
 
+			
+			/*
+			 * ZombieManager::ReplaceTank(CTerrorPlayer *, CTerrorPlayer *)
+			 *
+			 * for finding: in CDirector::UpdateTankSpawns, easily findable in graph view from ReplaceWithBot
+			 */
+			"ReplaceTank"
+			{
+				"library"	"server"
+				"linux"		"@_ZN13ZombieManager11ReplaceTankEP13CTerrorPlayerS1_"
+				"windows" 	"\x55\x8B\xEC\x83\xEC\x2A\x53\x56\x8B\x75\x2A\x8B\x06\x8B\x90\x2A\x2A\x2A\x2A\x57\x8B\xF9\x8B\xCE\xFF\xD2\x84\xC0\x0F"
+				/* 55 8B EC 83 EC ? 53 56 8B 75 ? 8B 06 8B 90 ? ? ? ? 57 8B F9 8B CE FF D2 84 C0 0F */
+			}
+
 			/*
 			 * ZombieManager::SpawnWitch(Vector  const&, QAngle  const&)
 			 *
@@ -382,9 +401,9 @@
 			*/
 			"OnVersusRoundStarted"
 			{ 
-				"library" "server"
-				"linux" "@_ZN19CDirectorVersusMode20OnVersusRoundStartedEv"
-				"windows" "\x8B\x0D\x2A\x2A\x2A\x2A\x85\xC9\x74\x2A\xA1\x2A\x2A\x2A\x2A\xF3\x0F\x2A\x2A\x2A\x51\xF3\x0F\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\x8B"
+				"library" 	"server"
+				"linux" 	"@_ZN19CDirectorVersusMode20OnVersusRoundStartedEv"
+				"windows" 	"\x8B\x0D\x2A\x2A\x2A\x2A\x85\xC9\x74\x2A\xA1\x2A\x2A\x2A\x2A\xF3\x0F\x2A\x2A\x2A\x51\xF3\x0F\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\x8B"
 				/* 8B 0D ? ? ? ? 85 C9 74 ? A1 ? ? ? ? F3 0F ? ? ? 51 F3 0F ? ? ? E8 ? ? ? ? 8B */
 			}
 			
@@ -445,9 +464,9 @@
 			 */
 			"CDirector_IsFinaleEscapeInProgress"
 			{
-				"library" "server"
-				"linux" "@_ZNK9CDirector24IsFinaleEscapeInProgressEv"
-				"windows" "\x8B\x81\x2A\x2A\x2A\x2A\x83\x38\x2A\x75\x03\x32\xC0\xC3\x33\xC0\x83\xB9\x2A\x2A\x2A\x2A\x02\x0F\x94\xC0\xC3"
+				"library" 	"server"
+				"linux" 	"@_ZNK9CDirector24IsFinaleEscapeInProgressEv"
+				"windows" 	"\x8B\x81\x2A\x2A\x2A\x2A\x83\x38\x2A\x75\x03\x32\xC0\xC3\x33\xC0\x83\xB9\x2A\x2A\x2A\x2A\x02\x0F\x94\xC0\xC3"
 				/* 8B 81 ? ? ? ? 83 38 ? 75 03 32 C0 C3 33 C0 83 B9 ? ? ? ? 02 0F 94 C0 C3 */
 			}
 			
@@ -507,7 +526,7 @@
 			{
 				"library"  "server"
 				"linux"    "@_ZN9CDirector14OnMobRushStartEv"
-				"windows"  "\x55\x8B\xEC\x83\xEC\x08\xA1\x2A\x2A\x2A\x2A\xF3\x0F\x10\x40\x2A\x56\x57\x51"
+				"windows"  "\x55\x8B\xEC\x83\xEC\x08\xA1\x2A\x2A\x2A\x2A\xD9\x40\x2C\x56\x57\x51"
 				/* 55 8B EC 83 EC 08 A1 ? ? ? ? F3 0F 10 40 ? 56 57 51 */
 			}
 			
@@ -520,7 +539,7 @@
 			{
 				"library"  "server"
 				"linux"    "@_ZN13ZombieManager10SpawnITMobEi"
-				"windows"  "\x55\x8B\xEC\xA1\x2A\x2A\x2A\x2A\xF3\x0F\x10\x40\x2A\x56\x57"
+				"windows"  "\x55\x8B\xEC\xA1\x2A\x2A\x2A\x2A\xD9\x40\x0C\x56\x57"
 				/* 55 8B EC A1 ? ? ? ?  F3 0F 10 40 ? 56 57 */
 			}
 			
@@ -534,7 +553,7 @@
 			{
 				"library"  "server"
 				"linux"    "@_ZN13ZombieManager8SpawnMobEi"
-				"windows"  "\x55\x8B\xEC\xA1\x2A\x2A\x2A\x2A\xF3\x0F\x10\x40\x2A\x83\xEC\x2A\x53\x56\x57"
+				"windows"  "\x55\x8B\xEC\xA1\x2A\x2A\x2A\x2A\xD9\x40\x0C\x83\xEC\x2A\x53\x56\x57"
 				/* 55 8B EC A1 ? ? ? ? F3 0F 10 40 ? 83 EC ? 53 56 57 */
 			}
 			
@@ -546,8 +565,8 @@
 			"CTerrorPlayer_OnStaggered"
 			{
 				"library"	"server"
-				"linux"	"@_ZN13CTerrorPlayer11OnStaggeredEP11CBaseEntityPK6Vector"
-				"windows" "\x53\x8B\xDC\x83\xEC\x2A\x83\xE4\xF0\x83\xC4\x04\x55\x8B\x6B\x04\x89\x6C\x24\x04\x8B\xEC\x83\xEC\x2A\x56\x57\x8B\xF1\xE8\x2A\x2A\x2A\x2A\x84\xC0\x0F\x85\x73\x08"
+				"linux"		"@_ZN13CTerrorPlayer11OnStaggeredEP11CBaseEntityPK6Vector"
+				"windows" 	"\x53\x8B\xDC\x83\xEC\x08\x83\xE4\xF0\x83\xC4\x04\x55\x8B\x6B\x04\x89\x6C\x24\x04\x8B\xEC\x83\xEC\x48\x56\x57\x8B\xF1\xE8\x2A\x2A\x2A\x2A\x84\xC0\x0F\x85\x6E\x08"
 				/* 53 8B DC 83 EC ? 83 E4 F0 83 C4 04 55 8B 6B 04 89 6C 24 04 8B EC 83 EC ? 56 57 8B F1 E8 ? ? ? ? 84 C0 0F 85 73 08 
 				 * Using a long local jump as the unique portion (last few bytes of sig)
 				 */
@@ -559,9 +578,9 @@
 			 */
 			"CTerrorPlayer_OnShovedBySurvivor"
 			{
-				"library"    "server"
-				"linux"    "@_ZN13CTerrorPlayer18OnShovedBySurvivorEPS_RK6Vector"
-				"windows" "\x55\x8B\xEC\x81\xEC\x2A\x2A\x2A\x2A\xA1\x2A\x2A\x2A\x2A\x33\xC5\x89\x45\xFC\x53\x8B\x5D\x0C\x56\x57\x8B\x7D\x08\x8B\xF1"
+				"library"   "server"
+				"linux" 	"@_ZN13CTerrorPlayer18OnShovedBySurvivorEPS_RK6Vector"
+				"windows" 	"\x55\x8B\xEC\x81\xEC\x2A\x2A\x2A\x2A\xA1\x2A\x2A\x2A\x2A\x33\xC5\x89\x45\xFC\x53\x8B\x5D\x08\x56\x57\x8B\x7D\x0C\x8B\xF1"
 				/* 55 8B EC 81 EC ? ? ? ? A1 ? ? ? ? 33 C5 89 45 FC 53 8B 5D 0C 56 57 8B 7D 08 8B F1 */
 			}
 			
@@ -572,8 +591,8 @@
 			"CTerrorPlayer_GetWalkTopSpeed"
 			{
 				"library"	"server"
-				"linux"	"@_ZNK13CTerrorPlayer15GetWalkTopSpeedEv"
-				"windows" "\x56\x8B\xF1\x80\x2A\x2A\x2A\x2A\x2A\x2A\x74\x2A\x5E\xE9\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\x50\xE8"
+				"linux"		"@_ZNK13CTerrorPlayer15GetWalkTopSpeedEv"
+				"windows" 	"\x56\x8B\xF1\x80\x2A\x2A\x2A\x2A\x2A\x2A\x74\x2A\x5E\xE9\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\x50\xE8"
 				/* 56 8B F1 80 ? ? ? ? ? ? 74 ? 5E E9 ? ? ? ? E8 ? ? ? ? 50 E8 */
 			}
 			
@@ -585,8 +604,8 @@
 			"CTerrorPlayer_GetRunTopSpeed"
 			{
 				"library"	"server"
-				"linux"	"@_ZNK13CTerrorPlayer14GetRunTopSpeedEv"
-				"windows" "\x55\x8B\xEC\x83\xEC\x2A\x56\x8B\xF1\x8B\x06\x8B\x90\x2A\x2A\x2A\x2A\xFF\xD2\x84\xC0\x74\x0D\xA1\x2A\x2A\x2A\x2A\xD9\x40\x2A\x5E"
+				"linux"		"@_ZNK13CTerrorPlayer14GetRunTopSpeedEv"
+				"windows" 	"\x55\x8B\xEC\x83\xEC\x2A\x56\x8B\xF1\x8B\x06\x8B\x90\x2A\x2A\x2A\x2A\xFF\xD2\x84\xC0\x74\x0D\xA1\x2A\x2A\x2A\x2A\xD9\x40\x2A\x5E"
 				/* 55 8B EC 83 EC ? 56 8B F1 8B 06 8B 90 ? ? ? ? FF D2 84 C0 74 0D A1 ? ? ? ? D9 40 ? 5E */
 			}
 			
@@ -597,8 +616,8 @@
 			"CTerrorPlayer_GetCrouchTopSpeed"
 			{
 				"library"	"server"
-				"linux"	"@_ZNK13CTerrorPlayer17GetCrouchTopSpeedEv"
-				"windows" "\x56\x8B\xF1\x80\x2A\x2A\x2A\x2A\x2A\x2A\x74\x2A\x5E\xE9\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\x83\xF8"
+				"linux"		"@_ZNK13CTerrorPlayer17GetCrouchTopSpeedEv"
+				"windows" 	"\x56\x8B\xF1\x80\x2A\x2A\x2A\x2A\x2A\x2A\x74\x2A\x5E\xE9\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\x83\xF8"
 				/* 56 8B F1 80 ? ? ? ? ? ? 74 ? 5E E9 ? ? ? ? E8 ? ? ? ? 83 F8 */
 			}
 
@@ -623,8 +642,8 @@
 			"GetDifficulty"
 			{
 				"library"	"server"
-				"linux"	"@_Z13GetDifficultyv"
-				"windows" "\xA1\x2A\x48\x7A\x10\xC3"
+				"linux"		"@_Z13GetDifficultyv"
+				"windows" 	"\xA1\x2A\x48\x7A\x10\xC3"
 				/* A1 ? 48 7A 10 C3 */
 			}
 			
@@ -649,8 +668,8 @@
 			"GetSurvivorSet"
 			{
 				"library"	"server"
-				"linux"	"@_ZN16CTerrorGameRules14GetSurvivorSetEv"
-				"windows" "\x55\x8B\xEC\x51\x8B\x0D\x2A\x2A\x2A\x2A\x8B\x01\x8B\x50\x2A\x53"
+				"linux"		"@_ZN16CTerrorGameRules14GetSurvivorSetEv"
+				"windows" 	"\x55\x8B\xEC\x51\x8B\x0D\x2A\x2A\x2A\x2A\x8B\x01\x8B\x50\x2A\x53"
 				/* 55 8B EC 51 8B 0D ? ? ? ? 8B 01 8B 50 ? 53 */
 			}
 			
@@ -662,8 +681,8 @@
 			"FastGetSurvivorSet"
 			{
 				"library"	"server"
-				"linux"	"@_ZN16CTerrorGameRules18FastGetSurvivorSetEv"
-				"windows" "\xA1\x2A\x2A\x2A\x2A\x85\xC0\x75\x0A\xE8"
+				"linux"		"@_ZN16CTerrorGameRules18FastGetSurvivorSetEv"
+				"windows" 	"\xA1\x2A\x2A\x2A\x2A\x85\xC0\x75\x0A\xE8"
 				/* A1 ? ? ? ? 85 C0 75 0A E8 */
 			}
 			
@@ -828,9 +847,9 @@
 			*/
             "CTerrorWeapon__OnHit"
 			{
-				"library"    "server"
-				"linux"    "@_ZN13CTerrorWeapon5OnHitER10CGameTraceRK6Vectorb"
-				"windows" ""
+				"library"   "server"
+				"linux"    	"@_ZN13CTerrorWeapon5OnHitER10CGameTraceRK6Vectorb"
+				"windows" 	"\x55\x8B\xEC\x81\xEC\xB0\x00\x00\x00\x80\x7D\x10\x00"
 			}
 
             /* 
@@ -838,9 +857,9 @@
 			*/
 			"WaterMove"
 			{
-				"library"    "server"
-				"linux"    "@_ZN11CBasePlayer9WaterMoveEv"
-				"windows" ""
+				"library"   "server"
+				"linux"    	"@_ZN11CBasePlayer9WaterMoveEv"
+				"windows" 	"\x55\x8B\xEC\x83\xEC\x60\x56\x8B\xF1\x80\xBE\x72\x01\x00\x00\x08"
 			}
             
             /* 
@@ -848,9 +867,9 @@
 			*/
 			"CTerrorGameRules__GetMissionInfo"
 			{
-				"library"    "server"
-				"linux"    "@_ZN16CTerrorGameRules14GetMissionInfoEv"
-				"windows" ""
+				"library"   "server"
+				"linux"    	"@_ZN16CTerrorGameRules14GetMissionInfoEv"
+				"windows" 	"\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x8B\x01\x8B\x50\x28\x56\xFF\xD2\x8B\x10\x8B\xC8\x8B\x42"
 			}
             
 			/* 
@@ -858,9 +877,9 @@
 			*/
 			"CInferno__Spread"
 			{
-				"library"    	"server"
-				"linux"    		"@_ZN8CInferno6SpreadERK6Vector"
-				"windows" 		""
+				"library"   "server"
+				"linux"    	"@_ZN8CInferno6SpreadERK6Vector"
+				"windows" 	""
 			}
 			
 			/* 
@@ -868,9 +887,9 @@
 			*/
 			"CTerrorPlayer__OnShovedByPounceLanding"
 			{
-				"library"    	"server"
-				"linux"    		"@_ZN13CTerrorPlayer23OnShovedByPounceLandingEPS_b"
-				"windows" 		""
+				"library"   "server"
+				"linux"    	"@_ZN13CTerrorPlayer23OnShovedByPounceLandingEPS_b"
+				"windows" 	""
 			}
 			
 /*********************************************************************
@@ -881,9 +900,9 @@
 			*/
 			"CBaseServer__FillServerInfo"
 			{
-				"library"    "engine"
-				"linux"    "@_ZN11CBaseServer14FillServerInfoER14SVC_ServerInfo"
-				"windows" ""
+				"library"   "engine"
+				"linux"		"@_ZN11CBaseServer14FillServerInfoER14SVC_ServerInfo"
+				"windows"	"\x55\x8B\xEC\x53\x56\x57\x68\x04\x01\x00\x00"
 			}
 
             /* 
@@ -891,9 +910,9 @@
 			*/
             "VanillaModeOffset"
 			{
-				"library" "engine"
-				"linux" "\xC6\x46\x1B\x4C\x88\x46\x19"
-				"windows" ""
+				"library"	"engine"
+				"linux"		"\xC6\x46\x1B\x4C\x88\x46\x19"
+				"windows"	"\x88\x5F\x19**************\xC6\x47\x1B\x57"
 			}
             
 /*********************************************************************
