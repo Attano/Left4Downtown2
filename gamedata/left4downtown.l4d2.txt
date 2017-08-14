@@ -93,11 +93,6 @@
 				"windows"	"11308"
 				"linux"		"11288"
 			}
-			
-			"TheDirector"
-			{
-				"windows"	"12"
-			}
 		}
 		
 		"Signatures"

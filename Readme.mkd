@@ -35,3 +35,9 @@
 * New native: `L4D_ReplaceTank(tank, newtank)` -- call `ZombieManager::ReplaceTank(CTerrorPlayer *,CTerrorPlayer *)`.
 * Fixed GameRules on Sourcemod >= 1.7.
 * Disabled `L4D2_OnSpitSpread` and `L4D2_OnPounceOrLeapStumble` to prevent crashes.
+
+###August 14, 2017 :: 0.6.2###
+* New native: `L4D2_GetWitchCount()` -- Gets the number of witches currently in play.
+* New native: `L4D2_GetVersusWitchFlowPercent(Float:witchFlows[2])` -- Gets the flow percent for witch spawns for both versus rounds.
+* New native: `L4D2_SetVersusWitchFlowPercent(Float:witchFlows[2])` -- Sets the flow percent for witch spawns for both versus rounds.
+* Little fixes

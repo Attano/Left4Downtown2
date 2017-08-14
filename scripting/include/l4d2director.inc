@@ -44,6 +44,15 @@
 native L4D2_GetTankCount();
 
 /**
+ * @brief Gets the number of witches currently in play.
+ * @remarks This value is tracked by the director, and should be a good 
+ *		indicator that a witch is in play
+ * 
+ * @return 	current witch count
+ */
+native L4D2_GetWitchCount();
+
+/**
  * @brief Gets the campaign scores stored in the Versus Director
  * @remarks These are the actual values used for campaign scores--not proxies
  * 
@@ -82,4 +91,26 @@ native L4D2_GetVersusTankFlowPercent(Float:tankFlows[2]);
  * @noreturn 				
  */
 native L4D2_SetVersusTankFlowPercent(const Float:tankFlows[2]);
+
+/**
+ * @brief Gets the flow percent for witch spawns for both versus rounds.
+ * @remarks These values are checked against as the survivors move through the
+ *		map. Once they are passed, the witch spawns. Note that this is flow
+ *		as a percent of the map's flow, not flow distance.
+ * 
+ * @param witchFlows	Array to store the Witch Spawn Flow percents in
+ * @noreturn 				
+ */
+native L4D2_GetVersusWitchFlowPercent(Float:witchFlows[2]);
+
+/**
+ * @brief Sets the flow percent for witch spawns for both versus rounds.
+ * @remarks These values are checked against as the survivors move through the
+ *		map. Once they are passed, the witch spawns. Note that this is flow
+ *		as a percent of the map's flow, not flow distance.
+ * 
+ * @param witchFlows	Array of Witch Spawn Flow percents to store in director
+ * @noreturn 				
+ */
+native L4D2_SetVersusWitchFlowPercent(const Float:witchFlows[2]);
 

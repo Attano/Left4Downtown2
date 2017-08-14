@@ -33,7 +33,6 @@
 #include "extension.h"
 #include "util.h"
 
-void **g_pEngine = NULL;
 CDirector **g_pDirector = NULL;
 void *g_pZombieManager = NULL;
 WeaponDatabase *g_pWeaponInfoDatabase = NULL;
@@ -42,30 +41,17 @@ CMeleeWeaponInfoStore *g_pMeleeWeaponInfoStore = NULL;
 void InitializeValveGlobals()
 {
 	char *addr = NULL;
-#ifdef PLATFORM_WINDOWS
-	int offset;
 	
 	/* g_pDirector */
-	const char *directorConfKey = "DirectorMusicBanks_OnRoundStart";
-	if (!g_pGameConf->GetMemSig(directorConfKey, (void **)&addr) || !addr)
+	if (!g_pGameConf->GetAddress("CDirector", (void **)&addr) || !addr)
 	{
-		return;
-	}
-	if (!g_pGameConf->GetOffset("TheDirector", &offset) || !offset)
-	{
-		return;
-	}
-	g_pDirector = *reinterpret_cast<CDirector ***>(addr + offset);
-#elif defined PLATFORM_LINUX
-	/* g_pDirector */
-	if (!g_pGameConf->GetMemSig("TheDirector", (void **)&addr) || !addr)
-	{
-	    L4D_DEBUG_LOG("Couldn't find CDirector instance!");
+		L4D_DEBUG_LOG("Couldn't find CDirector instance!");
 		return;
 	}
 	g_pDirector = reinterpret_cast<CDirector **>(addr);
-#endif
+	L4D_DEBUG_LOG("TheDirector found at: %p", g_pDirector);
 	
+	/* g_pZombieManager */
 	if(!g_pGameConf->GetAddress("ZombieManager", (void **)&addr))
 	{
 		L4D_DEBUG_LOG("TheZombieManager address not found.");
