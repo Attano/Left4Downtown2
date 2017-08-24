@@ -37,7 +37,6 @@
 
 //#define THEDIRECTOR_SETNEXTMISSION_OFFSET 2
 
-extern void **g_pEngine;		/* IVEngineServer */
 extern CDirector **g_pDirector;		/* Director */
 extern void *g_pZombieManager;	/* ZombieManager */
 extern WeaponDatabase *g_pWeaponInfoDatabase; /* WeaponInfoDatabase */

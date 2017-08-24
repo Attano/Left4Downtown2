@@ -48,6 +48,22 @@ cell_t L4D2_GetTankCount(IPluginContext *pContext, const cell_t *params)
 	return director->m_iTankCount;
 }
 
+cell_t L4D2_GetWitchCount(IPluginContext *pContext, const cell_t *params)
+{
+	if (g_pDirector == NULL)
+	{
+		return pContext->ThrowNativeError("Director unsupported or not available; file a bug report");
+	}
+
+	CDirector *director = *g_pDirector;
+
+	if (director == NULL)
+	{
+		return pContext->ThrowNativeError("Director not available before map is loaded");
+	}
+	return director->m_iWitchCount;
+}
+
 cell_t L4D2_GetVersusCampaignScores(IPluginContext *pContext, const cell_t *params)
 {
 	if (g_pDirector == NULL)
@@ -136,12 +152,59 @@ cell_t L4D2_SetVersusTankFlowPercent(IPluginContext *pContext, const cell_t *par
 	return 0;
 }
 
+cell_t L4D2_GetVersusWitchFlowPercent(IPluginContext *pContext, const cell_t *params)
+{
+	if (g_pDirector == NULL)
+	{
+		return pContext->ThrowNativeError("Director unsupported or not available; file a bug report");
+	}
+	if (*g_pDirector == NULL)
+	{
+		return pContext->ThrowNativeError("Director not available before map is loaded");
+	}
+	CDirectorVersusMode * director=(*g_pDirector)->VersusModePtr;
+	if(director == NULL)
+	{
+		return pContext->ThrowNativeError("DirectorVersusMode not available--is this versus mode?");
+	}
+	cell_t * cell_flows;
+	pContext->LocalToPhysAddr(params[1], &cell_flows);
+	cell_flows[0]=sp_ftoc(director->m_fWitchSpawnFlowPercent[0]);
+	cell_flows[1]=sp_ftoc(director->m_fWitchSpawnFlowPercent[1]);
+	return 0;
+}
+
+cell_t L4D2_SetVersusWitchFlowPercent(IPluginContext *pContext, const cell_t *params)
+{
+	if (g_pDirector == NULL)
+	{
+		return pContext->ThrowNativeError("Director unsupported or not available; file a bug report");
+	}
+	if (*g_pDirector == NULL)
+	{
+		return pContext->ThrowNativeError("Director not available before map is loaded");
+	}
+	CDirectorVersusMode * director=(*g_pDirector)->VersusModePtr;
+	if(director == NULL)
+	{
+		return pContext->ThrowNativeError("DirectorVersusMode not available--is this versus mode?");
+	}
+	cell_t * cell_flows;
+	pContext->LocalToPhysAddr(params[1], &cell_flows);
+	director->m_fWitchSpawnFlowPercent[0]=sp_ctof(cell_flows[0]);
+	director->m_fWitchSpawnFlowPercent[1]=sp_ctof(cell_flows[1]);
+	return 0;
+}
+
 sp_nativeinfo_t  g_L4DoDirectorNatives[] = 
 {
 	{"L4D2_GetTankCount",				L4D2_GetTankCount},
+	{"L4D2_GetWitchCount",				L4D2_GetWitchCount},
 	{"L4D2_GetVersusCampaignScores",	L4D2_GetVersusCampaignScores},
 	{"L4D2_SetVersusCampaignScores",	L4D2_SetVersusCampaignScores},
 	{"L4D2_GetVersusTankFlowPercent",	L4D2_GetVersusTankFlowPercent},
 	{"L4D2_SetVersusTankFlowPercent",	L4D2_SetVersusTankFlowPercent},
+	{"L4D2_GetVersusWitchFlowPercent",	L4D2_GetVersusWitchFlowPercent},
+	{"L4D2_SetVersusWitchFlowPercent",	L4D2_SetVersusWitchFlowPercent},
 	{NULL,										NULL}
 };
