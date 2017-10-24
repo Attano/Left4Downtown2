@@ -469,7 +469,7 @@ forward Action L4D2_OnPounceOrLeapStumble(int victim, int attacker);
  *
  * @return 		Pl_Handled to block, Pl_Changed to use overwritten values from plugin, Pl_Continue otherwise
  */
-forward Action L4D2_OnChooseVictim(int specialInfected, int &curTarget)
+forward Action L4D2_OnChooseVictim(int specialInfected, int &curTarget);
 
 /**
  * @brief Get the current campaign scores stored in the Director
