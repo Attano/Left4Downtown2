@@ -178,6 +178,7 @@ extern IForward *g_pFwdOnWaterMove;
 extern IForward *g_pFwdOnPlayerStagger;
 extern IForward *g_pFwdOnTerrorWeaponHit;
 extern IForward *g_pFwdAddonsDisabler;
+extern IForward *g_pFwdOnChooseVictim;
 //extern IForward *g_pFwdInfernoSpread;
 //extern IForward *g_pFwdOnShovedByPounceLanding;
 

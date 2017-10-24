@@ -166,6 +166,18 @@
 			}
 			
 			/*
+			* BossZombiePlayerBot::ChooseVictim(CTerrorPlayer *, int, CBaseCombatCharacter *)
+			* Unique String: switching to directly visible victim\n
+			*/
+            "BossZombiePlayerBotChooseVictim"
+			{
+				"library"	"server"
+				"linux"		"@_ZN19BossZombiePlayerBot12ChooseVictimEP13CTerrorPlayeriP20CBaseCombatCharacter"
+				"windows"	"\x55\x8B\xEC\x83\xEC\x24\xA1\x2A\x2A\x2A\x2A\x83\x78\x30\x00\x53"
+				/* 55 8B EC 83 EC 24 A1 ? ? ? ? 83 78 30 00 53 */
+			}
+			
+			/*
 			 * SurvivorBot::SetHumanSpectator(CTerrorPlayer*)
 			 * Very similar to BossZombiePlayerBot::SetHumanSpectator()
 			 * SurvivorBot version has 5 xref (one of them is CTerrorPlayer::TakeOverBot), BossZombie has just 1 (CTerrorPlayer::TakeOverBot)

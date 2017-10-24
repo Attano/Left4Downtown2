@@ -180,6 +180,9 @@
     <ClCompile Include="..\detours\replace_tank.cpp">
       <Filter>detours</Filter>
     </ClCompile>
+	<ClCompile Include="..\detours\choose_victim.cpp">
+      <Filter>detours</Filter>
+    </ClCompile>
     <ClCompile Include="..\l4d2sdk\l4d2calls.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -354,6 +357,9 @@
       <Filter>detours</Filter>
     </ClInclude>
     <ClInclude Include="..\detours\replace_tank.h">
+      <Filter>detours</Filter>
+    </ClInclude>
+	<ClInclude Include="..\detours\choose_victim.h">
       <Filter>detours</Filter>
     </ClInclude>
     <ClInclude Include="..\addons_disabler.h">

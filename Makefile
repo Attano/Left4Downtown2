@@ -25,7 +25,7 @@ OBJECTS = smsdk_ext.cpp extension.cpp natives.cpp vglobals.cpp l4d2sdk/l4d2calls
 			detours/end_versus_mode_round.cpp detours/select_weighted_sequence.cpp detours/spawn_special.cpp \
 			detours/spawn_witchbride.cpp detours/on_revived.cpp detours/use_healing_items.cpp detours/find_scavenge_item.cpp \
 			detours/water_move.cpp detours/on_stagger.cpp detours/terror_weapon_hit.cpp detours/get_mission_info.cpp \
-			detours/replace_tank.cpp \
+			detours/replace_tank.cpp detours/choose_victim.cpp \
 			addons_disabler.cpp
 
 ifeq "$(USE_PLAYERSLOTS)" "true"
