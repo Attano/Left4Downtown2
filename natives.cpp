@@ -381,11 +381,7 @@ cell_t L4D_IsMissionFinalMap(IPluginContext *pContext, const cell_t *params)
 	{
 		PassInfo retInfo; 
 		retInfo.flags = PASSFLAG_BYVAL; 
-#if defined PLATFORM_WINDOWS
 		retInfo.size = sizeof(bool);  //ret value in al on windows, eax on linux
-#else
-		retInfo.size = sizeof(int); //ret value in al on windows, eax on linux
-#endif
 		retInfo.type = PassType_Basic;
 		REGISTER_NATIVE_ADDR("IsMissionFinalMap", 
 			pWrapper = g_pBinTools->CreateCall(addr, CallConv_Cdecl, \
