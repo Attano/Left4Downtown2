@@ -113,22 +113,6 @@ cell_t L4D_RestartScenarioFromVote(IPluginContext *pContext, const cell_t *param
 			pWrapper = g_pBinTools->CreateCall(addr, CallConv_ThisCall, /*returnInfo*/NULL, pass, /*numparams*/1));
 	}
 
-#ifdef PLATFORM_WINDOWS
-	void *addr;
-	if (!g_pGameConf->GetMemSig("RestartScenarioFromVote", (void **)&addr) || !addr)
-	{
-		return pContext->ThrowNativeError( "Could not read RestartScenarioFromVote from GameConf");
-	}
-
-	int offset;
-	if (!g_pGameConf->GetOffset("TheDirector", &offset) || !offset)
-	{
-#if !defined THEDIRECTOR_SETNEXTMISSION_OFFSET
-		return pContext->ThrowNativeError("Could not read 'TheDirector' offset from GameConf");
-#endif
-	}
-#endif
-
 	/* Get the Director pointer */
 	if (g_pDirector == NULL)
 	{
