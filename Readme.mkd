@@ -36,11 +36,15 @@
 * Fixed GameRules on Sourcemod >= 1.7.
 * Disabled `L4D2_OnSpitSpread` and `L4D2_OnPounceOrLeapStumble` to prevent crashes.
 
-###October 06, 2017 :: 0.6.2###
+###September 02, 2017 :: 0.6.2###
 * New native: `L4D2_GetWitchCount()` -- Gets the number of witches currently in play.
 * New native: `L4D2_GetVersusWitchFlowPercent(Float:witchFlows[2])` -- Gets the flow percent for witch spawns for both versus rounds.
 * New native: `L4D2_SetVersusWitchFlowPercent(Float:witchFlows[2])` -- Sets the flow percent for witch spawns for both versus rounds.
-* New native: `L4D_IsFirstMapInScenario()` -- Tells if the Mission (map) is the first map of the campaign.
 * New forward : `L4D2_OnChooseVictim(specialInfected, &curTarget)` -- called whenever `BossZombiePlayer(CTerrorPlayer *, int, CBaseEntity *)` is invoked. This is called in a think hook from within the game so make sure you don't do to much code in it
 * Made includes compatiable with sourcemods transitional syntax
 * Little fixes
+
+###October 06, 2017 :: 0.6.3###
+* New native: `L4D_IsFirstMapInScenario()` -- Tells if the Mission (map) is the first map of the campaign.
+* Fixed native L4D_IsMissionFinalMap() on linux
+* Fixed native L4D_RestartScenarioFromVote() on windows
