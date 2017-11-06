@@ -1025,7 +1025,20 @@
 			
 /*********************************************************************
 ****************** MISC USEFUL NATIVES *******************************
-*********************************************************************/			
+*********************************************************************/
+			
+			/* CDirector::IsFirstMapInScenario()
+				Uses campaign mission file to determine if the current map 
+				is a First map.
+				Called from CDirector::OnEndScenario, look near string "vs_shutting_down", up to case 7
+				*/
+			"IsFirstMapInScenario"
+			{
+				"library"	"server"
+				"linux"		"@_ZNK9CDirector20IsFirstMapInScenarioEv"
+				"windows"	"\xA1\x2A\x2A\x2A\x2A\x8B\x40\x3C\x56\x8B\xF0" 
+							/* A1 ? ? ? ? 8B 40 3C 56 8B F0 */
+			}
 
 			/* CTerrorGameRules::IsMissionFinalMap()
 				Uses campaign mission file to determine if the current map 

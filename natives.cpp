@@ -357,6 +357,33 @@ cell_t L4D_SetVersusMaxCompletionScore(IPluginContext *pContext, const cell_t *p
 	return 1;
 }
 
+cell_t L4D_IsFirstMapInScenario(IPluginContext *pContext, const cell_t *params)
+{
+	static ICallWrapper *pWrapper = NULL;
+	
+	if(!pWrapper)
+	{
+		PassInfo retInfo; 
+		retInfo.flags = PASSFLAG_BYVAL; 
+		retInfo.size = sizeof(bool);
+		retInfo.type = PassType_Basic;
+		REGISTER_NATIVE_ADDR("IsFirstMapInScenario", 
+			pWrapper = g_pBinTools->CreateCall(addr, CallConv_Cdecl, \
+							/*retInfo*/&retInfo, /*paramInfo*/NULL, /*numparams*/0));
+
+		L4D_DEBUG_LOG("Built call wrapper CDirector::IsFirstMapInScenario");
+	}
+
+	cell_t retbuffer = 0;
+	
+	L4D_DEBUG_LOG("Going to execute CDirector::IsFirstMapInScenario");
+	pWrapper->Execute(NULL, &retbuffer);
+	
+	L4D_DEBUG_LOG("Invoked CDirector::IsFirstMapInScenario, got back = %d", retbuffer);
+	
+	return retbuffer;
+}
+
 cell_t L4D_IsMissionFinalMap(IPluginContext *pContext, const cell_t *params)
 {
 	static ICallWrapper *pWrapper = NULL;
@@ -977,6 +1004,7 @@ sp_nativeinfo_t g_L4DoNatives[] =
 	{"L4D_ScavengeBeginRoundSetupTime", L4D_ScavengeBeginRoundSetupTime},
 	{"L4D_GetVersusMaxCompletionScore",	L4D_GetVersusMaxCompletionScore},
 	{"L4D_SetVersusMaxCompletionScore",	L4D_SetVersusMaxCompletionScore},
+	{"L4D_IsFirstMapInScenario",		L4D_IsFirstMapInScenario},
 	{"L4D_IsMissionFinalMap",			L4D_IsMissionFinalMap},
 	{"L4D_ResetMobTimer",				L4D_ResetMobTimer},
 	{"L4D_NotifyNetworkStateChanged",	L4D_NotifyNetworkStateChanged},

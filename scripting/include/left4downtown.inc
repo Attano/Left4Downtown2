@@ -556,6 +556,13 @@ native int L4D_GetVersusMaxCompletionScore();
 native void L4D_SetVersusMaxCompletionScore(int score);
 
 /**
+ * @brief Tells if the Mission (map) is the first map of the campaign
+ *
+ * @return		true if the map is the first map of the campaign
+ */
+native bool L4D_IsFirstMapInScenario();
+
+/**
  * @brief Tells if the Mission (map) is the final map of the campaign
  *
  * @return		true if the map is the last map of the campaign (finale)
