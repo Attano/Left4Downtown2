@@ -92,6 +92,9 @@ public Action:OnPlayerDisconnect(Handle:event, const String:name[], bool:dontBro
 {
 	new client = GetClientOfUserId(GetEventInt(event, "userid"));
 
+	if (client == 0)
+		return;
+
 	if (IsFakeClient(client))
 		return;
 	
