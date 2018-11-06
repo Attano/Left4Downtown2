@@ -148,7 +148,7 @@ forward Action L4D_OnGetScriptValueString(const char[] key, const char[] default
  * 
  * @param client  the client that has entered ghost mode
  */
-forward L4D_OnEnterGhostState(int client);
+forward void L4D_OnEnterGhostState(int client);
 
 /**
  * @brief Called whenever ZombieManager::ReplaceTank(CTerrorPlayer *,CTerrorPlayer *) is invoked
@@ -157,7 +157,7 @@ forward L4D_OnEnterGhostState(int client);
  * @param CTerrorPlayer	tank the player who was a tank
  * @param CTerrorPlayer	newtank a player who has become a new tank
  */
-forward L4D_OnReplaceTank(int tank, int newtank);
+forward void L4D_OnReplaceTank(int tank, int newtank);
 
 /**
  * @brief Called whenever CDirector::TryOfferingTankBot is invoked
@@ -347,7 +347,7 @@ forward Action L4D2_OnEndVersusModeRound(bool countSurvivors);
  * 
  * @return 		noreturn
  */
-forward L4D2_OnEndVersusModeRound_Post();
+forward void L4D2_OnEndVersusModeRound_Post();
 
 /**
  * @brief Called when CBaseAnimating::SelectWeightedSequence(int Activity) is invoked with tank attack activity
@@ -401,7 +401,7 @@ forward Action L4D2_OnFindScavengeItem(int client, int item);
  *
  * @noreturn
  */
-forward L4D2_OnWaterMove(int client);
+forward void L4D2_OnWaterMove(int client);
 
 /**
  * @brief Called whenever CTerrorPlayer::OnStaggered(CBaseEntity *, Vector const *) is invoked
