@@ -32,6 +32,12 @@
 #ifndef _INCLUDE_SOURCEMOD_ADDONS_DISABLER_H_
 #define _INCLUDE_SOURCEMOD_ADDONS_DISABLER_H_
 
+#ifdef PLATFORM_WINDOWS
+#define vanillaModeOffset 0
+#else
+#define vanillaModeOffset 4
+#endif
+
 #include "detours/detour_template.h"
 #include "codepatch/icodepatch.h"
 

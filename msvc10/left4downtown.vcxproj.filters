@@ -84,6 +84,9 @@
     <ClCompile Include="..\detours\shoved_by_survivor.cpp">
       <Filter>detours</Filter>
     </ClCompile>
+    <ClCompile Include="..\detours\shoved_by_pounce_landing.cpp">
+      <Filter>detours</Filter>
+    </ClCompile>
     <ClCompile Include="..\detours\spawn_it_mob.cpp">
       <Filter>detours</Filter>
     </ClCompile>
@@ -258,6 +261,9 @@
       <Filter>codepatch</Filter>
     </ClInclude>
     <ClInclude Include="..\detours\shoved_by_survivor.h">
+      <Filter>detours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\detours\shoved_by_pounce_landing.h">
       <Filter>detours</Filter>
     </ClInclude>
     <ClInclude Include="..\detours\spawn_it_mob.h">

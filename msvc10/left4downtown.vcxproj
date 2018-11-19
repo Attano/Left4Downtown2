@@ -219,6 +219,7 @@
     <ClCompile Include="..\detours\get_survivor_set.cpp" />
     <ClCompile Include="..\detours\get_walk_top_speed.cpp" />
     <ClCompile Include="..\detours\shoved_by_survivor.cpp" />
+    <ClCompile Include="..\detours\shoved_by_pounce_landing.cpp" />
     <ClCompile Include="..\detours\spawn_mob.cpp" />
     <ClCompile Include="..\detours\spawn_it_mob.cpp" />
     <ClCompile Include="..\extension.cpp" />
@@ -281,6 +282,7 @@
     <ClInclude Include="..\detours\get_survivor_set.h" />
     <ClInclude Include="..\detours\get_walk_top_speed.h" />
     <ClInclude Include="..\detours\shoved_by_survivor.h" />
+    <ClInclude Include="..\detours\shoved_by_pounce_landing.h" />
     <ClInclude Include="..\detours\spawn_mob.h" />
     <ClInclude Include="..\detours\spawn_it_mob.h" />
     <ClInclude Include="..\detours\on_revived.h" />

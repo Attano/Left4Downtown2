@@ -439,19 +439,6 @@ forward Action L4D2_OnEntityShoved(int client, int entity, int weapon, float vec
 forward Action L4D2_OnClientDisableAddons(const char[] SteamID);
 
 /**
- * @brief Called whenever CInferno::Spread(Vector const&) is invoked (only for spitters -- ignores fire)
- *
- * @param spitter	 	spitter that spat (:D)
- * @param projectile	spitter's projectile entity
- * @param x				x coordinate of the new acid puddle (can be overridden)
- * @param y				y coordinate of the new acid puddle (can be overridden)
- * @param z				z coordinate of the new acid puddle (can be overridden)
- *
- * @return 		Pl_Handled to block, Pl_Continue otherwise
- */
-forward Action L4D2_OnSpitSpread(int spitter, int projectile, float &x, float &y, float &z);
-
-/**
  * @brief Called whenever CTerrorPlayer::OnShovedByPounceLanding(CTerrorPlayer*) is invoked
  *
  * @param victim	the survivor that is about to get stumbled as a result of "attacker" capping someone in close proximity
