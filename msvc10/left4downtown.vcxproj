@@ -203,6 +203,7 @@
     <ClCompile Include="..\detours\get_script_value_string.cpp" />
     <ClCompile Include="..\detours\on_stagger.cpp" />
     <ClCompile Include="..\detours\replace_tank.cpp" />
+	<ClCompile Include="..\detours\choose_victim.cpp" />
     <ClCompile Include="..\detours\select_weighted_sequence.cpp" />
     <ClCompile Include="..\detours\send_in_rescue_vehicle.cpp" />
     <ClCompile Include="..\detours\start_melee_swing.cpp" />
@@ -218,6 +219,7 @@
     <ClCompile Include="..\detours\get_survivor_set.cpp" />
     <ClCompile Include="..\detours\get_walk_top_speed.cpp" />
     <ClCompile Include="..\detours\shoved_by_survivor.cpp" />
+    <ClCompile Include="..\detours\shoved_by_pounce_landing.cpp" />
     <ClCompile Include="..\detours\spawn_mob.cpp" />
     <ClCompile Include="..\detours\spawn_it_mob.cpp" />
     <ClCompile Include="..\extension.cpp" />
@@ -260,6 +262,7 @@
     <ClInclude Include="..\detours\get_script_value_string.h" />
     <ClInclude Include="..\detours\on_stagger.h" />
     <ClInclude Include="..\detours\replace_tank.h" />
+	<ClInclude Include="..\detours\choose_victim.h" />
     <ClInclude Include="..\detours\select_weighted_sequence.h" />
     <ClInclude Include="..\detours\send_in_rescue_vehicle.h" />
     <ClInclude Include="..\detours\start_melee_swing.h" />
@@ -279,6 +282,7 @@
     <ClInclude Include="..\detours\get_survivor_set.h" />
     <ClInclude Include="..\detours\get_walk_top_speed.h" />
     <ClInclude Include="..\detours\shoved_by_survivor.h" />
+    <ClInclude Include="..\detours\shoved_by_pounce_landing.h" />
     <ClInclude Include="..\detours\spawn_mob.h" />
     <ClInclude Include="..\detours\spawn_it_mob.h" />
     <ClInclude Include="..\detours\on_revived.h" />

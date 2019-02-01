@@ -113,22 +113,6 @@ cell_t L4D_RestartScenarioFromVote(IPluginContext *pContext, const cell_t *param
 			pWrapper = g_pBinTools->CreateCall(addr, CallConv_ThisCall, /*returnInfo*/NULL, pass, /*numparams*/1));
 	}
 
-#ifdef PLATFORM_WINDOWS
-	void *addr;
-	if (!g_pGameConf->GetMemSig("RestartScenarioFromVote", (void **)&addr) || !addr)
-	{
-		return pContext->ThrowNativeError( "Could not read RestartScenarioFromVote from GameConf");
-	}
-
-	int offset;
-	if (!g_pGameConf->GetOffset("TheDirector", &offset) || !offset)
-	{
-#if !defined THEDIRECTOR_SETNEXTMISSION_OFFSET
-		return pContext->ThrowNativeError("Could not read 'TheDirector' offset from GameConf");
-#endif
-	}
-#endif
-
 	/* Get the Director pointer */
 	if (g_pDirector == NULL)
 	{
@@ -373,6 +357,33 @@ cell_t L4D_SetVersusMaxCompletionScore(IPluginContext *pContext, const cell_t *p
 	return 1;
 }
 
+cell_t L4D_IsFirstMapInScenario(IPluginContext *pContext, const cell_t *params)
+{
+	static ICallWrapper *pWrapper = NULL;
+	
+	if(!pWrapper)
+	{
+		PassInfo retInfo; 
+		retInfo.flags = PASSFLAG_BYVAL; 
+		retInfo.size = sizeof(bool);
+		retInfo.type = PassType_Basic;
+		REGISTER_NATIVE_ADDR("IsFirstMapInScenario", 
+			pWrapper = g_pBinTools->CreateCall(addr, CallConv_Cdecl, \
+							/*retInfo*/&retInfo, /*paramInfo*/NULL, /*numparams*/0));
+
+		L4D_DEBUG_LOG("Built call wrapper CDirector::IsFirstMapInScenario");
+	}
+
+	cell_t retbuffer = 0;
+	
+	L4D_DEBUG_LOG("Going to execute CDirector::IsFirstMapInScenario");
+	pWrapper->Execute(NULL, &retbuffer);
+	
+	L4D_DEBUG_LOG("Invoked CDirector::IsFirstMapInScenario, got back = %d", retbuffer);
+	
+	return retbuffer;
+}
+
 cell_t L4D_IsMissionFinalMap(IPluginContext *pContext, const cell_t *params)
 {
 	static ICallWrapper *pWrapper = NULL;
@@ -381,11 +392,7 @@ cell_t L4D_IsMissionFinalMap(IPluginContext *pContext, const cell_t *params)
 	{
 		PassInfo retInfo; 
 		retInfo.flags = PASSFLAG_BYVAL; 
-#if defined PLATFORM_WINDOWS
 		retInfo.size = sizeof(bool);  //ret value in al on windows, eax on linux
-#else
-		retInfo.size = sizeof(int); //ret value in al on windows, eax on linux
-#endif
 		retInfo.type = PassType_Basic;
 		REGISTER_NATIVE_ADDR("IsMissionFinalMap", 
 			pWrapper = g_pBinTools->CreateCall(addr, CallConv_Cdecl, \
@@ -997,6 +1004,7 @@ sp_nativeinfo_t g_L4DoNatives[] =
 	{"L4D_ScavengeBeginRoundSetupTime", L4D_ScavengeBeginRoundSetupTime},
 	{"L4D_GetVersusMaxCompletionScore",	L4D_GetVersusMaxCompletionScore},
 	{"L4D_SetVersusMaxCompletionScore",	L4D_SetVersusMaxCompletionScore},
+	{"L4D_IsFirstMapInScenario",		L4D_IsFirstMapInScenario},
 	{"L4D_IsMissionFinalMap",			L4D_IsMissionFinalMap},
 	{"L4D_ResetMobTimer",				L4D_ResetMobTimer},
 	{"L4D_NotifyNetworkStateChanged",	L4D_NotifyNetworkStateChanged},

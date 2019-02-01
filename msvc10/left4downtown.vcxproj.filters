@@ -84,6 +84,9 @@
     <ClCompile Include="..\detours\shoved_by_survivor.cpp">
       <Filter>detours</Filter>
     </ClCompile>
+    <ClCompile Include="..\detours\shoved_by_pounce_landing.cpp">
+      <Filter>detours</Filter>
+    </ClCompile>
     <ClCompile Include="..\detours\spawn_it_mob.cpp">
       <Filter>detours</Filter>
     </ClCompile>
@@ -180,6 +183,9 @@
     <ClCompile Include="..\detours\replace_tank.cpp">
       <Filter>detours</Filter>
     </ClCompile>
+	<ClCompile Include="..\detours\choose_victim.cpp">
+      <Filter>detours</Filter>
+    </ClCompile>
     <ClCompile Include="..\l4d2sdk\l4d2calls.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -255,6 +261,9 @@
       <Filter>codepatch</Filter>
     </ClInclude>
     <ClInclude Include="..\detours\shoved_by_survivor.h">
+      <Filter>detours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\detours\shoved_by_pounce_landing.h">
       <Filter>detours</Filter>
     </ClInclude>
     <ClInclude Include="..\detours\spawn_it_mob.h">
@@ -354,6 +363,9 @@
       <Filter>detours</Filter>
     </ClInclude>
     <ClInclude Include="..\detours\replace_tank.h">
+      <Filter>detours</Filter>
+    </ClInclude>
+	<ClInclude Include="..\detours\choose_victim.h">
       <Filter>detours</Filter>
     </ClInclude>
     <ClInclude Include="..\addons_disabler.h">

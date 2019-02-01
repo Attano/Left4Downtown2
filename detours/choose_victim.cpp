@@ -2,7 +2,7 @@
  * vim: set ts=4 :
  * =============================================================================
  * Left 4 Downtown SourceMod Extension
- * Copyright (C) 2009-2011 Downtown1, ProdigySim; 2012-2015 Visor
+ * Copyright (C) 2010 Michael "ProdigySim" Busby
  * =============================================================================
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -29,61 +29,41 @@
  * Version: $Id$
  */
 
-#ifndef _INCLUDE_SOURCEMOD_ADDONS_DISABLER_H_
-#define _INCLUDE_SOURCEMOD_ADDONS_DISABLER_H_
+#include "choose_victim.h"
+#include "extension.h"
 
-#ifdef PLATFORM_WINDOWS
-#define vanillaModeOffset 0
-#else
-#define vanillaModeOffset 4
-#endif
-
-#include "detours/detour_template.h"
-#include "codepatch/icodepatch.h"
-
-class AddonsDisabler
+namespace Detours
 {
-public:
-    /* 
-        patch the engine to skip setting addons mode for clients
-        so we can do it manually
-    */
-    static void Patch();
+	CBaseEntity* BossZombiePlayerBotChooseVictim::BossZombiePlayerBotChooseVictimActivate(CBaseEntity* pCurTarget, int i1, CBaseEntity* pEnt)
+	{
+		cell_t result = Pl_Continue;
+		int curTarget = gamehelpers->EntityToBCompatRef(pCurTarget);
+		if(g_pFwdOnChooseVictim)
+		{
+			edict_t *pZombieBoss = gameents->BaseEntityToEdict(reinterpret_cast<CBaseEntity*>(this));
+			int specialInfected = IndexOfEdict(pZombieBoss);
+			
+			L4D_DEBUG_LOG("L4D2_ChooseVictim(%d, %d) forward has been sent out", specialInfected, gamehelpers->EntityToBCompatRef(pCurTarget));
 
-    /*
-        remove the previous patch and restore the binary back to normal 
-    */
-    static void Unpatch();
-
-    static int AddonsEclipse;
+			g_pFwdOnChooseVictim->PushCell(specialInfected);
+			g_pFwdOnChooseVictim->PushCellByRef(&curTarget);
+			g_pFwdOnChooseVictim->Execute(&result);
+		}
+		
+		if(result == Pl_Handled)
+		{
+			if(curTarget <= 0)
+				return (this->*(GetTrampoline()))(pCurTarget, i1, pEnt);
+			else
+			{
+				CBaseEntity *pNewTarget = gamehelpers->ReferenceToEntity(curTarget);
+				return pNewTarget;
+			}
+		}
+		else
+		{
+			
+			return (this->*(GetTrampoline()))(pCurTarget, i1, pEnt);
+		}
+	}
 };
-
-void OnAddonsEclipseChanged( IConVar *var, const char *pOldValue, float flOldValue );
-
-namespace Detours {
-
-class CBaseServer;
-
-typedef void (CBaseServer::*FillServerInfo)(int a1);
-
-class CBaseServer: public DetourTemplate<FillServerInfo, CBaseServer>
-{
-private: //note: implementation of DetourTemplate abstracts
-
-    void OnFillServerInfo(int);
-
-    // get the signature name from the game conf
-    virtual const char *GetSignatureName()
-    {
-        return "CBaseServer__FillServerInfo";
-    }
-
-    //notify our patch system which function should be used as the detour
-    virtual FillServerInfo GetDetour()
-    {
-        return &CBaseServer::OnFillServerInfo;
-    }
-};
-
-};
-#endif

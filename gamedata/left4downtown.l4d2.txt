@@ -166,6 +166,18 @@
 			}
 			
 			/*
+			* BossZombiePlayerBot::ChooseVictim(CTerrorPlayer *, int, CBaseCombatCharacter *)
+			* Unique String: switching to directly visible victim\n
+			*/
+            "BossZombiePlayerBotChooseVictim"
+			{
+				"library"	"server"
+				"linux"		"@_ZN19BossZombiePlayerBot12ChooseVictimEP13CTerrorPlayeriP20CBaseCombatCharacter"
+				"windows"	"\x55\x8B\xEC\x83\xEC\x24\xA1\x2A\x2A\x2A\x2A\x83\x78\x30\x00\x53"
+				/* 55 8B EC 83 EC 24 A1 ? ? ? ? 83 78 30 00 53 */
+			}
+			
+			/*
 			 * SurvivorBot::SetHumanSpectator(CTerrorPlayer*)
 			 * Very similar to BossZombiePlayerBot::SetHumanSpectator()
 			 * SurvivorBot version has 5 xref (one of them is CTerrorPlayer::TakeOverBot), BossZombie has just 1 (CTerrorPlayer::TakeOverBot)
@@ -866,16 +878,6 @@
 				"linux"    	"@_ZN16CTerrorGameRules14GetMissionInfoEv"
 				"windows" 	"\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x8B\x01\x8B\x50\x28\x56\xFF\xD2\x8B\x10\x8B\xC8\x8B\x42"
 			}
-            
-			/* 
-			* CInferno::Spread(Vector  const&)
-			*/
-			"CInferno__Spread"
-			{
-				"library"   "server"
-				"linux"    	"@_ZN8CInferno6SpreadERK6Vector"
-				"windows" 	""
-			}
 			
 			/* 
 			* CTerrorPlayer::OnShovedByPounceLanding(CTerrorPlayer*)
@@ -884,7 +886,7 @@
 			{
 				"library"   "server"
 				"linux"    	"@_ZN13CTerrorPlayer23OnShovedByPounceLandingEPS_b"
-				"windows" 	""
+				"windows" 	"\x53\x8B\xDC\x83\xEC\x08\x83\xE4\xF0\x83\xC4\x04\x55\x8B\x6B\x04\x89\x6C\x24\x04\x8B\xEC\x83\xEC\x28\x56\x8B\x73\x08\x8B\x06\x8B\x90\x80\x02\x00\x00"
 			}
 			
 /*********************************************************************
@@ -1013,7 +1015,20 @@
 			
 /*********************************************************************
 ****************** MISC USEFUL NATIVES *******************************
-*********************************************************************/			
+*********************************************************************/
+			
+			/* CDirector::IsFirstMapInScenario()
+				Uses campaign mission file to determine if the current map 
+				is a First map.
+				Called from CDirector::OnEndScenario, look near string "vs_shutting_down", up to case 7
+				*/
+			"IsFirstMapInScenario"
+			{
+				"library"	"server"
+				"linux"		"@_ZNK9CDirector20IsFirstMapInScenarioEv"
+				"windows"	"\xA1\x2A\x2A\x2A\x2A\x8B\x40\x3C\x56\x8B\xF0" 
+							/* A1 ? ? ? ? 8B 40 3C 56 8B F0 */
+			}
 
 			/* CTerrorGameRules::IsMissionFinalMap()
 				Uses campaign mission file to determine if the current map 

@@ -1,10 +1,10 @@
 # (C)2004-2008 SourceMod Development Team
 # Makefile written by David "BAILOPAN" Anderson
 
-SMSDK ?= ../../../sourcemod
-SRCDS_BASE ?= ../../../srcds
-HL2SDK_L4D2 ?= ../../../hl2sdk
-MMSOURCE ?= ../../../mmsource
+SMSDK ?= ../sourcemod
+SRCDS_BASE ?= ../srcds
+HL2SDK_L4D2 ?= ../hl2sdk
+MMSOURCE ?= ../mmsource
 
 #####################################
 ### EDIT BELOW FOR OTHER PROJECTS ###
@@ -12,7 +12,7 @@ MMSOURCE ?= ../../../mmsource
 
 PROJECT = left4downtown
 
-OBJECTS = smsdk_ext.cpp extension.cpp natives.cpp vglobals.cpp l4d2sdk/l4d2calls.cpp util.cpp asm/asm.c \
+OBJECTS = smsdk_ext.cpp extension.cpp natives.cpp vglobals.cpp l4d2sdk/l4d2calls.cpp util.cpp \
 			detours/detour.cpp detours/spawn_tank.cpp detours/spawn_witch.cpp detours/clear_team_scores.cpp \
 			detours/set_campaign_scores.cpp detours/first_survivor_left_safe_area.cpp \
 			detours/mob_rush_start.cpp detours/spawn_it_mob.cpp detours/spawn_mob.cpp detours/try_offering_tank_bot.cpp \
@@ -25,7 +25,7 @@ OBJECTS = smsdk_ext.cpp extension.cpp natives.cpp vglobals.cpp l4d2sdk/l4d2calls
 			detours/end_versus_mode_round.cpp detours/select_weighted_sequence.cpp detours/spawn_special.cpp \
 			detours/spawn_witchbride.cpp detours/on_revived.cpp detours/use_healing_items.cpp detours/find_scavenge_item.cpp \
 			detours/water_move.cpp detours/on_stagger.cpp detours/terror_weapon_hit.cpp detours/get_mission_info.cpp \
-			detours/replace_tank.cpp \
+			detours/shoved_by_pounce_landing.cpp detours/replace_tank.cpp detours/choose_victim.cpp \
 			addons_disabler.cpp
 
 ifeq "$(USE_PLAYERSLOTS)" "true"
@@ -54,7 +54,7 @@ LINK += $(HL2LIB)/tier1_i486.a $(HL2LIB)/mathlib_i486.a libvstdlib_srv.so libtie
 
 INCLUDE += -I. -I.. -Isdk -I$(HL2PUB) -I$(HL2PUB)/engine -I$(HL2PUB)/mathlib -I$(HL2PUB)/tier0 \
         -I$(HL2PUB)/tier1 -I$(METAMOD) -I$(METAMOD)/sourcehook -I$(SMSDK)/public -I$(SMSDK)/public/extensions \
-        -I$(SMSDK)/sourcepawn/include
+        -I$(SMSDK)/public/CDetour -I$(SMSDK)/public/asm -I$(SMSDK)/sourcepawn/include
 
 CFLAGS += -DSE_EPISODEONE=1 -DSE_DARKMESSIAH=2 -DSE_ORANGEBOX=3 -DSE_BLOODYGOODTIME=4 -DSE_EYE=5 \
 	-DSE_CSS=6 -DSE_ORANGEBOXVALVE=7 -DSE_LEFT4DEAD=8 -DSE_LEFT4DEAD2=9 -DSE_ALIENSWARM=10 \
@@ -113,8 +113,8 @@ all:
 	mkdir -p $(BIN_DIR)/detours
 	mkdir -p $(BIN_DIR)/codepatch
 	mkdir -p $(BIN_DIR)/l4d2sdk
-	cp $(SRCDS)/bin/libvstdlib_srv.so libvstdlib_srv.so;
-	cp $(SRCDS)/bin/libtier0_srv.so libtier0_srv.so;
+	ln -sf $(SRCDS)/bin/libvstdlib_srv.so libvstdlib_srv.so;
+	ln -sf $(SRCDS)/bin/libtier0_srv.so libtier0_srv.so;
 	$(MAKE) -f Makefile extension
 
 playerslots:
@@ -123,12 +123,12 @@ playerslots:
 	mkdir -p $(PLAYERSLOTS_BIN_DIR)/detours
 	mkdir -p $(PLAYERSLOTS_BIN_DIR)/codepatch
 	mkdir -p $(PLAYERSLOTS_BIN_DIR)/l4d2sdk
-	cp $(SRCDS)/bin/libvstdlib_srv.so libvstdlib_srv.so;
-	cp $(SRCDS)/bin/libtier0_srv.so libtier0_srv.so;
+	ln -sf $(SRCDS)/bin/libvstdlib_srv.so libvstdlib_srv.so;
+	ln -sf $(SRCDS)/bin/libtier0_srv.so libtier0_srv.so;
 	$(MAKE) -f Makefile extension USE_PLAYERSLOTS=true DEBUG=$(DEBUG)
 
 extension: $(OBJ_LINUX)
-	$(CPP) $(INCLUDE) $(OBJ_LINUX) $(LINK) -o $(BIN_DIR)/$(BINARY)
+	$(CPP) $(INCLUDE) $(OBJ_LINUX) $(SMSDK)/public/asm/asm.c $(LINK) -o $(BIN_DIR)/$(BINARY)
 
 debug:
 	$(MAKE) -f Makefile all DEBUG=true
